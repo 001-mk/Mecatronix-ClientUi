@@ -1,10 +1,10 @@
 import { createBrowserRouter } from "react-router-dom";
 import Userlayout from "../components/layout/Userlayout";
-import Home from "../pages/home/Home";
-import About from "../pages/about/About";
-import Services from "../pages/services/Services";
+import Portal from "../pages/portal/Portal";
+import Ourworld from "../pages/ourworld/Ourworld";
+import Transformations from "../pages/transformations/Transformations";
 import Portfolio from "../pages/portfolio/Portfolio";
-import Contact from "../pages/contact/Contact";
+import Openline from "../pages/openline/Openline";
 import Quote from "../pages/quote/Quote";
 
 let user_routes = [
@@ -12,11 +12,11 @@ let user_routes = [
     path: '/',
     element: <Userlayout />,
     children: [
-      { index: true, element: <Home /> },
-      { path: 'about', element: <About /> },
-      { path: 'services', element: <Services /> },
+      { index: true, element: <Portal /> },
+      { path: 'ourworld', element: <Ourworld /> },
+      { path: 'transformations', element: <Transformations /> },
       { path: 'portfolio', element: <Portfolio /> },
-      { path: 'contact', element: <Contact /> },
+      { path: 'openline', element: <Openline /> },
       { path: 'quote', element: <Quote /> },
     ],
   },

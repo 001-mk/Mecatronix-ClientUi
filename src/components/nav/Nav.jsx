@@ -10,7 +10,7 @@ const Nav = () => {
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-full bg-yellow-400 flex items-center justify-center font-bold text-black">MH</div>
           <div>
-            <div className="font-bold">Minions Hub</div>
+            <div className="font-bold">Mecatrone</div>
             <div className="text-xs text-gray-500">Websites • E‑commerce • Hosting</div>
           </div>
         </div>

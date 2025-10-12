@@ -2,10 +2,10 @@ import React from 'react'
 
 const Hero = () => {
     return (
-        <section id="home" className="min-h-screen flex items-center bg-gradient-to-r from-yellow-50 to-white">
+        <section id="Portal" className="min-h-screen flex items-center bg-gradient-to-r from-yellow-50 to-white">
             <div className="max-w-6xl mx-auto px-4 py-12 grid md:grid-cols-2 gap-8 items-center">
                 <div>
-                    <h1 className="text-4xl md:text-5xl font-extrabold text-black">Minions Hub</h1>
+                    <h1 className="text-4xl md:text-5xl font-extrabold text-black">Mecatrone</h1>
                     <p className="mt-4 text-lg text-gray-700">We build fast, modern, and responsive websites — single page, multi-page, dynamic, and e-commerce. Tailored to grow your business.</p>
                     <div className="mt-6 flex gap-3">
                         <a href="#quote" className="bg-black text-yellow-400 px-5 py-3 rounded-md font-semibold">Get a Free Quote</a>

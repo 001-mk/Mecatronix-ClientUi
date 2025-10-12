@@ -1,10 +1,9 @@
 export const NAV = [
-    { id: '/', label: 'Home' },
-    { id: '/about', label: 'About' },
-    { id: '/services', label: 'Services' },
+    { id: '/', label: 'Portal' },
+    { id: '/ourworld', label: 'Our World' },
+    { id: '/transformations', label: 'Transformations' },
     { id: '/portfolio', label: 'Portfolio' },
-    { id: '/contact', label: 'Contact' },
-    { id: '/quote', label: 'Get Quote' },
+    { id: '/openline', label: 'Open Line' },
 ];
 
 export const SERVICES = [

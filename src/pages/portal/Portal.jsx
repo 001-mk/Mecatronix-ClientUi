@@ -1,7 +1,7 @@
 import React from 'react'
 import Hero from './Hero'
 
-const Home = () => {
+const Portal = () => {
   return (
     <div>
       <Hero />
@@ -9,4 +9,4 @@ const Home = () => {
   )
 }
 
-export default Home
+export default Portal
