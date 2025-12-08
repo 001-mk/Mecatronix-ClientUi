@@ -286,7 +286,7 @@ const Transformations = () => {
   }, [isPlaying, PROCESS.length]);
 
   return (
-    <section className="py-24 bg-gradient-to-br from-black via-gray-900 to-black text-white relative overflow-hidden">
+    <section className="pb-24 pt-32 bg-gradient-to-br from-black via-gray-900 to-black text-white relative overflow-hidden">
       {/* Enhanced Background Effects */}
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_30%,rgba(255,75,0,0.15),transparent_60%)]"></div>

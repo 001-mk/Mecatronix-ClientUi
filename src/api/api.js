@@ -13,14 +13,14 @@ import axios from "axios";
  */
 const BASE_URL =
   (typeof import.meta !== "undefined" && import.meta.env?.VITE_API_BASE_URL) ||
-  process.env.REACT_APP_API_BASE_URL ||
-  process.env.NEXT_PUBLIC_API_BASE_URL ||
+  import.meta.env?.REACT_APP_API_BASE_URL ||
+  import.meta.env?.NEXT_PUBLIC_API_BASE_URL ||
   "http://localhost:5000/api";
 
 const UPLOAD_BASE_URL =
-  (typeof import.meta !== "undefined" && import.meta.env?.VITE_UPLOAD_BASE_URL) ||
-  process.env.REACT_APP_UPLOAD_BASE_URL ||
-  process.env.NEXT_PUBLIC_UPLOAD_BASE_URL ||
+  (typeof import.meta !== "undefined" && import.meta.env?.VITE_WS_URL) ||
+  import.meta.env?.REACT_APP_UPLOAD_BASE_URL ||
+  import.meta.env?.NEXT_PUBLIC_UPLOAD_BASE_URL ||
   "http://localhost:5000";
 
 /**

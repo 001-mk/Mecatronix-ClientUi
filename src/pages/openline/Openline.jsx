@@ -23,39 +23,18 @@ import { SiMinutemailer } from "react-icons/si";
 import { addEnquiryAPI } from "../../api/api"; // Your enquiry API
 import { useToast } from "../../hooks/useToast"; // Toast notifications
 
-const Contact = () => {
+const Openline = () => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     phone: "",
     company: "",
-    budget: "",
-    service: "",
     message: ""
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const { success, error, loading } = useToast();
 
-  const serviceOptions = [
-    "Web Development",
-    "Mobile App Development",
-    "UI/UX Design",
-    "Digital Marketing",
-    "Cloud Solutions",
-    "SEO Optimization",
-    "E-commerce Solutions",
-    "Custom Software",
-    "Consultation"
-  ];
-
-  const budgetOptions = [
-    "₹50,000 - ₹1,00,000",
-    "₹1,00,000 - ₹5,00,000",
-    "₹5,00,000 - ₹10,00,000",
-    "₹10,00,000+",
-    "Not Sure"
-  ];
 
   const handleChange = (e) => {
     setFormData({
@@ -69,6 +48,7 @@ const Contact = () => {
     setIsSubmitting(true);
 
     // Show loading toast
+    // eslint-disable-next-line no-unused-vars
     const loadingToast = loading("Sending your enquiry...");
 
     try {
@@ -83,15 +63,13 @@ const Contact = () => {
           email: "",
           phone: "",
           company: "",
-          budget: "",
-          service: "",
           message: ""
         });
       } else {
         error("❌ Failed to send enquiry. Please try again.");
       }
     } catch (err) {
-      error("❌ Something went wrong. Please try again later.");
+      error("❌ Something went wrong. Please try again later.", err);
     } finally {
       setIsSubmitting(false);
     }
@@ -429,45 +407,6 @@ const Contact = () => {
                       </div>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div>
-                        <label className="block text-sm font-semibold text-gray-300 mb-2">
-                          Service Interested In
-                        </label>
-                        <select
-                          name="service"
-                          value={formData.service}
-                          onChange={handleChange}
-                          className="w-full px-4 py-3 bg-black/50 border border-gray-700 rounded-xl text-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition-all duration-300"
-                        >
-                          <option value="">Select a service</option>
-                          {serviceOptions.map((service) => (
-                            <option key={service} value={service}>
-                              {service}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-                      <div>
-                        <label className="block text-sm font-semibold text-gray-300 mb-2">
-                          Project Budget
-                        </label>
-                        <select
-                          name="budget"
-                          value={formData.budget}
-                          onChange={handleChange}
-                          className="w-full px-4 py-3 bg-black/50 border border-gray-700 rounded-xl text-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition-all duration-300"
-                        >
-                          <option value="">Select budget range</option>
-                          {budgetOptions.map((budget) => (
-                            <option key={budget} value={budget}>
-                              {budget}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-                    </div>
-
                     <div>
                       <label className="block text-sm font-semibold text-gray-300 mb-2">
                         Project Details *
@@ -543,4 +482,4 @@ const Contact = () => {
   );
 };
 
-export default Contact;
+export default Openline;

@@ -21,9 +21,37 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import Img_Helper from "../../helper/img_help";
 import { motion, AnimatePresence } from "framer-motion";
 
+// Import the centralized configuration
+import { mecatronixConfig } from "../../config/envConfig";
+
 const Foot = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  
+  // Use centralized configuration with safe destructuring
+  const {
+    app = {},
+    contact = {},
+    social = {},
+    location: companyLocation = {},
+  } = mecatronixConfig || {};
+
+  // Destructure with safe fallbacks
+  const APP_NAME = app?.name || 'Mecatronix';
+  const COMPANY_NAME = app?.companyName || 'Mecatronix Industries';
+  const APP_SLOGAN = app?.slogan || 'Engineering the Future of Automation';
+  
+  const PRIMARY_PHONE = contact?.primaryPhone || '+919843274321';
+  const WHATSAPP_NUMBER = contact?.whatsappNumber || '+919843274321';
+  const COMPANY_EMAIL = contact?.companyEmail || 'connect@mecatronixhub.com';
+  const SUPPORT_EMAIL = contact?.supportEmail || 'support@mecatronixhub.com';
+  const SALES_EMAIL = contact?.salesEmail || 'sales@mecatronixhub.com';
+
+  const COMPANY_ADDRESS = companyLocation?.address || '123 Industrial Park, Tech Zone';
+  const COMPANY_CITY = companyLocation?.city || 'Chennai';
+  const COMPANY_STATE = companyLocation?.state || 'Tamil Nadu';
+  const COMPANY_COUNTRY = companyLocation?.country || 'India';
+
   const subtitles = ["Technology", "Automation", "Future", "Innovation", "Excellence"];
   const [currentIndex, setCurrentIndex] = useState(0);
   const [email, setEmail] = useState("");
@@ -45,17 +73,57 @@ const Foot = () => {
     }
   };
 
+  // Social Media Links from centralized config
   const socialLinks = [
-    { icon: FaFacebookF, color: "from-blue-600 to-blue-700", href: "#", delay: 0 },
-    { icon: FaInstagram, color: "from-pink-600 to-purple-600", href: "#", delay: 0.1 },
-    { icon: FaWhatsapp, color: "from-green-500 to-green-600", href: "#", delay: 0.2 },
-  ];
+    { 
+      icon: FaFacebookF, 
+      color: "from-blue-600 to-blue-700", 
+      href: social?.facebook, 
+      delay: 0,
+      label: "Facebook"
+    },
+    { 
+      icon: FaInstagram, 
+      color: "from-pink-600 to-purple-600", 
+      href: social?.instagram, 
+      delay: 0.1,
+      label: "Instagram"
+    },
+    { 
+      icon: FaWhatsapp, 
+      color: "from-green-500 to-green-600", 
+      href: `https://wa.me/${WHATSAPP_NUMBER.replace('+', '')}`, 
+      delay: 0.2,
+      label: "WhatsApp"
+    },
+  ].filter(link => link.href); // Filter out undefined URLs
 
   const features = [
     { icon: FaRocket, text: "Fast Delivery", color: "from-orange-500 to-red-500" },
     { icon: FaShieldHalved, text: "Secure & Safe", color: "from-green-500 to-blue-500" },
     { icon: FaAward, text: "Award Winning", color: "from-purple-500 to-pink-500" },
     { icon: FaStar, text: "5 Star Rating", color: "from-yellow-500 to-orange-500" },
+  ];
+
+  // Contact information from config
+  const contactInfo = [
+    { 
+      icon: FaMapMarkerAlt, 
+      text: `${COMPANY_ADDRESS}, ${COMPANY_CITY}, ${COMPANY_STATE}, ${COMPANY_COUNTRY}`, 
+      delay: 0 
+    },
+    { 
+      icon: FaPhoneAlt, 
+      text: PRIMARY_PHONE, 
+      href: `tel:${PRIMARY_PHONE}`, 
+      delay: 0.1 
+    },
+    { 
+      icon: FaEnvelope, 
+      text: COMPANY_EMAIL, 
+      href: `mailto:${COMPANY_EMAIL}`, 
+      delay: 0.2 
+    },
   ];
 
   return (
@@ -162,8 +230,8 @@ const Foot = () => {
               >
                 <img
                   src={Img_Helper.mainlogo}
-                  alt="Mecatronix Logo"
-                  className="w-full h-full object-contain filter drop-shadow-2xl"
+                  alt={`${COMPANY_NAME} Logo`}
+                  className="w-full h-16 object-contain filter drop-shadow-2xl"
                 />
 
                 {/* Animated Glow */}
@@ -171,14 +239,14 @@ const Foot = () => {
                   className="absolute inset-0 bg-gradient-to-r from-orange-400 to-red-500 rounded-full blur-xl opacity-0 group-hover:opacity-30"
                   animate={{
                     scale: [1, 1.2, 1],
-                    opacity: [0, 0.3, 0]
+                    opacity: [0, 0.1, 0]
                   }}
                   transition={{ duration: 3, repeat: Infinity }}
                 />
               </motion.div>
 
               {/* Animated Subtitle */}
-              <div className="absolute -bottom-2 left-20 overflow-hidden w-[130px]">
+              <div className="absolute bottom-2 left-[57px] overflow-hidden w-[130px]">
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={currentIndex}
@@ -214,9 +282,7 @@ const Foot = () => {
             transition={{ delay: 0.3 }}
             viewport={{ once: true }}
           >
-            Pioneering the future of digital innovation since{" "}
-            <span className="text-transparent bg-gradient-to-r from-orange-400 to-red-500 bg-clip-text font-bold">2025</span>.
-            We transform complex challenges into elegant technological solutions.
+            {APP_SLOGAN}. We transform complex challenges into elegant technological solutions.
           </motion.p>
 
           <motion.div
@@ -237,6 +303,7 @@ const Foot = () => {
                 viewport={{ once: true }}
                 whileHover={{ y: -5, scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
+                title={social.label}
               >
                 <div className="relative">
                   <div className={`bg-gradient-to-r ${social.color} p-4 rounded-2xl backdrop-blur-lg border border-white/20 shadow-2xl group-hover:shadow-3xl transition-all duration-500 z-10 relative overflow-hidden`}>
@@ -329,11 +396,7 @@ const Foot = () => {
             Contact Us
           </motion.h3>
           <ul className="space-y-6">
-            {[
-              { icon: FaMapMarkerAlt, text: "123 Tech Park, Innovation City, India", delay: 0 },
-              { icon: FaPhoneAlt, text: "+91 12345 67890", href: "tel:+911234567890", delay: 0.1 },
-              { icon: FaEnvelope, text: "info@mecatronix.com", href: "mailto:info@mecatronix.com", delay: 0.2 },
-            ].map((item, index) => (
+            {contactInfo.map((item, index) => (
               <motion.li
                 key={index}
                 className="flex items-start gap-4 group"
@@ -414,7 +477,7 @@ const Foot = () => {
                 <div className="flex items-center justify-center gap-2 text-green-400 mb-2">
                   <span className="text-lg font-bold">Successfully Subscribed!</span>
                 </div>
-                <p className="text-sm text-green-300">Welcome to the mecatronix innovation circle!</p>
+                <p className="text-sm text-green-300">Welcome to the {APP_NAME.toLowerCase()} innovation circle!</p>
               </motion.div>
             ) : (
               <motion.form
@@ -430,7 +493,7 @@ const Foot = () => {
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    placeholder="Enter your email address"
+                    placeholder="Enter your email"
                     className="w-full px-5 py-4 text-white bg-transparent text-base outline-none placeholder-gray-500 focus:placeholder-gray-400 font-medium"
                     required
                   />
@@ -465,7 +528,7 @@ const Foot = () => {
           whileHover={{ scale: 1.02 }}
         >
           <span>© {new Date().getFullYear()}</span>
-          <span className="text-transparent bg-gradient-to-r from-orange-400 to-red-500 bg-clip-text font-black text-lg">mecatronix</span>
+          <span className="text-transparent bg-gradient-to-r from-orange-400 to-red-500 bg-clip-text font-black text-lg">{APP_NAME.toLowerCase()}</span>
           <span className="text-gray-600">•</span>
           <span>All rights reserved</span>
         </motion.div>

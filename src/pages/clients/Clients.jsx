@@ -198,7 +198,7 @@ const Clients = () => {
         </div>
       </div>
 
-      <style jsx>{`
+      <style >{`
         @keyframes scroll-horizontal {
           0% {
             transform: translateX(0);
