@@ -179,7 +179,7 @@ const Ourworld = () => {
   return (
     <section
       id="ourworld"
-      className="py-24 bg-gradient-to-br from-black via-gray-900 to-black text-white relative overflow-hidden"
+      className="pb-24 pt-32 bg-gradient-to-br from-black via-gray-900 to-black text-white relative overflow-hidden"
     >
       {/* Enhanced Background Effects */}
       <div className="absolute inset-0">

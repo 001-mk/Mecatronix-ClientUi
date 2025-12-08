@@ -16,7 +16,7 @@ const Hero = () => {
   return (
     <section
       id="Portal"
-      className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-black via-[#0a0a0a] to-[#1a1a2e] text-white overflow-hidden"
+      className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-black via-[#0a0a0a] to-black text-white overflow-hidden"
     >
       {/* 🔥 Animated Background Grid */}
       <div className="absolute inset-0 bg-[linear-gradient(rgba(255,75,0,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,75,0,0.03)_1px,transparent_1px)] bg-[size:64px_64px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_50%,black,transparent)]"></div>

@@ -4,29 +4,63 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import Img_Helper from "../../helper/img_help";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  FaTimes,
-  FaBars,
   FaArrowRight,
   FaPhone,
-  FaEnvelope,
-  FaWhatsapp,
+  FaStar,
+  FaRocket,
+  FaShieldAlt,
+  FaHeadset
 } from "react-icons/fa";
+import mecatronixConfig from "../../config/envConfig";
 
 const Nav = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const subtitles = ["Technology", "Automation", "Future"];
+
+  // Use centralized configuration with safe destructuring
+  const {
+    contact = {},
+  } = mecatronixConfig || {};
+
+  const PRIMARY_PHONE = contact?.primaryPhone || '+919843274321';
+
+  const subtitles = ["Innovation", "Automation", "Future", "Excellence", "Technology"];
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [hoveredNav, setHoveredNav] = useState(null);
+
+  // Enhanced services data
+  const services = [
+    {
+      title: "Industrial Automation",
+      description: "Complete automation solutions for manufacturing",
+      icon: FaRocket,
+      color: "from-orange-500 to-red-500",
+      bg: "bg-gradient-to-r from-orange-500 to-red-500"
+    },
+    {
+      title: "Robotics & AI",
+      description: "Smart robotic systems with AI integration",
+      icon: FaShieldAlt,
+      color: "from-blue-500 to-purple-600",
+      bg: "bg-gradient-to-r from-blue-500 to-purple-600"
+    },
+    {
+      title: "IoT Solutions",
+      description: "Connected devices and smart systems",
+      icon: FaHeadset,
+      color: "from-green-500 to-emerald-600",
+      bg: "bg-gradient-to-r from-green-500 to-emerald-600"
+    }
+  ];
 
   // Animated subtitles
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % subtitles.length);
-    }, 2200);
+    }, 2000);
     return () => clearInterval(interval);
-  }, []);
+  }, [subtitles.length]);
 
   // Scroll effect
   useEffect(() => {
@@ -35,242 +69,289 @@ const Nav = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Lock body scroll when mobile menu open
-  useEffect(() => {
-    document.body.style.overflow = mobileMenuOpen ? "hidden" : "unset";
-  }, [mobileMenuOpen]);
-
-  // Animation variants
-  const menuVariants = {
-    closed: { x: "100%", transition: { duration: 0.4, ease: "easeInOut" } },
-    open: { x: 0, transition: { duration: 0.4, ease: "easeOut" } },
-  };
-
-  const itemVariants = {
-    closed: { opacity: 0, x: 40 },
-    open: { opacity: 1, x: 0 },
-  };
-
   return (
     <header
-      className={`sticky top-0 z-50 transition-all duration-500 ${isScrolled
-          ? "bg-black/70 backdrop-blur-2xl border-b border-gray-800 shadow-[0_0_25px_-5px_rgba(255,255,255,0.1)]"
-          : "bg-transparent backdrop-blur-md"
-        }`}
+      className={`fixed top-0 w-full z-50 transition-all duration-500 ${
+        isScrolled
+          ? "bg-gradient-to-b from-black/90 to-transparent backdrop-blur-2xl"
+          : "bg-gradient-to-b from-black/80 to-transparent backdrop-blur-lg"
+      }`}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between">
+      {/* Top Announcement Bar */}
+      <motion.div
+        className="bg-gradient-to-r from-orange-500 to-red-600 text-white py-2 px-4 text-center text-sm font-medium relative overflow-hidden"
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.2 }}
+      >
+        {/* Animated background */}
+        <div className="absolute inset-0 bg-[linear-gradient(45deg,transparent_25%,rgba(255,255,255,0.1)_50%,transparent_75%)] bg-[length:200%_200%] animate-shimmer" />
 
-        {/* --- LOGO --- */}
+        <div className="relative z-10 flex items-center justify-center gap-3">
+          <motion.div
+            animate={{ rotate: 360 }}
+            transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+          >
+            <FaStar className="text-yellow-300" />
+          </motion.div>
+          <span className="font-semibold">🚀 Limited Time Offer: Get 20% Off on Automation Solutions!</span>
+          <motion.div
+            animate={{ rotate: -360 }}
+            transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+          >
+            <FaStar className="text-yellow-300" />
+          </motion.div>
+        </div>
+      </motion.div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between">
+        {/* --- OPTIMIZED LOGO SECTION --- */}
         <motion.div
-          className="flex items-center gap-3 cursor-pointer group"
+          className="flex items-center gap-3 cursor-pointer group relative"
           onClick={() => navigate("/")}
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
         >
-          <div className="h-12 sm:h-14 w-auto flex items-center justify-center relative">
+          <div className="relative h-14 w-auto flex items-center justify-center">
+            {/* Main Logo */}
             <motion.img
               src={Img_Helper.mainlogo}
               alt="Mecatronix Logo"
-              className="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
-              whileHover={{ rotate: [0, -5, 5, 0] }}
-              transition={{ duration: 0.5 }}
+              className="w-full h-full object-contain transition-all duration-300"
+              whileHover={{
+                scale: 1.1,
+                rotate: [0, -3, 3, 0]
+              }}
+              transition={{ duration: 0.6 }}
             />
-            {/* SLIDING SUBTITLE */}
-            <div className="absolute bottom-0 left-12 sm:left-14 overflow-hidden w-[90px] sm:w-[100px]">
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={currentIndex}
-                  initial={{ x: -60, opacity: 0 }}
-                  animate={{ x: 0, opacity: 1 }}
-                  exit={{ x: 60, opacity: 0 }}
-                  transition={{
-                    duration: 0.6,
-                    ease: "easeInOut",
-                  }}
-                  className="text-[9px] sm:text-[10px] text-gray-400 uppercase font-semibold tracking-wider"
-                >
-                  {subtitles[currentIndex]}
-                </motion.div>
-              </AnimatePresence>
-            </div>
+
+            {/* Pulsing Glow Effect */}
+            <motion.div
+              className="absolute inset-0 bg-gradient-to-r from-orange-500 to-red-600 rounded-full blur-sm opacity-0 group-hover:opacity-40 -z-10"
+              animate={{
+                scale: [1, 1.1, 1],
+                opacity: [0, 0.1, 0]
+              }}
+              transition={{
+                duration: 2,
+                repeat: Infinity,
+                repeatDelay: 1
+              }}
+            />
+          </div>
+          <div className="absolute bottom-0 left-[51px] overflow-hidden w-[130px]">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={currentIndex}
+                initial={{ x: -100, opacity: 0, scale: 0.8 }}
+                animate={{
+                  x: 0,
+                  opacity: 1,
+                  scale: 1,
+                  textShadow: [
+                    "0 0 0px rgba(255,255,255,0)",
+                    "0 0 15px rgba(255,165,0,0.7)",
+                    "0 0 0px rgba(255,255,255,0)"
+                  ]
+                }}
+                exit={{ x: 100, opacity: 0, scale: 1.2 }}
+                transition={{
+                  duration: 1.0,
+                  ease: [0.4, 0, 0.2, 1],
+                }}
+                className="text-xs text-transparent bg-gradient-to-r from-orange-300 to-red-400 bg-clip-text uppercase font-black tracking-widest"
+              >
+                {subtitles[currentIndex]}
+              </motion.div>
+            </AnimatePresence>
           </div>
         </motion.div>
 
-        {/* --- DESKTOP NAV LINKS --- */}
-        <nav className="hidden md:flex items-center gap-8">
+        {/* --- ENHANCED DESKTOP NAV LINKS --- */}
+        <nav className="hidden lg:flex items-center gap-1">
           {NAV.map((n, i) => (
             <motion.div
               key={n.id}
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.08 }}
+              transition={{ delay: i * 0.08 + 0.3 }}
+              className="relative"
+              onMouseEnter={() => setHoveredNav(n.id)}
+              onMouseLeave={() => setHoveredNav(null)}
             >
               <Link
                 to={n.id}
-                className={`text-sm font-semibold relative group ${location.pathname === n.id
+                className={`relative px-4 py-2 text-sm font-semibold transition-all duration-300 group ${
+                  location.pathname === n.id
                     ? "text-orange-400"
-                    : "text-gray-300 hover:text-orange-400"
-                  }`}
+                    : "text-gray-300 hover:text-white"
+                }`}
               >
                 {n.label}
-                <span className="absolute left-0 -bottom-1 w-0 group-hover:w-full h-[2px] bg-gradient-to-r from-orange-500 to-red-600 transition-all duration-300 rounded-full" />
+
+                {/* Enhanced Hover Effect */}
+                <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-orange-500/0 to-red-600/0 group-hover:from-orange-500/10 group-hover:to-red-600/10 transition-all duration-300 -z-10" />
+
+                {/* Active Indicator */}
+                {location.pathname === n.id && (
+                  <motion.div
+                    className="absolute bottom-0 left-1/2 w-1 h-1 bg-gradient-to-r from-orange-500 to-red-600 rounded-full"
+                    layoutId="activeNav"
+                    transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                  />
+                )}
               </Link>
+
+              {/* Services Dropdown */}
+              {n.id === "/services" && hoveredNav === n.id && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                  className="absolute top-full left-0 mt-2 w-80 bg-gray-900/95 backdrop-blur-xl border border-gray-700 rounded-2xl shadow-2xl p-4 z-50"
+                >
+                  <div className="space-y-3">
+                    {services.map((service, index) => {
+                      const ServiceIcon = service.icon;
+                      return (
+                        <motion.div
+                          key={service.title}
+                          initial={{ opacity: 0, x: -20 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: index * 0.1 }}
+                          className="flex items-center gap-4 p-3 rounded-xl bg-gray-800/50 hover:bg-gray-700/50 transition-all duration-300 cursor-pointer group"
+                          whileHover={{ scale: 1.02 }}
+                        >
+                          <div className={`${service.bg} p-3 rounded-lg group-hover:scale-110 transition-transform duration-300 shadow-lg`}>
+                            <ServiceIcon className="text-white text-lg" />
+                          </div>
+                          <div className="flex-1">
+                            <h4 className="text-white font-semibold text-sm">{service.title}</h4>
+                            <p className="text-gray-400 text-xs">{service.description}</p>
+                          </div>
+                          <motion.div
+                            initial={{ opacity: 0, x: -10 }}
+                            whileHover={{ opacity: 1, x: 0 }}
+                            className="text-orange-400"
+                          >
+                            <FaArrowRight className="text-sm" />
+                          </motion.div>
+                        </motion.div>
+                      );
+                    })}
+                  </div>
+                </motion.div>
+              )}
             </motion.div>
           ))}
         </nav>
 
-        {/* --- DESKTOP CTA --- */}
+        {/* --- ENHANCED DESKTOP CTA & CONTACT --- */}
         <motion.div
-          className="hidden md:block"
+          className="hidden lg:flex items-center gap-4"
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.5 }}
         >
-          <Link
-            to="/openline"
-            className="bg-gradient-to-r from-orange-500 to-red-600 text-white px-5 py-2.5 rounded-lg text-sm font-semibold tracking-wide shadow-[0_0_10px_rgba(255,100,0,0.4)] hover:shadow-[0_0_20px_rgba(255,100,0,0.6)] transition-all duration-300 hover:scale-105"
+          {/* Quick Contact */}
+          <div className="flex items-center gap-3">
+            {/* Phone */}
+            <motion.a
+              href={`tel:${PRIMARY_PHONE}`}
+              className="flex items-center gap-2 px-3 py-2 rounded-lg bg-blue-500/20 hover:bg-blue-500/30 border border-blue-500/30 transition-all duration-300 group"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <FaPhone className="text-blue-400 text-sm" />
+              <span className="text-white text-xs font-semibold">Call Us</span>
+            </motion.a>
+          </div>
+
+          {/* Main CTA Button */}
+          <motion.div
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
           >
-            Get Quote
-          </Link>
+            <Link
+              to="/openline"
+              className="relative bg-gradient-to-r from-orange-500 to-red-600 text-white px-6 py-3 rounded-xl text-sm font-bold tracking-wide shadow-2xl shadow-orange-500/25 hover:shadow-orange-500/40 transition-all duration-300 group overflow-hidden"
+            >
+              {/* Shine Effect */}
+              <div className="absolute inset-0 -skew-x-12 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
+
+              <span className="relative flex items-center gap-2">
+                Get Quote
+                <motion.div
+                  whileHover={{ x: 3 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <FaRocket className="text-xs" />
+                </motion.div>
+              </span>
+            </Link>
+          </motion.div>
         </motion.div>
 
-        {/* --- MOBILE MENU BUTTON --- */}
-        <div className="md:hidden flex items-center gap-3">
-          <Link
-            to="/openline"
-            className="bg-gradient-to-r from-orange-500 to-red-600 text-white px-3.5 py-2 rounded-md text-xs font-semibold shadow-lg hover:shadow-orange-500/30 transition-all"
+        {/* --- MOBILE CTA ONLY (No Menu Button) --- */}
+        <div className="lg:hidden flex items-center gap-2 sm:gap-3">
+          <motion.div
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="relative group"
           >
-            Quote
-          </Link>
+            <Link
+              to="/openline"
+              className="relative bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 text-white px-4 py-2.5 sm:px-6 sm:py-3 rounded-xl sm:rounded-2xl font-bold text-xs sm:text-sm tracking-wide shadow-lg sm:shadow-2xl shadow-orange-500/30 hover:shadow-orange-500/40 sm:hover:shadow-orange-500/50 transition-all duration-500 overflow-hidden block"
+            >
+              {/* Animated Shine */}
+              <div className="absolute inset-0 -skew-x-12 bg-gradient-to-r from-transparent via-white/20 sm:via-white/30 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
 
-          <motion.button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="p-2 rounded-lg bg-white/10 border border-white/20 hover:bg-white/20 transition-all"
-            whileTap={{ scale: 0.9 }}
-          >
-            <AnimatePresence mode="wait">
-              {mobileMenuOpen ? (
+              {/* Floating Particles - Hidden on mobile for performance */}
+              <div className="hidden sm:block absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                {[...Array(3)].map((_, i) => (
+                  <motion.div
+                    key={i}
+                    className="absolute bg-white rounded-full"
+                    animate={{
+                      y: [0, -10, 0],
+                      opacity: [0, 1, 0],
+                    }}
+                    transition={{
+                      duration: 1.5,
+                      repeat: Infinity,
+                      delay: i * 0.5,
+                    }}
+                    style={{
+                      width: 2,
+                      height: 2,
+                      left: `${20 + i * 30}%`,
+                      bottom: 5,
+                    }}
+                  />
+                ))}
+              </div>
+
+              <span className="relative flex items-center gap-2 sm:gap-3">
+                <span className="hidden xs:inline">Get Quote</span>
+                <span className="xs:hidden">Quote</span>
                 <motion.div
-                  key="close"
-                  initial={{ rotate: -90, opacity: 0 }}
-                  animate={{ rotate: 0, opacity: 1 }}
-                  exit={{ rotate: 90, opacity: 0 }}
+                  animate={{ x: [0, 3, 0] }}
+                  transition={{ duration: 1.5, repeat: Infinity }}
                 >
-                  <FaTimes className="text-white text-lg" />
+                  <FaRocket className="text-xs" />
                 </motion.div>
-              ) : (
-                <motion.div
-                  key="bars"
-                  initial={{ rotate: 90, opacity: 0 }}
-                  animate={{ rotate: 0, opacity: 1 }}
-                  exit={{ rotate: -90, opacity: 0 }}
-                >
-                  <FaBars className="text-white text-lg" />
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </motion.button>
+              </span>
+            </Link>
+
+            {/* Outer Glow - Hidden on very small screens for performance */}
+            <motion.div
+              className="hidden sm:block absolute -inset-1 bg-gradient-to-r from-orange-500 to-red-600 rounded-2xl blur-md opacity-0 group-hover:opacity-50 transition-opacity duration-500 -z-10"
+              animate={{ scale: [1, 1.05, 1] }}
+              transition={{ duration: 2, repeat: Infinity }}
+            />
+          </motion.div>
         </div>
       </div>
-
-      {/* --- MOBILE MENU --- */}
-      <AnimatePresence>
-        {mobileMenuOpen && (
-          <>
-            <motion.div
-              className="fixed inset-0 bg-black/70 backdrop-blur-sm z-40"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setMobileMenuOpen(false)}
-            />
-
-            <motion.div
-              variants={menuVariants}
-              initial="closed"
-              animate="open"
-              exit="closed"
-              className="fixed top-0 right-0 h-full w-80 max-w-[85vw] bg-gradient-to-b from-gray-900 to-gray-950 border-l border-gray-800 shadow-2xl z-50"
-            >
-              <div className="p-6 border-b border-gray-700 flex items-center justify-between bg-gray-900/90">
-                <h3 className="text-lg font-bold text-white tracking-wide">
-                  Menu
-                </h3>
-                <FaTimes
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="text-gray-300 hover:text-white cursor-pointer text-xl"
-                />
-              </div>
-
-              {/* Menu Items */}
-              <motion.nav
-                initial="closed"
-                animate="open"
-                exit="closed"
-                className="p-6 space-y-3"
-              >
-                {NAV.map((item, i) => (
-                  <motion.div key={item.id} variants={itemVariants}>
-                    <Link
-                      to={item.id}
-                      className={`flex items-center justify-between p-4 rounded-xl border transition-all duration-300 ${location.pathname === item.id
-                          ? "bg-orange-500/20 border-orange-400 text-orange-400 shadow-md"
-                          : "bg-gray-800/60 border-gray-700 text-gray-300 hover:bg-gray-700 hover:text-white"
-                        }`}
-                      onClick={() => setMobileMenuOpen(false)}
-                    >
-                      <span className="font-medium">{item.label}</span>
-                      <FaArrowRight
-                        className={`text-xs transition-transform duration-300 ${location.pathname === item.id
-                            ? "text-orange-400"
-                            : "text-gray-400 group-hover:translate-x-1"
-                          }`}
-                      />
-                    </Link>
-                  </motion.div>
-                ))}
-              </motion.nav>
-
-              {/* Contact */}
-              <div className="p-6 border-t border-gray-700 mt-4 space-y-3">
-                <h4 className="text-white text-sm font-semibold tracking-wider">
-                  Contact Us
-                </h4>
-                <div className="space-y-2">
-                  <a
-                    href="tel:+919843274321"
-                    className="flex items-center gap-3 p-3 rounded-lg bg-gray-800/60 hover:bg-gray-700 transition-all"
-                  >
-                    <FaPhone className="text-blue-400 text-sm" />
-                    <span className="text-gray-200 text-sm font-medium">
-                      +91 98432 74321
-                    </span>
-                  </a>
-                  <a
-                    href="mailto:connect@mecatronixhub.com"
-                    className="flex items-center gap-3 p-3 rounded-lg bg-gray-800/60 hover:bg-gray-700 transition-all"
-                  >
-                    <FaEnvelope className="text-red-400 text-sm" />
-                    <span className="text-gray-200 text-sm font-medium">
-                      connect@mecatronixhub.com
-                    </span>
-                  </a>
-                  <a
-                    href="https://wa.me/919843274321"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-3 p-3 rounded-lg bg-gray-800/60 hover:bg-gray-700 transition-all"
-                  >
-                    <FaWhatsapp className="text-green-400 text-sm" />
-                    <span className="text-gray-200 text-sm font-medium">
-                      Chat on WhatsApp
-                    </span>
-                  </a>
-                </div>
-              </div>
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>
     </header>
   );
 };
