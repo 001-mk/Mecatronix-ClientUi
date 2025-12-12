@@ -1,9 +1,11 @@
-import sh from "../assets/logos/Mectronelogo.png";
-import ml from "../assets/logos/Mecatronix.webp";
+import short from "../assets/logos/Mectronelogo.png";
+import main from "../assets/logos/Mecatronixlogo.webp";
+import title from "../assets/logos/Mecatronixtitle.png";
 
 const Img_Helper = {
-    shortlogo: sh,
-    mainlogo: ml,
+    shortlogo: short,
+    mainlogo: main,
+    titlte: title,
 }
 
 export default Img_Helper;

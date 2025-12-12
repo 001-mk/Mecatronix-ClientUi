@@ -71,39 +71,11 @@ const Nav = () => {
 
   return (
     <header
-      className={`fixed top-0 w-full z-50 transition-all duration-500 ${
-        isScrolled
+      className={`fixed top-0 w-full z-50 transition-all duration-500 ${isScrolled
           ? "bg-gradient-to-b from-black/90 to-transparent backdrop-blur-2xl"
           : "bg-gradient-to-b from-black/80 to-transparent backdrop-blur-lg"
-      }`}
+        }`}
     >
-      {/* Top Announcement Bar */}
-      <motion.div
-        className="bg-gradient-to-r from-orange-500 to-red-600 text-white py-2 px-4 text-center text-sm font-medium relative overflow-hidden"
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.2 }}
-      >
-        {/* Animated background */}
-        <div className="absolute inset-0 bg-[linear-gradient(45deg,transparent_25%,rgba(255,255,255,0.1)_50%,transparent_75%)] bg-[length:200%_200%] animate-shimmer" />
-
-        <div className="relative z-10 flex items-center justify-center gap-3">
-          <motion.div
-            animate={{ rotate: 360 }}
-            transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
-          >
-            <FaStar className="text-yellow-300" />
-          </motion.div>
-          <span className="font-semibold">🚀 Limited Time Offer: Get 20% Off on Automation Solutions!</span>
-          <motion.div
-            animate={{ rotate: -360 }}
-            transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
-          >
-            <FaStar className="text-yellow-300" />
-          </motion.div>
-        </div>
-      </motion.div>
-
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between">
         {/* --- OPTIMIZED LOGO SECTION --- */}
         <motion.div
@@ -118,28 +90,17 @@ const Nav = () => {
               src={Img_Helper.mainlogo}
               alt="Mecatronix Logo"
               className="w-full h-full object-contain transition-all duration-300"
-              whileHover={{
-                scale: 1.1,
-                rotate: [0, -3, 3, 0]
-              }}
+              transition={{ duration: 0.6 }}
+            />
+            <motion.img
+              src={Img_Helper.titlte}
+              alt="Mecatronix Logo"
+              className="w-full h-3/4 object-contain transition-all duration-300"
               transition={{ duration: 0.6 }}
             />
 
-            {/* Pulsing Glow Effect */}
-            <motion.div
-              className="absolute inset-0 bg-gradient-to-r from-orange-500 to-red-600 rounded-full blur-sm opacity-0 group-hover:opacity-40 -z-10"
-              animate={{
-                scale: [1, 1.1, 1],
-                opacity: [0, 0.1, 0]
-              }}
-              transition={{
-                duration: 2,
-                repeat: Infinity,
-                repeatDelay: 1
-              }}
-            />
           </div>
-          <div className="absolute bottom-0 left-[51px] overflow-hidden w-[130px]">
+          <div className="absolute bottom-0 left-[68px] overflow-hidden w-[130px]">
             <AnimatePresence mode="wait">
               <motion.div
                 key={currentIndex}
@@ -148,18 +109,13 @@ const Nav = () => {
                   x: 0,
                   opacity: 1,
                   scale: 1,
-                  textShadow: [
-                    "0 0 0px rgba(255,255,255,0)",
-                    "0 0 15px rgba(255,165,0,0.7)",
-                    "0 0 0px rgba(255,255,255,0)"
-                  ]
                 }}
                 exit={{ x: 100, opacity: 0, scale: 1.2 }}
                 transition={{
-                  duration: 1.0,
+                  duration: 0.3,
                   ease: [0.4, 0, 0.2, 1],
                 }}
-                className="text-xs text-transparent bg-gradient-to-r from-orange-300 to-red-400 bg-clip-text uppercase font-black tracking-widest"
+                className="text-[10px] text-transparent bg-gradient-to-r from-orange-700 to-red-700 bg-clip-text uppercase font-black tracking-widest"
               >
                 {subtitles[currentIndex]}
               </motion.div>
@@ -181,11 +137,10 @@ const Nav = () => {
             >
               <Link
                 to={n.id}
-                className={`relative px-4 py-2 text-sm font-semibold transition-all duration-300 group ${
-                  location.pathname === n.id
+                className={`relative px-4 py-2 text-sm font-semibold transition-all duration-300 group ${location.pathname === n.id
                     ? "text-orange-400"
                     : "text-gray-300 hover:text-white"
-                }`}
+                  }`}
               >
                 {n.label}
 
@@ -345,7 +300,7 @@ const Nav = () => {
 
             {/* Outer Glow - Hidden on very small screens for performance */}
             <motion.div
-              className="hidden sm:block absolute -inset-1 bg-gradient-to-r from-orange-500 to-red-600 rounded-2xl blur-md opacity-0 group-hover:opacity-50 transition-opacity duration-500 -z-10"
+              className="hidden sm:block absolute -inset-1 bg-gradient-to-r from-orange-700 to-red-700 rounded-2xl blur-md opacity-0 group-hover:opacity-50 transition-opacity duration-500 -z-10"
               animate={{ scale: [1, 1.05, 1] }}
               transition={{ duration: 2, repeat: Infinity }}
             />

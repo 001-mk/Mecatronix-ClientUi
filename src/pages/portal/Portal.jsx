@@ -11,7 +11,6 @@ const Portal = () => {
   return (
     <div className="overflow-hidden">
       <Hero />
-      <Stats />
       <Services />
       <Technologies />
       <Clients />

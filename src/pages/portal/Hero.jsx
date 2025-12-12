@@ -18,41 +18,126 @@ const Hero = () => {
       id="Portal"
       className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-black via-[#0a0a0a] to-black text-white overflow-hidden"
     >
-      {/* 🔥 Animated Background Grid */}
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,75,0,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,75,0,0.03)_1px,transparent_1px)] bg-[size:64px_64px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_50%,black,transparent)]"></div>
+      {/* 🌌 Space Background Effect - REPLACED GRID */}
+      <div className="absolute inset-0 bg-gradient-to-b from-gray-900 via-black to-orange-800"></div>
+      
+      {/* 🌟 Space Nebula - REPLACED GLOWING ACCENTS */}
+      <div className="absolute inset-0 opacity-20">
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-red-600 rounded-full blur-3xl opacity-10"></div>
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-orange-500 rounded-full blur-3xl opacity-10"></div>
+      </div>
 
-      {/* 🌟 Glowing Background Accents */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(255,75,0,0.15),transparent_60%)]"></div>
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(220,38,38,0.12),transparent_60%)]"></div>
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-blue-500/5 rounded-full blur-[100px]"></div>
-
-      {/* ✨ Floating Tech Icons */}
-      {[
-        { icon: FaCodeBranch, position: "top-20 left-10", color: "text-orange-500/15", delay: 0 },
-        { icon: FaServer, position: "bottom-32 right-16", color: "text-red-500/15", delay: 1 },
-        { icon: FaMicrochip, position: "top-40 right-20", color: "text-blue-500/15", delay: 2 },
-        { icon: FaShieldAlt, position: "bottom-20 left-24", color: "text-green-500/15", delay: 3 },
-        { icon: FaLightbulb, position: "top-60 left-32", color: "text-yellow-500/15", delay: 4 }
-      ].map((item, index) => (
+      {/* ✨ Floating Stars */}
+      {[...Array(80)].map((_, i) => (
         <motion.div
-          key={index}
-          className={`absolute ${item.position} ${item.color} text-5xl`}
+          key={i}
+          className="absolute bg-orange-200 rounded-full"
+          style={{
+            width: `${Math.random() * 2 + 1}px`,
+            height: `${Math.random() * 2 + 1}px`,
+            left: `${Math.random() * 100}%`,
+            top: `${Math.random() * 100}%`,
+            opacity: Math.random() * 0.8 + 0.2
+          }}
           animate={{
-            y: [0, -30, 0],
-            rotate: [0, 5, 0]
+            opacity: [0.2, 1, 0.2],
+            scale: [1, 1.2, 1]
           }}
           transition={{
-            duration: 6 + index,
+            duration: Math.random() * 3 + 1,
             repeat: Infinity,
-            ease: "easeInOut",
-            delay: item.delay
+            repeatType: "reverse",
+            delay: Math.random() * 2
           }}
-        >
-          <item.icon />
-        </motion.div>
+        />
       ))}
 
-      {/* 🚀 Content Section */}
+      {/* ☄️ Subtle Meteor Shower */}
+      {[...Array(2)].map((_, i) => (
+        <motion.div
+          key={`meteor-${i}`}
+          className="absolute w-32 h-0.5 bg-gradient-to-r from-transparent via-orange-400 to-transparent"
+          initial={{
+            x: -100,
+            y: Math.random() * window.innerHeight,
+            rotate: Math.random() * 20 - 10,
+            opacity: 0
+          }}
+          animate={{
+            x: window.innerWidth + 100,
+            opacity: [0, 0.3, 0]
+          }}
+          transition={{
+            duration: Math.random() * 4 + 3,
+            delay: Math.random() * 15,
+            repeat: Infinity,
+            repeatDelay: Math.random() * 20
+          }}
+        />
+      ))}
+
+      {/* 🪐 Subtle Planets */}
+      <motion.div
+        className="absolute top-20 right-20 w-8 h-8"
+        animate={{
+          rotate: 360,
+          y: [0, 10, 0]
+        }}
+        transition={{
+          duration: 40,
+          repeat: Infinity,
+          ease: "linear"
+        }}
+      >
+        <div className="w-6 h-6 bg-gradient-to-b from-red-500/30 to-red-700/30 rounded-full">
+          <div className="absolute inset-1 bg-red-400/10 rounded-full blur-sm"></div>
+        </div>
+      </motion.div>
+
+      <motion.div
+        className="absolute bottom-32 left-24 w-6 h-6"
+        animate={{
+          rotate: -360,
+          y: [0, -8, 0]
+        }}
+        transition={{
+          duration: 30,
+          repeat: Infinity,
+          ease: "linear"
+        }}
+      >
+        <div className="w-4 h-4 bg-gradient-to-b from-orange-400/30 to-orange-600/30 rounded-full">
+          <div className="absolute inset-0.5 bg-orange-300/10 rounded-full blur-sm"></div>
+        </div>
+      </motion.div>
+
+      {/* 🌟 Space Dust Particles */}
+      <div className="absolute inset-0">
+        {[...Array(30)].map((_, i) => (
+          <motion.div
+            key={`dust-${i}`}
+            className="absolute bg-orange-300/10 rounded-full"
+            style={{
+              width: `${Math.random() * 3 + 1}px`,
+              height: `${Math.random() * 3 + 1}px`,
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`
+            }}
+            animate={{
+              x: [0, Math.random() * 20 - 10, 0],
+              y: [0, Math.random() * 20 - 10, 0],
+              opacity: [0.05, 0.2, 0.05]
+            }}
+            transition={{
+              duration: Math.random() * 8 + 6,
+              repeat: Infinity,
+              delay: Math.random() * 3,
+            }}
+          />
+        ))}
+      </div>
+
+      {/* 🚀 Content Section - ORIGINAL CONTENT KEPT AS IS */}
       <div className="relative z-10 max-w-7xl mx-auto px-6 py-20 grid md:grid-cols-2 gap-16 items-center">
         {/* LEFT: Text Content */}
         <motion.div

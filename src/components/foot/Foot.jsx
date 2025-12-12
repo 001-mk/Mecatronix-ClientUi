@@ -27,7 +27,7 @@ import { mecatronixConfig } from "../../config/envConfig";
 const Foot = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  
+
   // Use centralized configuration with safe destructuring
   const {
     app = {},
@@ -40,7 +40,7 @@ const Foot = () => {
   const APP_NAME = app?.name || 'Mecatronix';
   const COMPANY_NAME = app?.companyName || 'Mecatronix Industries';
   const APP_SLOGAN = app?.slogan || 'Engineering the Future of Automation';
-  
+
   const PRIMARY_PHONE = contact?.primaryPhone || '+919843274321';
   const WHATSAPP_NUMBER = contact?.whatsappNumber || '+919843274321';
   const COMPANY_EMAIL = contact?.companyEmail || 'connect@mecatronixhub.com';
@@ -62,7 +62,7 @@ const Foot = () => {
       setCurrentIndex((prev) => (prev + 1) % subtitles.length);
     }, 2000);
     return () => clearInterval(interval);
-  }, []);
+  }, [subtitles.length]);
 
   const handleSubscribe = (e) => {
     e.preventDefault();
@@ -75,132 +75,119 @@ const Foot = () => {
 
   // Social Media Links from centralized config
   const socialLinks = [
-    { 
-      icon: FaFacebookF, 
-      color: "from-blue-600 to-blue-700", 
-      href: social?.facebook, 
+    {
+      icon: FaFacebookF,
+      color: "from-blue-600 to-blue-700",
+      href: social?.facebook,
       delay: 0,
       label: "Facebook"
     },
-    { 
-      icon: FaInstagram, 
-      color: "from-pink-600 to-purple-600", 
-      href: social?.instagram, 
+    {
+      icon: FaInstagram,
+      color: "from-pink-600 to-purple-600",
+      href: social?.instagram,
       delay: 0.1,
       label: "Instagram"
     },
-    { 
-      icon: FaWhatsapp, 
-      color: "from-green-500 to-green-600", 
-      href: `https://wa.me/${WHATSAPP_NUMBER.replace('+', '')}`, 
+    {
+      icon: FaWhatsapp,
+      color: "from-green-500 to-green-600",
+      href: `https://wa.me/${WHATSAPP_NUMBER ? WHATSAPP_NUMBER.replace('+', '') : ''}`,
       delay: 0.2,
       label: "WhatsApp"
     },
   ].filter(link => link.href); // Filter out undefined URLs
 
-  const features = [
-    { icon: FaRocket, text: "Fast Delivery", color: "from-orange-500 to-red-500" },
-    { icon: FaShieldHalved, text: "Secure & Safe", color: "from-green-500 to-blue-500" },
-    { icon: FaAward, text: "Award Winning", color: "from-purple-500 to-pink-500" },
-    { icon: FaStar, text: "5 Star Rating", color: "from-yellow-500 to-orange-500" },
-  ];
-
   // Contact information from config
   const contactInfo = [
-    { 
-      icon: FaMapMarkerAlt, 
-      text: `${COMPANY_ADDRESS}, ${COMPANY_CITY}, ${COMPANY_STATE}, ${COMPANY_COUNTRY}`, 
-      delay: 0 
+    {
+      icon: FaMapMarkerAlt,
+      text: `${COMPANY_ADDRESS}, ${COMPANY_CITY}, ${COMPANY_STATE}, ${COMPANY_COUNTRY}`,
+      delay: 0
     },
-    { 
-      icon: FaPhoneAlt, 
-      text: PRIMARY_PHONE, 
-      href: `tel:${PRIMARY_PHONE}`, 
-      delay: 0.1 
+    {
+      icon: FaPhoneAlt,
+      text: PRIMARY_PHONE,
+      href: `tel:${PRIMARY_PHONE}`,
+      delay: 0.1
     },
-    { 
-      icon: FaEnvelope, 
-      text: COMPANY_EMAIL, 
-      href: `mailto:${COMPANY_EMAIL}`, 
-      delay: 0.2 
+    {
+      icon: FaEnvelope,
+      text: COMPANY_EMAIL,
+      href: `mailto:${COMPANY_EMAIL}`,
+      delay: 0.2
     },
   ];
 
+  // Generate stars with animation
+  const generateStars = () => {
+    return Array.from({ length: 150 }).map((_, i) => ({
+      id: i,
+      size: Math.random() * 2 + 0.5,
+      top: Math.random() * 100,
+      left: Math.random() * 100,
+      opacity: Math.random() * 0.8 + 0.2,
+      animationDelay: Math.random() * 5,
+      animationDuration: Math.random() * 3 + 2
+    }));
+  };
+
+  const [stars] = useState(() => generateStars());
+
   return (
-    <footer className="bg-gradient-to-br from-black via-gray-900 to-black text-gray-300 pt-20 pb-8 relative overflow-hidden">
-      {/* Enhanced Background Effects */}
+    <footer className="bg-black text-gray-300 pt-20 pb-8 relative overflow-hidden">
+
+      {/* Space Effect Background */}
       <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_85%,rgba(255,75,0,0.15),transparent_50%)]"></div>
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_15%,rgba(220,38,38,0.1),transparent_50%)]"></div>
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(255,140,0,0.08),transparent_70%)]"></div>
-      </div>
+        {/* Animated Stars */}
+        <div className="absolute inset-0">
+          {stars.map((star) => (
+            <motion.div
+              key={star.id}
+              className="absolute bg-white rounded-full"
+              style={{
+                width: `${star.size}px`,
+                height: `${star.size}px`,
+                top: `${star.top}%`,
+                left: `${star.left}%`,
+                opacity: star.opacity,
+              }}
+              animate={{
+                opacity: [star.opacity, star.opacity * 0.5, star.opacity],
+              }}
+              transition={{
+                duration: star.animationDuration,
+                repeat: Infinity,
+                delay: star.animationDelay,
+                ease: "easeInOut"
+              }}
+            />
+          ))}
+        </div>
 
-      {/* Animated Grid Pattern */}
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,75,0,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(255,75,0,0.05)_1px,transparent_1px)] bg-[size:80px_80px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,black,transparent)]"></div>
-
-      {/* Floating Particles */}
-      <div className="absolute inset-0 overflow-hidden">
-        {[...Array(25)].map((_, i) => (
+        {/* Shooting Stars */}
+        {[...Array(5)].map((_, i) => (
           <motion.div
             key={i}
-            className="absolute bg-gradient-to-r from-orange-500/30 to-red-500/30 rounded-full"
+            className="absolute w-1 h-1 bg-white rounded-full"
             initial={{
-              x: Math.random() * window.innerWidth,
-              y: Math.random() * window.innerHeight,
-              scale: Math.random() * 0.5 + 0.1,
+              x: Math.random() * 100 + 'vw',
+              y: Math.random() * 30 + 'vh',
+              opacity: 0,
             }}
             animate={{
-              y: [null, -40, 0],
-              x: [null, Math.random() * 20 - 10, 0],
-              opacity: [0.1, 0.8, 0.1],
-              rotate: [0, 180, 360],
+              x: [null, `-${Math.random() * 200 + 100}px`],
+              y: [null, `+=${Math.random() * 100 + 50}px`],
+              opacity: [0, 1, 0],
             }}
             transition={{
-              duration: Math.random() * 8 + 6,
+              duration: Math.random() * 1.5 + 0.5,
               repeat: Infinity,
-              delay: Math.random() * 5,
-            }}
-            style={{
-              width: Math.random() * 25 + 5,
-              height: Math.random() * 25 + 5,
+              repeatDelay: Math.random() * 15 + 10,
             }}
           />
         ))}
       </div>
-
-      {/* Feature Badges */}
-      <motion.div
-        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16 relative z-10"
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-        viewport={{ once: true }}
-      >
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
-          {features.map((feature, index) => (
-            <motion.div
-              key={feature.text}
-              initial={{ opacity: 0, scale: 0.8, y: 20 }}
-              whileInView={{ opacity: 1, scale: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
-              viewport={{ once: true }}
-              className="group relative"
-            >
-              <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-6 text-center hover:bg-white/10 transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-orange-500/20">
-                <div className="flex justify-center mb-4">
-                  <div className={`bg-gradient-to-r ${feature.color} p-3 rounded-xl group-hover:scale-110 group-hover:rotate-12 transition-all duration-500 shadow-lg`}>
-                    <feature.icon className="text-white text-xl" />
-                  </div>
-                </div>
-                <div className="text-sm font-semibold text-white">{feature.text}</div>
-              </div>
-
-              {/* Hover Glow */}
-              <div className={`absolute inset-0 bg-gradient-to-r ${feature.color} rounded-2xl blur-xl opacity-0 group-hover:opacity-20 transition-opacity duration-500 -z-10`}></div>
-            </motion.div>
-          ))}
-        </div>
-      </motion.div>
 
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-8 lg:gap-12 relative z-10">
@@ -214,64 +201,47 @@ const Foot = () => {
           className="lg:col-span-1"
         >
           <motion.div
-            className="flex items-center gap-3 cursor-pointer group mb-8"
+            className="flex items-center gap-3 cursor-pointer group relative mb-12"
             onClick={() => navigate("/")}
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
           >
-            <div className="h-20 w-auto flex items-center justify-center relative">
-              <motion.div
-                className="relative"
-                whileHover={{
-                  scale: 1.1,
-                  rotate: [0, -3, 3, 0]
-                }}
+            <div className="relative h-14 w-auto flex items-center justify-center">
+              {/* Main Logo */}
+              <motion.img
+                src={Img_Helper.mainlogo}
+                alt="Mecatronix Logo"
+                className="w-full h-full object-contain transition-all duration-300"
                 transition={{ duration: 0.6 }}
-              >
-                <img
-                  src={Img_Helper.mainlogo}
-                  alt={`${COMPANY_NAME} Logo`}
-                  className="w-full h-16 object-contain filter drop-shadow-2xl"
-                />
+              />
+              <motion.img
+                src={Img_Helper.titlte}
+                alt="Mecatronix Logo"
+                className="w-full h-3/4 object-contain transition-all duration-300"
+                transition={{ duration: 0.6 }}
+              />
 
-                {/* Animated Glow */}
+            </div>
+            <div className="absolute bottom-0 left-[68px] overflow-hidden w-[130px]">
+              <AnimatePresence mode="wait">
                 <motion.div
-                  className="absolute inset-0 bg-gradient-to-r from-orange-400 to-red-500 rounded-full blur-xl opacity-0 group-hover:opacity-30"
+                  key={currentIndex}
+                  initial={{ x: -100, opacity: 0, scale: 0.8 }}
                   animate={{
-                    scale: [1, 1.2, 1],
-                    opacity: [0, 0.1, 0]
+                    x: 0,
+                    opacity: 1,
+                    scale: 1,
                   }}
-                  transition={{ duration: 3, repeat: Infinity }}
-                />
-              </motion.div>
-
-              {/* Animated Subtitle */}
-              <div className="absolute bottom-2 left-[57px] overflow-hidden w-[130px]">
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={currentIndex}
-                    initial={{ x: -100, opacity: 0, scale: 0.8 }}
-                    animate={{
-                      x: 0,
-                      opacity: 1,
-                      scale: 1,
-                      textShadow: [
-                        "0 0 0px rgba(255,255,255,0)",
-                        "0 0 15px rgba(255,165,0,0.7)",
-                        "0 0 0px rgba(255,255,255,0)"
-                      ]
-                    }}
-                    exit={{ x: 100, opacity: 0, scale: 1.2 }}
-                    transition={{
-                      duration: 0.8,
-                      ease: [0.4, 0, 0.2, 1],
-                    }}
-                    className="text-xs text-transparent bg-gradient-to-r from-orange-300 to-red-400 bg-clip-text uppercase font-black tracking-widest"
-                  >
-                    {subtitles[currentIndex]}
-                  </motion.div>
-                </AnimatePresence>
-              </div>
+                  exit={{ x: 100, opacity: 0, scale: 1.2 }}
+                  transition={{
+                    duration: 0.3,
+                    ease: [0.4, 0, 0.2, 1],
+                  }}
+                  className="text-[10px] text-transparent bg-gradient-to-r from-orange-700 to-red-700 bg-clip-text uppercase font-black tracking-widest"
+                >
+                  {subtitles[currentIndex]}
+                </motion.div>
+              </AnimatePresence>
             </div>
           </motion.div>
 
@@ -296,6 +266,8 @@ const Foot = () => {
               <motion.a
                 key={i}
                 href={social.href}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="group relative"
                 initial={{ opacity: 0, scale: 0 }}
                 whileInView={{ opacity: 1, scale: 1 }}
