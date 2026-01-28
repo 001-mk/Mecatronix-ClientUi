@@ -15,7 +15,7 @@ const BASE_URL =
   (typeof import.meta !== "undefined" && import.meta.env?.VITE_API_BASE_URL) ||
   import.meta.env?.REACT_APP_API_BASE_URL ||
   import.meta.env?.NEXT_PUBLIC_API_BASE_URL ||
-  "http://localhost:5000/api";
+  "http://localhost:5000/mec-api";
 
 const UPLOAD_BASE_URL =
   (typeof import.meta !== "undefined" && import.meta.env?.VITE_WS_URL) ||
@@ -32,6 +32,10 @@ const apiClient = axios.create({
   headers: {
     "Content-Type": "application/json",
   },
+});
+
+const kural = axios.create({
+  baseURL: "https://getthirukural.appspot.com/api/"
 });
 
 // ==================================================
@@ -176,8 +180,8 @@ export const getAllReviewsAPI = async () => {
 // ==================================================
 // 👥 CLIENT API
 // ==================================================
-export const getAllClientsAPI = async () => {
-  const res = await apiClient.get("/clients/get_all_clients");
+export const getAllClientsCompanyAPI = async () => {
+  const res = await apiClient.get("/clients/get_all_clients_company");
   return handleResponse(res);
 };
 
@@ -229,6 +233,12 @@ export const registerAPI = async (payload) => {
   const res = await apiClient.post("/auth/register", payload);
   return handleResponse(res);
 };
+
+// thirukural api
+export const kuralApi = async (id) => {
+  const res = await kural.get(`3.0/kural/${id}`);
+  return handleResponse(res);
+}
 
 // ==================================================
 // 🧾 EXPORTS

@@ -2,7 +2,7 @@
 export const NAV = [
     { id: '/', label: 'Portal' },
     { id: '/ourworld', label: 'Our World' },
-    { id: '/transformations', label: 'Transformations' },
+    { id: '/services', label: 'Services' },
     { id: '/portfolio', label: 'Portfolio' },
     { id: '/openline', label: 'Open Line' },
 ];
@@ -13,3 +13,6 @@ export const SAMPLE_PORTFOLIO = [
     { title: 'Cloth Store', type: 'E-commerce' },
     { title: 'Blog Platform', type: 'Dynamic' },
 ];
+
+
+export const subtitles = ["Technology", "Automation", "Future", "Innovation", "Excellence"];

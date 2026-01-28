@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import React, { useState, useEffect, useMemo } from "react";
 import {
   FaRocket,
   FaCode,
@@ -8,8 +7,6 @@ import {
   FaCloud,
   FaShieldAlt,
   FaCogs,
-  FaMobileAlt,
-  FaNetworkWired,
   FaUsers,
   FaChartLine,
   FaGlobeAmericas,
@@ -24,448 +21,576 @@ import {
   FaDatabase,
   FaServer,
   FaPalette,
-  FaEye
+  FaEye,
+  FaNetworkWired,
+  FaUserTie,
+  FaArrowRight
 } from "react-icons/fa";
+import {
+  FaMobileAlt,
+  FaGlobe,
+  FaBullhorn,
+  FaPaintBrush,
+  FaTools,
+  FaFingerprint,
+  FaCheckCircle
+} from "react-icons/fa";
+
+
+const SpaceBackground = React.memo(({ stars, shootingStars }) => {
+  return (
+    <div className="absolute inset-0 pointer-events-none">
+      {stars.map((star) => (
+        <div
+          key={star.id}
+          className="absolute bg-white rounded-full animate-pulse"
+          style={{
+            width: `${star.size}px`,
+            height: `${star.size}px`,
+            left: `${star.x}%`,
+            top: `${star.y}%`,
+            opacity: star.opacity,
+            animationDelay: `${star.delay}s`,
+            animationDuration: `${star.duration}s`,
+          }}
+        />
+      ))}
+
+      {shootingStars.map((s, i) => (
+        <div
+          key={i}
+          className="shooting-star"
+          style={{
+            left: `${s.left}%`,
+            top: `${s.top}%`,
+            animationDelay: `${s.delay}s`,
+          }}
+        />
+      ))}
+
+      <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-blue-500/10 rounded-full blur-[120px]" />
+      <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-purple-500/10 rounded-full blur-[120px]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:40px_40px] opacity-20" />
+    </div>
+  );
+});
 
 const Ourworld = () => {
   const [activeTab, setActiveTab] = useState("features");
+  const [particles, setParticles] = useState([]);
+  const stars = useMemo(() => {
+    return Array.from({ length: 100 }).map((_, i) => ({
+      id: i,
+      x: Math.random() * 100,
+      y: Math.random() * 100,
+      size: Math.random() * 1.5 + 0.5,
+      opacity: Math.random() * 0.8 + 0.2,
+      delay: Math.random() * 5,
+      duration: Math.random() * 3 + 2,
+    }));
+  }, []);
+
+  const [shootingStars] = useState(() =>
+    Array.from({ length: 4 }).map(() => ({
+      id: crypto?.randomUUID?.() ?? Math.random().toString(36),
+      left: Math.random() * 100,
+      top: Math.random() * 40,
+      delay: Math.random() * 10
+    }))
+  );
+
+  // Generate particles on mount
+  useEffect(() => {
+    const newParticles = [...Array(20)].map((_, i) => ({
+      id: i,
+      left: Math.random() * 100,
+      top: Math.random() * 100,
+      size: Math.random() * 10 + 2,
+      delay: Math.random() * 5,
+      duration: Math.random() * 10 + 10
+    }));
+    setParticles(newParticles);
+  }, []);
 
   const features = [
     {
-      icon: <FaRocket className="text-3xl" />,
+      icon: <FaRocket />,
       title: "Rapid & Reliable Delivery",
-      desc: "We ensure timely delivery of high-performance digital products using agile methods and continuous deployment.",
+      desc: "We ensure timely delivery of high-performance digital products using agile methods.",
       color: "from-orange-500 to-red-500",
-      stats: "98% On-Time Delivery"
+      stats: "98% On-Time"
     },
     {
-      icon: <FaCode className="text-3xl" />,
+      icon: <FaCode />,
       title: "Full-Stack Expertise",
-      desc: "From React, Node.js, and MongoDB to AI & automation — we build everything end-to-end with modern tech stacks.",
+      desc: "From React, Node.js, and MongoDB to AI & automation — we build everything end-to-end.",
       color: "from-blue-500 to-purple-600",
-      stats: "50+ Technologies"
+      stats: "50+ Tech Stacks"
     },
     {
-      icon: <FaLightbulb className="text-3xl" />,
-      title: "Creative & Innovative Thinking",
-      desc: "We combine creativity with technology to craft innovative digital experiences that stand out in the market.",
+      icon: <FaLightbulb />,
+      title: "Creative Innovation",
+      desc: "We combine creativity with technology to craft innovative digital experiences.",
       color: "from-yellow-500 to-orange-500",
-      stats: "100+ Innovative Projects"
+      stats: "100+ Ideas"
     },
     {
-      icon: <FaHandshake className="text-3xl" />,
-      title: "Client-First Collaboration",
-      desc: "We partner with you closely, transforming your ideas into future-ready solutions with transparent communication.",
+      icon: <FaHandshake />,
+      title: "Client Collaboration",
+      desc: "We partner with you closely, transforming ideas into future-ready solutions.",
       color: "from-green-500 to-emerald-600",
-      stats: "95% Client Retention"
+      stats: "95% Retention"
     },
     {
-      icon: <FaCloud className="text-3xl" />,
+      icon: <FaCloud />,
       title: "Cloud & IoT Solutions",
-      desc: "Integrating smart automation, IoT, and scalable cloud systems to modernize businesses for the digital age.",
+      desc: "Integrating smart automation, IoT, and scalable cloud systems for modern business.",
       color: "from-cyan-500 to-blue-600",
       stats: "200+ Deployments"
     },
     {
-      icon: <FaShieldAlt className="text-3xl" />,
+      icon: <FaShieldAlt />,
       title: "Security & Scalability",
-      desc: "We prioritize data protection and performance for every project we deliver, ensuring enterprise-grade security.",
+      desc: "Prioritizing data protection and performance for enterprise-grade security.",
       color: "from-purple-500 to-pink-600",
-      stats: "Zero Security Breaches"
+      stats: "100% Secure"
     },
     {
-      icon: <FaBrain className="text-3xl" />,
+      icon: <FaBrain />,
       title: "AI & Machine Learning",
-      desc: "Leveraging artificial intelligence to create smart applications that learn and adapt to user behavior.",
+      desc: "Leveraging artificial intelligence to create smart apps that learn and adapt.",
       color: "from-indigo-500 to-purple-600",
-      stats: "25+ AI Projects"
+      stats: "Smart AI"
     },
     {
-      icon: <FaRobot className="text-3xl" />,
+      icon: <FaRobot />,
       title: "Automation Solutions",
-      desc: "Building intelligent automation systems that streamline operations and boost productivity across industries.",
+      desc: "Intelligent automation systems that streamline operations and boost productivity.",
       color: "from-gray-500 to-blue-600",
-      stats: "60% Efficiency Gain"
+      stats: "60% Faster"
     },
     {
-      icon: <FaDatabase className="text-3xl" />,
+      icon: <FaDatabase />,
       title: "Big Data Analytics",
-      desc: "Transforming raw data into actionable insights with powerful analytics and visualization tools.",
+      desc: "Transforming raw data into actionable insights with powerful analytics tools.",
       color: "from-red-500 to-pink-600",
-      stats: "1M+ Data Points"
+      stats: "Data Driven"
     }
   ];
 
   const steps = [
-    { 
-      icon: <FaCogs />, 
-      title: "Discovery & Strategy", 
+    {
+      icon: <FaCogs />,
+      title: "Discovery & Strategy",
       desc: "Understanding your business and defining clear digital goals.",
-      details: ["Requirement Analysis", "Project Planning", "Technology Stack", "Timeline Estimation"],
+      details: ["Analysis", "Planning", "Tech Stack"],
       color: "from-orange-500 to-red-500"
     },
-    { 
-      icon: <FaPalette />, 
-      title: "Design & Prototyping", 
+    {
+      icon: <FaPalette />,
+      title: "Design & Prototyping",
       desc: "Creating intuitive interfaces and user experience designs.",
-      details: ["UI/UX Design", "Wireframing", "Prototype Testing", "Design System"],
+      details: ["UI/UX", "Wireframing", "Prototyping"],
       color: "from-purple-500 to-pink-600"
     },
-    { 
-      icon: <FaLaptopCode />, 
-      title: "Development & Testing", 
+    {
+      icon: <FaLaptopCode />,
+      title: "Development",
       desc: "Building powerful applications with rigorous quality assurance.",
-      details: ["Agile Development", "Code Review", "Quality Testing", "Performance Optimization"],
+      details: ["Coding", "Review", "Optimization"],
       color: "from-blue-500 to-cyan-600"
     },
-    { 
-      icon: <FaServer />, 
-      title: "Deployment & Launch", 
-      desc: "Ensuring smooth deployment and go-live with comprehensive support.",
-      details: ["CI/CD Pipeline", "Server Configuration", "Security Setup", "Launch Management"],
+    {
+      icon: <FaServer />,
+      title: "Deployment",
+      desc: "Ensuring smooth deployment and go-live with support.",
+      details: ["CI/CD", "Security", "Launch"],
       color: "from-green-500 to-emerald-600"
-    },
-    { 
-      icon: <FaNetworkWired />, 
-      title: "Support & Growth", 
-      desc: "Continuous monitoring, optimization, and feature enhancements.",
-      details: ["24/7 Monitoring", "Regular Updates", "Performance Tracking", "Scalability Planning"],
-      color: "from-indigo-500 to-purple-600"
     }
   ];
 
-  const stats = [
-    { number: "50+", label: "Projects Completed", icon: FaAward, color: "from-orange-500 to-red-500" },
-    { number: "98%", label: "Client Satisfaction", icon: FaHeart, color: "from-pink-500 to-rose-600" },
-    { number: "24/7", label: "Support Available", icon: FaRegClock, color: "from-blue-500 to-cyan-600" },
-    { number: "5+", label: "Years Experience", icon: FaStar, color: "from-yellow-500 to-orange-500" },
-    { number: "100+", label: "Technologies Used", icon: FaCode, color: "from-purple-500 to-pink-600" },
-    { number: "∞", label: "Innovation Drive", icon: FaInfinity, color: "from-green-500 to-emerald-600" }
+  const team = [
+    {
+      role: "Leadership",
+      title: "Visionary Leaders",
+      desc: "Led by industry veterans with a deep passion for innovation and excellence.",
+      icon: <FaUserTie />,
+      color: "from-blue-400 to-blue-600"
+    },
+    {
+      role: "Engineering",
+      title: "Tech Experts",
+      desc: " skilled team of engineers, developers, and architects building the future.",
+      icon: <FaCode />,
+      color: "from-purple-400 to-purple-600"
+    },
+    {
+      role: "Creative",
+      title: "Design Thinkers",
+      desc: "Designers who craft intuitive and beautiful user experiences.",
+      icon: <FaPalette />,
+      color: "from-pink-400 to-rose-600"
+    }
   ];
 
   const values = [
-    {
-      icon: <FaUsers />,
-      title: "Collaboration",
-      desc: "We believe in working together with our clients as partners in success.",
-      color: "from-blue-500 to-cyan-600"
-    },
-    {
-      icon: <FaChartLine />,
-      title: "Excellence",
-      desc: "We strive for perfection in every project, delivering nothing but the best.",
-      color: "from-green-500 to-emerald-600"
-    },
-    {
-      icon: <FaGlobeAmericas />,
-      title: "Innovation",
-      desc: "We constantly explore new technologies and methodologies to stay ahead.",
-      color: "from-purple-500 to-pink-600"
-    },
-    {
-      icon: <FaShieldAlt />,
-      title: "Integrity",
-      desc: "We maintain transparency and honesty in all our business dealings.",
-      color: "from-orange-500 to-red-500"
-    }
+    { icon: <FaUsers />, title: "Collaboration", desc: "Working together with clients as partners.", color: "from-blue-500 to-cyan-600" },
+    { icon: <FaChartLine />, title: "Excellence", desc: "Striving for perfection in every project.", color: "from-green-500 to-emerald-600" },
+    { icon: <FaGlobeAmericas />, title: "Innovation", desc: "Exploring new technologies to stay ahead.", color: "from-purple-500 to-pink-600" },
+    { icon: <FaShieldAlt />, title: "Integrity", desc: "Transparency and honesty in all dealings.", color: "from-orange-500 to-red-500" },
+    { icon: <FaFingerprint />, title: "Uniqueness", desc: "Custom solutions, no cookie-cutter templates.", color: "from-orange-500 to-red-500" },
+  ];
+
+  const stats = [
+    { number: "50+", label: "Projects", icon: FaAward, color: "from-orange-500 to-red-500" },
+    { number: "98%", label: "Satisfaction", icon: FaHeart, color: "from-pink-500 to-rose-600" },
+    { number: "24/7", label: "Support", icon: FaRegClock, color: "from-blue-500 to-cyan-600" },
+    { number: "5+", label: "Years", icon: FaStar, color: "from-yellow-500 to-orange-500" },
+    { number: "100+", label: "Tech Stack", icon: FaCode, color: "from-purple-500 to-pink-600" },
+    { number: "∞", label: "Innovation", icon: FaInfinity, color: "from-green-500 to-emerald-600" }
   ];
 
   const tabs = [
-    { id: "features", label: "Our Expertise", icon: FaRocket },
-    { id: "process", label: "Our Process", icon: FaCogs },
-    { id: "values", label: "Our Values", icon: FaHeart }
+    { id: "features", label: "Expertise", icon: FaRocket },
+    { id: "process", label: "Process", icon: FaCogs },
+    { id: "team", label: "Our Team", icon: FaUsers },
+    { id: "values", label: "Values", icon: FaHeart },
   ];
 
   return (
-    <section
-      id="ourworld"
-      className="pb-24 pt-32 bg-gradient-to-br from-black via-gray-900 to-black text-white relative overflow-hidden"
-    >
-      {/* Enhanced Background Effects */}
-      <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_30%,rgba(255,75,0,0.15),transparent_60%)]"></div>
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_70%,rgba(220,38,38,0.1),transparent_60%)]"></div>
-        <div className="absolute inset-0 bg-[linear-gradient(45deg,rgba(255,255,255,0.02)_0%,transparent_50%)]"></div>
-      </div>
-
+    <section id="ourworld" className="relative w-full overflow-hidden bg-black text-white font-sans selection:bg-orange-500/30">
+      <SpaceBackground stars={stars} shootingStars={shootingStars} />
       {/* Floating Particles */}
-      <div className="absolute inset-0 overflow-hidden">
-        {[...Array(15)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute bg-gradient-to-r from-orange-500/20 to-red-500/20 rounded-full"
-            initial={{
-              x: Math.random() * window.innerWidth,
-              y: Math.random() * window.innerHeight,
-              scale: Math.random() * 0.3 + 0.1,
-            }}
-            animate={{
-              y: [null, -20, 0],
-              x: [null, Math.random() * 10 - 5, 0],
-              opacity: [0.1, 0.5, 0.1],
-              rotate: [0, 180, 360],
-            }}
-            transition={{
-              duration: Math.random() * 5 + 3,
-              repeat: Infinity,
-              delay: Math.random() * 2,
-            }}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {particles.map((p) => (
+          <div
+            key={p.id}
+            className="absolute rounded-full opacity-20 bg-white"
             style={{
-              width: Math.random() * 12 + 3,
-              height: Math.random() * 12 + 3,
+              left: `${p.left}%`,
+              top: `${p.top}%`,
+              width: `${p.size}px`,
+              height: `${p.size}px`,
+              animation: `float ${p.duration}s infinite linear`,
+              animationDelay: `${p.delay}s`
             }}
           />
         ))}
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        {/* HEADER */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="text-center mb-20"
-        >
-          <motion.div
-            initial={{ scale: 0.8 }}
-            whileInView={{ scale: 1 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="inline-flex items-center gap-2 bg-white/5 backdrop-blur-lg border border-white/10 px-6 py-3 rounded-full mb-6"
-          >
-            <div className="w-2 h-2 bg-gradient-to-r from-orange-500 to-red-500 rounded-full animate-pulse"></div>
-            <span className="text-sm font-semibold text-gray-300">Our World</span>
-          </motion.div>
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
+        <div className="relative py-16 px-6 overflow-hidden">
+          {/* Optional: Subtle Background Glow for that "Future" vibe */}
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-[radial-gradient(circle_at_center,rgba(249,115,22,0.05)_0%,transparent_70%)] pointer-events-none" />
 
-          <h2 className="text-5xl md:text-6xl font-black bg-gradient-to-r from-orange-400 via-red-500 to-orange-400 bg-clip-text text-transparent bg-[length:200%_100%] animate-gradient mb-6">
-            Welcome to Our World
-          </h2>
-          <p className="text-gray-400 text-lg md:text-xl max-w-4xl mx-auto leading-relaxed">
-            At <span className="text-transparent bg-gradient-to-r from-orange-400 to-red-500 bg-clip-text font-bold">Mecatronix Hub</span>, 
-            we blend cutting-edge technology with creative innovation to build digital 
-            solutions that transform businesses and shape the future.
-          </p>
-        </motion.div>
+          {/* Status Badge */}
+          <div className="flex justify-center lg:justify-start">
+            <div className="inline-flex items-center gap-3 bg-white/5 border border-white/10 px-5 py-2 rounded-full mb-12 backdrop-blur-xl hover:border-orange-500/30 transition-all duration-500 group cursor-default">
+              <span className="relative flex h-2.5 w-2.5">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-orange-500"></span>
+              </span>
+              <span className="text-xs font-bold text-gray-400 tracking-[0.2em] uppercase group-hover:text-orange-400 transition-colors">
+                Discover Mecatronix
+              </span>
+            </div>
+          </div>
 
-        {/* Stats Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          viewport={{ once: true }}
-          className="grid grid-cols-2 lg:grid-cols-6 gap-6 mb-20"
-        >
-          {stats.map((stat, index) => (
-            <motion.div
-              key={stat.label}
-              initial={{ opacity: 0, scale: 0.8 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              viewport={{ once: true }}
-              className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-6 text-center group hover:bg-white/10 transition-all duration-500"
-            >
-              <div className="flex justify-center mb-3">
-                <div className={`bg-gradient-to-r ${stat.color} p-3 rounded-xl group-hover:scale-110 transition-transform duration-300`}>
-                  <stat.icon className="text-white text-lg" />
+          <div className="flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-20">
+
+            {/* Text Content Area */}
+            <div className="order-2 lg:order-1 flex-1">
+              <div className="relative space-y-8">
+                {/* Decorative Vertical Line */}
+                <div className="absolute -left-6 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-orange-500/40 to-transparent hidden lg:block" />
+
+                <div className="space-y-6">
+                  <p className="text-2xl md:text-3xl text-gray-200 leading-snug font-medium">
+                    <span className="text-orange-500">Mecatronix</span> is a dynamic IT solutions startup.
+                    <span className="text-gray-500 font-light"> We act as true technology partners, blending innovation with flawless execution.</span>
+                  </p>
+
+                  <p className="text-gray-400 text-lg leading-relaxed max-w-2xl border-l-2 border-white/5 pl-6 italic">
+                    "We go beyond traditional IT services, integrating cutting-edge tech with a client-centric mindset to build future-ready solutions."
+                  </p>
+                </div>
+
+                <div className="pt-4">
+                  <p className="text-xl md:text-2xl font-light tracking-wide text-white">
+                    Born in the Future. <span className="text-orange-500/80">Built for Success.</span>
+                  </p>
+                  <div className="mt-3 flex items-center gap-4">
+                    <div className="h-px w-12 bg-orange-500/50" />
+                    <span className="text-gray-500 uppercase tracking-widest text-xs font-bold">
+                      Engineering the digital heartbeat
+                    </span>
+                  </div>
                 </div>
               </div>
-              <div className="text-2xl font-bold text-white mb-1">{stat.number}</div>
-              <div className="text-sm text-gray-400">{stat.label}</div>
-            </motion.div>
-          ))}
-        </motion.div>
+            </div>
 
-        {/* Tab Navigation */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-          className="flex flex-wrap justify-center gap-4 mb-12"
-        >
+            {/* Hero Heading Area */}
+            <div className="order-1 lg:order-2 flex-1 text-center lg:text-right">
+              <h2 className="text-6xl md:text-8xl font-black leading-none tracking-tighter">
+                <span className="text-white block mb-2">Welcome to</span>
+                <span className="relative">
+                  <span className="bg-gradient-to-br from-orange-400 via-red-500 to-purple-600 bg-clip-text text-transparent animate-pulse">
+                    Our World
+                  </span>
+                  {/* Subtle glow behind the text */}
+                  <span className="absolute -inset-x-4 -inset-y-2 bg-orange-500/10 blur-3xl -z-10" />
+                </span>
+              </h2>
+            </div>
+
+          </div>
+        </div>
+        {/* STATS GRID */}
+        <div className="grid grid-cols-2 lg:grid-cols-6 gap-4">
+          {stats.map((stat, index) => (
+            <div
+              key={index}
+              className="bg-white/5 border border-white/10 backdrop-blur-sm rounded-xl p-4 text-center hover:bg-white/10 hover:-translate-y-1 transition-all duration-300 group"
+            >
+              <div className={`mx-auto w-10 h-10 mb-3 rounded-lg bg-gradient-to-br ${stat.color} flex items-center justify-center text-white shadow-lg`}>
+                <stat.icon />
+              </div>
+              <div className="text-2xl font-bold text-white mb-1">{stat.number}</div>
+              <div className="text-xs text-gray-400 uppercase tracking-wider">{stat.label}</div>
+            </div>
+          ))}
+        </div>
+
+        <div className="grid md:grid-cols-2 gap-12 items-center animate-slide-in py-24">
+          <div className="space-y-6">
+            <h2 className="text-4xl font-bold text-white">Who We Are</h2>
+            <div className="h-1 w-20 bg-cyan-500 rounded-full"></div>
+            <p className="text-gray-300 text-lg leading-relaxed">
+              Established in <strong className="text-white">2026</strong>, Mecatronix is more than just an IT company; we are a digital catalyst.
+              In a world moving at light speed, we are the engineers of the new digital age.
+            </p>
+            <p className="text-gray-400 leading-relaxed">
+              We specialize in the full lifecycle of digital development—from the first line of code on your website to the final pixel on your marketing posters.
+            </p>
+
+            <div className="pt-4 grid grid-cols-2 gap-4">
+              {values.map((val, idx) => (
+                <div key={idx} className="flex items-center gap-3">
+                  <div className="text-cyan-400">{val.icon}</div>
+                  <span className="font-semibold text-gray-200">{val.title}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="relative">
+            <div className="absolute inset-0 bg-gradient-to-r from-cyan-500 to-purple-600 rounded-3xl blur-2xl opacity-20"></div>
+            <div className="relative bg-black/50 backdrop-blur-xl border border-white/10 p-8 rounded-3xl">
+              <h3 className="text-2xl font-bold mb-6">Why Mecatronix?</h3>
+              <ul className="space-y-4">
+                {["Futuristic Design Approach", "Full-Cycle Maintenance", "Custom Digital Marketing", "2026 Ready Technology"].map((item, i) => (
+                  <li key={i} className="flex items-center gap-3 text-gray-300">
+                    <FaCheckCircle className="text-green-500 flex-shrink-0" />
+                    {item}
+                  </li>
+                ))}
+              </ul>
+              <button className="mt-8 w-full py-4 rounded-xl bg-white text-black font-bold hover:bg-gray-200 transition-colors flex items-center justify-center gap-2">
+                Let's Talk <FaArrowRight />
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* TABS NAVIGATION */}
+        <div className="flex flex-wrap justify-center gap-3 mb-12">
           {tabs.map((tab) => (
-            <motion.button
+            <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`flex items-center gap-2 px-6 py-3 rounded-xl font-semibold transition-all duration-300 ${
-                activeTab === tab.id
-                  ? "bg-gradient-to-r from-orange-500 to-red-600 text-white shadow-2xl shadow-orange-500/30"
-                  : "bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white"
-              }`}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+              className={`flex items-center gap-2 px-6 py-3 rounded-full font-medium transition-all duration-300 ${activeTab === tab.id
+                ? "bg-gradient-to-r from-orange-600 to-red-600 text-white shadow-lg shadow-red-900/50 scale-105 ring-1 ring-white/20"
+                : "bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white border border-white/5"
+                }`}
             >
               <tab.icon />
               {tab.label}
-            </motion.button>
+            </button>
           ))}
-        </motion.div>
+        </div>
 
-        {/* Tab Content */}
-        <AnimatePresence mode="wait">
+        {/* TAB CONTENT AREA */}
+        <div className="min-h-[500px] transition-all duration-500 ease-in-out">
+
+          {/* FEATURES TAB */}
           {activeTab === "features" && (
-            <motion.div
-              key="features"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.5 }}
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-            >
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-fade-in-up">
               {features.map((item, idx) => (
-                <motion.div
-                  key={idx}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: idx * 0.1 }}
-                  viewport={{ once: true }}
-                  whileHover={{ scale: 1.05, y: -5 }}
-                  className="group relative"
-                >
-                  <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-6 h-full hover:bg-white/10 transition-all duration-500">
-                    <div className={`bg-gradient-to-r ${item.color} p-4 rounded-2xl inline-block mb-4 group-hover:scale-110 transition-transform duration-300`}>
-                      {item.icon}
-                    </div>
-                    <h3 className="text-xl font-bold text-white mb-3">{item.title}</h3>
-                    <p className="text-gray-400 leading-relaxed mb-4">{item.desc}</p>
-                    <div className="text-sm text-orange-400 font-semibold">
-                      {item.stats}
-                    </div>
+                <div key={idx} className="group relative p-6 bg-white/5 border border-white/10 rounded-2xl hover:bg-white/10 transition-all duration-300 hover:shadow-2xl hover:shadow-orange-500/10">
+                  <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${item.color} flex items-center justify-center text-xl text-white mb-4 group-hover:scale-110 transition-transform duration-300`}>
+                    {item.icon}
                   </div>
-                  
-                  {/* Hover Glow */}
-                  <div className={`absolute inset-0 bg-gradient-to-r ${item.color} rounded-2xl blur-xl opacity-0 group-hover:opacity-20 transition-opacity duration-500 -z-10`}></div>
-                </motion.div>
+                  <h3 className="text-xl font-bold text-white mb-2">{item.title}</h3>
+                  <p className="text-gray-400 text-sm leading-relaxed mb-4">{item.desc}</p>
+                  <div className="inline-block px-3 py-1 bg-white/5 rounded-full text-xs font-semibold text-orange-300 border border-orange-500/20">
+                    {item.stats}
+                  </div>
+                </div>
               ))}
-            </motion.div>
+            </div>
           )}
 
+          {/* PROCESS TAB */}
           {activeTab === "process" && (
-            <motion.div
-              key="process"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.5 }}
-              className="space-y-8"
-            >
+            <div className="space-y-6 max-w-4xl mx-auto animate-fade-in-up">
               {steps.map((step, idx) => (
-                <motion.div
-                  key={idx}
-                  initial={{ opacity: 0, x: -50 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.6, delay: idx * 0.1 }}
-                  viewport={{ once: true }}
-                  className="flex flex-col md:flex-row items-start gap-6 group"
-                >
-                  <div className="flex-shrink-0">
-                    <div className={`bg-gradient-to-r ${step.color} p-4 rounded-2xl group-hover:scale-110 transition-transform duration-300`}>
-                      <div className="text-2xl text-white">{step.icon}</div>
-                    </div>
+                <div key={idx} className="flex flex-col md:flex-row gap-6 bg-white/5 border border-white/10 p-6 rounded-2xl hover:border-orange-500/30 transition-all duration-300">
+                  <div className={`flex-shrink-0 w-16 h-16 rounded-full bg-gradient-to-br ${step.color} flex items-center justify-center text-2xl text-white shadow-lg`}>
+                    {step.icon}
                   </div>
-                  
                   <div className="flex-1">
-                    <div className="flex items-center gap-4 mb-3">
-                      <span className="text-sm font-bold text-orange-400 bg-orange-400/10 px-3 py-1 rounded-full">
-                        Step {idx + 1}
-                      </span>
+                    <div className="flex items-center gap-3 mb-2">
+                      <span className="text-xs font-bold bg-white/10 px-2 py-1 rounded text-gray-300">STEP 0{idx + 1}</span>
                       <h3 className="text-xl font-bold text-white">{step.title}</h3>
                     </div>
                     <p className="text-gray-400 mb-4">{step.desc}</p>
                     <div className="flex flex-wrap gap-2">
-                      {step.details.map((detail, detailIdx) => (
-                        <span
-                          key={detailIdx}
-                          className="text-xs bg-white/5 border border-white/10 px-3 py-1 rounded-full text-gray-300"
-                        >
-                          {detail}
-                        </span>
+                      {step.details.map((detail, dIdx) => (
+                        <span key={dIdx} className="text-xs bg-black/30 px-3 py-1 rounded-full text-gray-400 border border-white/5">{detail}</span>
                       ))}
                     </div>
                   </div>
-                </motion.div>
+                </div>
               ))}
-            </motion.div>
+            </div>
           )}
 
+          {/* TEAM TAB */}
+          {activeTab === "team" && (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 animate-fade-in-up">
+              <div className="md:col-span-3 text-center mb-4">
+                <p className="text-gray-300 max-w-2xl mx-auto">
+                  Our success is powered by a skilled team of engineers, designers, and technology leaders. We are always looking for talented individuals to join our journey.
+                </p>
+              </div>
+              {team.map((member, idx) => (
+                <div key={idx} className="relative overflow-hidden group bg-white/5 border border-white/10 rounded-2xl p-8 text-center hover:bg-white/10 transition-all">
+                  <div className={`mx-auto w-20 h-20 rounded-full bg-gradient-to-br ${member.color} flex items-center justify-center text-3xl text-white mb-6 shadow-xl`}>
+                    {member.icon}
+                  </div>
+                  <h3 className="text-2xl font-bold text-white mb-1">{member.title}</h3>
+                  <p className="text-orange-400 text-sm font-semibold uppercase tracking-wider mb-4">{member.role}</p>
+                  <p className="text-gray-400 text-sm">{member.desc}</p>
+                </div>
+              ))}
+              <div className="md:col-span-3 text-center mt-8">
+                <button className="inline-flex items-center gap-2 text-white bg-gradient-to-r from-orange-600 to-red-600 px-8 py-3 rounded-full hover:shadow-lg hover:shadow-orange-500/20 transition-all transform hover:-translate-y-1">
+                  Join Our Journey <FaArrowRight />
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* VALUES TAB */}
           {activeTab === "values" && (
-            <motion.div
-              key="values"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.5 }}
-              className="grid grid-cols-1 md:grid-cols-2 gap-8"
-            >
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-fade-in-up">
               {values.map((value, idx) => (
-                <motion.div
-                  key={idx}
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.5, delay: idx * 0.1 }}
-                  viewport={{ once: true }}
-                  className="group relative"
-                >
-                  <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-8 text-center hover:bg-white/10 transition-all duration-500">
-                    <div className={`bg-gradient-to-r ${value.color} p-4 rounded-2xl inline-block mb-6 group-hover:scale-110 transition-transform duration-300`}>
-                      {value.icon}
-                    </div>
-                    <h3 className="text-2xl font-bold text-white mb-4">{value.title}</h3>
+                <div key={idx} className="flex items-start gap-4 p-6 bg-white/5 border border-white/10 rounded-2xl hover:bg-white/10 transition-all duration-300">
+                  <div className={`flex-shrink-0 w-12 h-12 rounded-lg bg-gradient-to-br ${value.color} flex items-center justify-center text-xl text-white`}>
+                    {value.icon}
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-bold text-white mb-2">{value.title}</h3>
                     <p className="text-gray-400 leading-relaxed">{value.desc}</p>
                   </div>
-                  
-                  {/* Hover Glow */}
-                  <div className={`absolute inset-0 bg-gradient-to-r ${value.color} rounded-2xl blur-xl opacity-0 group-hover:opacity-20 transition-opacity duration-500 -z-10`}></div>
-                </motion.div>
+                </div>
               ))}
-            </motion.div>
+            </div>
           )}
-        </AnimatePresence>
+        </div>
 
-        {/* VISION & MISSION */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
-          viewport={{ once: true }}
-          className="mt-20 grid lg:grid-cols-2 gap-12 items-start"
-        >
-          <div className="group relative">
-            <div className="bg-gradient-to-br from-orange-500/10 to-red-500/10 backdrop-blur-xl border border-orange-500/20 rounded-2xl p-8 hover:border-orange-500/40 transition-all duration-500">
-              <h3 className="text-3xl font-black bg-gradient-to-r from-orange-400 to-red-500 bg-clip-text text-transparent mb-6">
-                Our Vision
-              </h3>
-              <p className="text-gray-300 text-lg leading-relaxed mb-6">
-                To be a global leader in engineering, automation, and digital 
-                innovation — empowering industries and startups to achieve 
-                excellence through intelligent technology and transformative solutions.
-              </p>
-              <div className="flex items-center gap-2 text-orange-400">
-                <FaEye />
-                <span className="font-semibold">Seeing the future of technology</span>
-              </div>
+        <div className="text-center mx-auto animate-zoom-in pt-24">
+          <div className="bg-gradient-to-br from-gray-900 to-black border border-white/10 p-10 rounded-3xl relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-64 h-64 bg-purple-600/10 rounded-full blur-[80px]"></div>
+
+            <FaRocket className="text-5xl text-purple-500 mx-auto mb-6 animate-bounce" />
+
+            <h2 className="text-3xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-500 mb-6">
+              "Engineering the Digital Tomorrow"
+            </h2>
+
+            <p className="text-xl text-gray-400 leading-relaxed mb-8">
+              Our mission is to bridge the gap between human imagination and digital execution.
+              Whether it's a poster that stops traffic or an app that changes lives, we build it with precision.
+            </p>
+
+            <div className="flex flex-wrap justify-center gap-4 text-sm font-semibold tracking-wider text-gray-500 uppercase">
+              <span>#Mecatronix2026</span> • <span>#FutureTech</span> • <span>#DigitalGrowth</span>
             </div>
           </div>
+        </div>
 
-          <div className="group relative">
-            <div className="bg-gradient-to-br from-blue-500/10 to-purple-600/10 backdrop-blur-xl border border-blue-500/20 rounded-2xl p-8 hover:border-blue-500/40 transition-all duration-500">
-              <h3 className="text-3xl font-black bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent mb-6">
-                Our Mission
-              </h3>
-              <p className="text-gray-300 text-lg leading-relaxed mb-6">
-                To deliver high-impact digital solutions built with precision, 
-                design, and scalability — blending creativity and engineering to 
-                redefine the digital future and drive meaningful progress for our clients.
-              </p>
-              <div className="flex items-center gap-2 text-blue-400">
-                <FaRocket />
-                <span className="font-semibold">Building the future today</span>
-              </div>
-            </div>
-          </div>
-        </motion.div>
       </div>
+
+      {/* --- BACKGROUND EFFECTS --- */}
+      {/* <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-cyan-500/10 rounded-full blur-[120px] animate-pulse"></div>
+        <div className="absolute bottom-[-10%] right-[-10%] w-[500px] h-[500px] bg-purple-600/10 rounded-full blur-[120px] animate-pulse"></div>
+        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20"></div>
+      </div> */}
+
+      {/* --- PARTICLES --- */}
+      {/* <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {particles.map((p) => (
+          <div
+            key={p.id}
+            className="absolute rounded-full bg-white opacity-30"
+            style={{
+              left: `${p.left}%`,
+              top: `${p.top}%`,
+              width: `${p.size}px`,
+              height: `${p.size}px`,
+              animation: `float ${p.duration}s infinite linear`,
+              animationDelay: `${p.delay}s`
+            }}
+          />
+        ))}
+      </div> */}
+
+      <style dangerouslySetInnerHTML={{
+        __html: `
+        @keyframes gradient {
+          0% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+          100% { background-position: 0% 50%; }
+        }
+        @keyframes float {
+          0% { transform: translateY(0px) translateX(0px); opacity: 0; }
+          50% { opacity: 0.3; }
+          100% { transform: translateY(-100px) translateX(20px); opacity: 0; }
+        }
+        @keyframes fadeInUp {
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-gradient { animation: gradient 6s ease infinite; background-size: 200% auto; }
+        .animate-fade-in-up { animation: fadeInUp 0.6s ease-out forwards; }
+
+        @keyframes float {
+          0% { transform: translateY(0px); opacity: 0; }
+          50% { opacity: 0.5; }
+          100% { transform: translateY(-100px); opacity: 0; }
+        }
+        @keyframes fadeInUp {
+          from { opacity: 0; transform: translateY(30px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in-up { animation: fadeInUp 0.8s ease-out forwards; }
+        .animate-fade-in { animation: fadeInUp 0.5s ease-out forwards; }
+        .animate-slide-in { animation: fadeInUp 0.6s ease-out forwards; }
+        .animate-zoom-in { animation: fadeInUp 0.7s ease-out forwards; }
+      `}} />
+
     </section>
   );
 };

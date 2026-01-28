@@ -1,81 +1,490 @@
 @import "tailwindcss";
 
-/* index.css */
-
-/* Advanced Smooth Scrolling with Custom Easing */
+/* =====================================
+   GLOBAL SCROLL SETTINGS (SAFE)
+===================================== */
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 80px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
+@media (prefers-reduced-motion: reduce) {
   html {
-    scroll-behavior: smooth;
-  }
-  
-  /* Custom easing for different scroll types */
-  html:has(body) {
-    scroll-behavior: smooth;
-  }
-  
-  /* Smooth scroll for anchor links */
-  a[href^="#"] {
-    scroll-behavior: smooth;
+    scroll-behavior: auto;
   }
 }
 
-/* Custom Scrollbar - Space Theme */
+/* =====================================
+   CUSTOM SCROLLBAR (SPACE THEME)
+===================================== */
 ::-webkit-scrollbar {
   width: 12px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #000000;
-  border-radius: 10px;
+  background: #000;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, 
-    rgba(249, 115, 22, 0.8), 
-    rgba(239, 68, 68, 0.8)
-  );
+  background: linear-gradient(180deg,
+      rgba(249, 115, 22, 0.8),
+      rgba(239, 68, 68, 0.8));
   border-radius: 10px;
-  border: 2px solid #000000;
-  box-shadow: 
-    0 0 10px rgba(249, 115, 22, 0.3),
-    inset 0 0 10px rgba(255, 255, 255, 0.1);
+  border: 2px solid #000;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, 
-    rgba(251, 146, 60, 0.9), 
-    rgba(248, 113, 113, 0.9)
-  );
-  box-shadow: 
-    0 0 15px rgba(249, 115, 22, 0.5),
-    inset 0 0 15px rgba(255, 255, 255, 0.2);
+  background: linear-gradient(180deg,
+      rgba(251, 146, 60, 0.9),
+      rgba(248, 113, 113, 0.9));
 }
 
-::-webkit-scrollbar-thumb:active {
-  background: linear-gradient(180deg, 
-    rgba(234, 88, 12, 0.9), 
-    rgba(220, 38, 38, 0.9)
-  );
-}
-
-/* Scrollbar for Firefox */
+/* Firefox */
 * {
   scrollbar-width: thin;
-  scrollbar-color: #f97316 #000000;
+  scrollbar-color: #f97316 #000;
 }
 
-/* Smooth transitions for elements with IDs */
+/* =====================================
+   FIXED NAV OFFSET
+===================================== */
 [id] {
   scroll-margin-top: 80px;
 }
 
-/* Prevent scroll jumping on focus */
-:focus {
-  scroll-margin-top: 80px;
+/* =====================================
+   SHARED ANIMATIONS
+===================================== */
+@keyframes loading {
+  0% {
+    transform: translateX(-100%);
+  }
+
+  100% {
+    transform: translateX(200%);
+  }
 }
 
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pulse {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes ping {
+
+  75%,
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+@keyframes bounce-slow {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0) rotate(0);
+    opacity: 0.1;
+  }
+
+  50% {
+    transform: translateY(-20px) rotate(180deg);
+    opacity: 0.4;
+  }
+}
+
+@keyframes zoomIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes shake {
+
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  25% {
+    transform: translateX(-5px);
+  }
+
+  75% {
+    transform: translateX(5px);
+  }
+}
+
+/* =====================================
+   SPECIFIC ANIMATIONS
+===================================== */
+/* Clients & Marquee */
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes scroll-reverse {
+  0% {
+    transform: translateX(-50%);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes meteor {
+  0% {
+    transform: rotate(215deg) translateX(0);
+    opacity: 1;
+  }
+
+  70% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: rotate(215deg) translateX(-500px);
+    opacity: 0;
+  }
+}
+
+/* Nav */
+@keyframes techSlide {
+  from {
+    opacity: 0;
+    clip-path: inset(0 0 100% 0);
+  }
+
+  to {
+    opacity: 1;
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@keyframes scan {
+  0% {
+    transform: translateY(-550%);
+    opacity: 0%;
+  }
+
+  10% {
+    opacity: 10%;
+  }
+
+  20% {
+    opacity: 100%;
+  }
+
+  80% {
+    opacity: 100%;
+  }
+
+  90% {
+    opacity: 10%;
+  }
+
+  100% {
+    transform: translateY(300%);
+    opacity: 0%;
+  }
+}
+
+/* Footer */
+@keyframes nebula {
+
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.2;
+  }
+
+  50% {
+    transform: scale(1.1);
+    opacity: 0.4;
+  }
+}
+
+@keyframes shootingStar {
+  0% {
+    transform: translateX(0) translateY(0) rotate(215deg);
+    opacity: 0;
+  }
+
+  10% {
+    opacity: 1;
+  }
+
+  20% {
+    transform: translateX(-500px) translateY(500px) rotate(215deg);
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+/* User Layout */
+@keyframes comet-move {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-120vw);
+  }
+}
+
+/* Hero */
+@keyframes scroll-line {
+  0% {
+    transform: translateY(-100%);
+  }
+
+  100% {
+    transform: translateY(200%);
+  }
+}
+
+/* =====================================
+   ANIMATION CLASSES
+===================================== */
+/* Gradient Animations */
+.animate-gradient {
+  animation: gradient 6s ease infinite;
+  background-size: 200% auto;
+}
+
+.animate-gradient-slow {
+  animation: gradient 6s ease infinite;
+  background-size: 200% auto;
+}
+
+.animate-gradient-flow {
+  animation: gradient 6s ease infinite;
+  background-size: 200% auto;
+}
+
+/* Scroll Animations */
+.animate-scroll {
+  animation: scroll 40s linear infinite;
+  width: max-content;
+}
+
+.animate-scroll-reverse {
+  animation: scroll-reverse 50s linear infinite;
+  width: max-content;
+}
+
+.animate-scroll-line {
+  animation: scroll-line 2s cubic-bezier(0.19, 1, 0.22, 1) infinite;
+}
+
+/* Space & Celestial Animations */
+.animate-meteor {
+  animation: meteor 5s linear infinite;
+}
+
+.animate-nebula {
+  animation: nebula 15s ease-in-out infinite;
+}
+
+.animate-nebula-slow {
+  animation: nebula 20s ease-in-out infinite reverse;
+}
+
+.animate-shooting-star {
+  animation: shootingStar 4s linear infinite;
+}
+
+/* Movement & Transform Animations */
+.animate-float {
+  animation: float 8s ease-in-out infinite;
+}
+
+.animate-bounce-slow {
+  animation: bounce-slow 4s ease-in-out infinite;
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+.animate-spin-slow {
+  animation: spin-slow 12s linear infinite;
+}
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.animate-ping {
+  animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+/* Navigation & UI Animations */
+.animate-tech-slide {
+  animation: techSlide 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.animate-scan {
+  animation: scan 4s linear infinite;
+}
+
+.animate-shake {
+  animation: shake 0.4s ease-in-out;
+}
+
+/* Entrance Animations */
+.animate-fade-in-up {
+  animation: fadeInUp 1s ease-out forwards;
+}
+
+.animate-fade-in {
+  animation: fadeInUp 0.5s ease-out forwards;
+}
+
+.animate-zoom-in {
+  animation: zoomIn 0.6s ease-out forwards;
+}
+
+.animate-slide-in-left {
+  animation: slideInLeft 0.6s ease-out forwards;
+}
+
+/* Utility Classes */
+.fill-mode-forwards {
+  animation-fill-mode: forwards;
+}
+
+.comet {
+  left: 100%;
+  width: 120px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #f97316, #ef4444);
+  animation: comet-move 6s linear infinite;
+  opacity: 0.6;
+}
+
+.shooting-star {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: white;
+  border-radius: 50%;
+  box-shadow: 0 0 10px 2px white;
+  animation: shootingStar 4s linear infinite;
+}
+
+/* =====================================
+   COMPONENT SPECIFIC STYLES
+===================================== */
+/* Antd Rate customization */
+.ant-rate-star {
+  margin-right: 4px !important;
+}
+
+.ant-rate-star-half .ant-rate-star-first,
+.ant-rate-star-full .ant-rate-star-second {
+  color: #facc15 !important;
+}
+
+.ant-rate-star-zero {
+  color: #52525b !important;
+}
+
+/* Hover States */
+.animate-scroll:hover,
+.animate-scroll-reverse:hover {
+  animation-play-state: paused;
+}

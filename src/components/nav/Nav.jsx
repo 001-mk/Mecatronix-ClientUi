@@ -1,311 +1,183 @@
-import React, { useState, useEffect } from "react";
-import { NAV } from "../../helper/data_help";
+import React, { useState, useEffect, useCallback } from "react";
+import { NAV, subtitles } from "../../helper/data_help";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import Img_Helper from "../../helper/img_help";
-import { motion, AnimatePresence } from "framer-motion";
-import {
-  FaArrowRight,
-  FaPhone,
-  FaStar,
+import mecatronixConfig from "../../config/envConfig";
+import Icons from "../../helper/icon_help";
+
+const {
   FaRocket,
   FaShieldAlt,
-  FaHeadset
-} from "react-icons/fa";
-import mecatronixConfig from "../../config/envConfig";
+  FaHeadset,
+  FaArrowRight,
+} = Icons;
 
 const Nav = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Use centralized configuration with safe destructuring
-  const {
-    contact = {},
-  } = mecatronixConfig || {};
-
-  const PRIMARY_PHONE = contact?.primaryPhone || '+919843274321';
-
-  const subtitles = ["Innovation", "Automation", "Future", "Excellence", "Technology"];
+  const { contact = {} } = mecatronixConfig || {};
+  const PRIMARY_PHONE = contact.primaryPhone || "+91000000000";
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isScrolled, setIsScrolled] = useState(false);
   const [hoveredNav, setHoveredNav] = useState(null);
 
-  // Enhanced services data
-  const services = [
-    {
-      title: "Industrial Automation",
-      description: "Complete automation solutions for manufacturing",
-      icon: FaRocket,
-      color: "from-orange-500 to-red-500",
-      bg: "bg-gradient-to-r from-orange-500 to-red-500"
-    },
-    {
-      title: "Robotics & AI",
-      description: "Smart robotic systems with AI integration",
-      icon: FaShieldAlt,
-      color: "from-blue-500 to-purple-600",
-      bg: "bg-gradient-to-r from-blue-500 to-purple-600"
-    },
-    {
-      title: "IoT Solutions",
-      description: "Connected devices and smart systems",
-      icon: FaHeadset,
-      color: "from-green-500 to-emerald-600",
-      bg: "bg-gradient-to-r from-green-500 to-emerald-600"
-    }
-  ];
-
-  // Animated subtitles
+  // 1. ADVANCED SUBTITLE ROTATION (Memoized)
   useEffect(() => {
-    const interval = setInterval(() => {
+    const timer = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % subtitles.length);
-    }, 2000);
-    return () => clearInterval(interval);
+    }, 3000);
+    return () => clearInterval(timer); // Prevent memory leak
   }, [subtitles.length]);
 
-  // Scroll effect
+  // 2. OPTIMIZED SCROLL HANDLER (Throttled/Passive)
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", handleScroll);
+    const handleScroll = () => {
+      const offset = window.scrollY > 20;
+      // Only update state if value actually changes to prevent unnecessary re-renders
+      setIsScrolled((prev) => (prev !== offset ? offset : prev));
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // 3. HANDLERS
+  const handleLogoClick = useCallback(() => navigate("/"), [navigate]);
+
   return (
     <header
-      className={`fixed top-0 w-full z-50 transition-all duration-500 ${isScrolled
-          ? "bg-gradient-to-b from-black/90 to-transparent backdrop-blur-2xl"
-          : "bg-gradient-to-b from-black/80 to-transparent backdrop-blur-lg"
+      className={`fixed top-0 w-full z-50 transition-all duration-300 ${isScrolled
+        ? "bg-black/80 backdrop-blur-xl border-b border-orange-600/40 py-0 shadow-[0_10px_40px_rgba(0,0,0,0.8)]"
+        : "bg-transparent border-b border-white/5"
         }`}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between">
-        {/* --- OPTIMIZED LOGO SECTION --- */}
-        <motion.div
-          className="flex items-center gap-3 cursor-pointer group relative"
-          onClick={() => navigate("/")}
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
+      {/* Blueprint grid */}
+      <div className="absolute inset-0 opacity-[0.03] pointer-events-none bg-[linear-gradient(to_right,#808080_1px,transparent_1px),linear-gradient(to_bottom,#808080_1px,transparent_1px)] bg-[size:20px_20px]" />
+
+      <div className="max-w-[1400px] mx-auto flex items-center justify-between h-20 px-6 relative">
+
+        {/* BRAND UNIT */}
+        <div
+          className="flex items-center h-full min-w-[260px] xl:border-r xl:border-white/10 pr-8 cursor-pointer group"
+          onClick={handleLogoClick}
         >
-          <div className="relative h-14 w-auto flex items-center justify-center">
-            {/* Main Logo */}
-            <motion.img
+          <div className="relative overflow-hidden">
+            <img
               src={Img_Helper.mainlogo}
-              alt="Mecatronix Logo"
-              className="w-full h-full object-contain transition-all duration-300"
-              transition={{ duration: 0.6 }}
+              alt="Mecatronix"
+              className="h-10 grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105"
             />
-            <motion.img
-              src={Img_Helper.titlte}
-              alt="Mecatronix Logo"
-              className="w-full h-3/4 object-contain transition-all duration-300"
-              transition={{ duration: 0.6 }}
-            />
-
+            {/* Logo Scanline Effect */}
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-orange-500/20 to-transparent h-full w-full -translate-y-full group-hover:animate-scan" />
           </div>
-          <div className="absolute bottom-0 left-[68px] overflow-hidden w-[130px]">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={currentIndex}
-                initial={{ x: -100, opacity: 0, scale: 0.8 }}
-                animate={{
-                  x: 0,
-                  opacity: 1,
-                  scale: 1,
-                }}
-                exit={{ x: 100, opacity: 0, scale: 1.2 }}
-                transition={{
-                  duration: 0.3,
-                  ease: [0.4, 0, 0.2, 1],
-                }}
-                className="text-[10px] text-transparent bg-gradient-to-r from-orange-700 to-red-700 bg-clip-text uppercase font-black tracking-widest"
-              >
+
+          <div className="ml-5 border-l border-white/10 pl-5">
+            <h1 className="text-xl font-black tracking-[0.2em] text-white uppercase italic">
+              Meca<span className="text-orange-600">tronix</span>
+            </h1>
+            <div className="flex items-center gap-2 pt-1">
+              <span className="w-2 h-2 bg-orange-600 animate-pulse shadow-[0_0_8px_#ea580c]" />
+              <span className="text-[10px] font-mono text-orange-500 uppercase tracking-[0.4em] font-bold">
                 {subtitles[currentIndex]}
-              </motion.div>
-            </AnimatePresence>
+              </span>
+            </div>
           </div>
-        </motion.div>
+        </div>
 
-        {/* --- ENHANCED DESKTOP NAV LINKS --- */}
-        <nav className="hidden lg:flex items-center gap-1">
-          {NAV.map((n, i) => (
-            <motion.div
-              key={n.id}
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.08 + 0.3 }}
-              className="relative"
-              onMouseEnter={() => setHoveredNav(n.id)}
+        {/* Navigation */}
+        <nav className="hidden xl:flex flex-1 h-full px-8 items-center justify-center gap-8">
+          {NAV.map((n) => (
+            <div
+              key={`${n.id}-${n.label}`}
+              className="relative group h-full flex items-center"
+              onMouseEnter={() => n.id === "/services" && setHoveredNav(n.id)}
               onMouseLeave={() => setHoveredNav(null)}
+              onFocus={() => n.id === "/services" && setHoveredNav(n.id)}
+              onBlur={() => setHoveredNav(null)}
             >
               <Link
                 to={n.id}
-                className={`relative px-4 py-2 text-sm font-semibold transition-all duration-300 group ${location.pathname === n.id
-                    ? "text-orange-400"
-                    : "text-gray-300 hover:text-white"
+                className={` relative text-[11px] font-black uppercase tracking-[.25em] transition-colors ${location.pathname === n.id
+                  ? "text-orange-500"
+                  : "text-gray-400 group-hover:text-white"
                   }`}
               >
+                <span className="absolute -left-3 opacity-0 group-hover:opacity-100 group-hover:-left-4 transition-all text-orange-600">
+                  [
+                </span>
                 {n.label}
-
-                {/* Enhanced Hover Effect */}
-                <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-orange-500/0 to-red-600/0 group-hover:from-orange-500/10 group-hover:to-red-600/10 transition-all duration-300 -z-10" />
-
-                {/* Active Indicator */}
-                {location.pathname === n.id && (
-                  <motion.div
-                    className="absolute bottom-0 left-1/2 w-1 h-1 bg-gradient-to-r from-orange-500 to-red-600 rounded-full"
-                    layoutId="activeNav"
-                    transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                  />
-                )}
+                <span className="absolute -right-3 opacity-0 group-hover:opacity-100 group-hover:-right-4 transition-all text-orange-600">
+                  ]
+                </span>
               </Link>
 
-              {/* Services Dropdown */}
+              {/* Advanced Mega-Dropdown */}
               {n.id === "/services" && hoveredNav === n.id && (
-                <motion.div
-                  initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                  className="absolute top-full left-0 mt-2 w-80 bg-gray-900/95 backdrop-blur-xl border border-gray-700 rounded-2xl shadow-2xl p-4 z-50"
-                >
-                  <div className="space-y-3">
-                    {services.map((service, index) => {
-                      const ServiceIcon = service.icon;
-                      return (
-                        <motion.div
-                          key={service.title}
-                          initial={{ opacity: 0, x: -20 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{ delay: index * 0.1 }}
-                          className="flex items-center gap-4 p-3 rounded-xl bg-gray-800/50 hover:bg-gray-700/50 transition-all duration-300 cursor-pointer group"
-                          whileHover={{ scale: 1.02 }}
+                <div className="absolute top-[90%] -left-5 w-[350px] bg-[#080808] border border-white/10 p-1 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.7)] animate-in fade-in slide-in-from-top-4 duration-300">
+                  <div className="p-2 border border-white/5 relative bg-black/40 backdrop-blur-3xl">
+                    {/* Industrial Corner Brackets */}
+                    <div className="absolute top-0 left-0 w-3 h-3 border-t-2 border-l-2 border-orange-600" />
+                    <div className="absolute bottom-0 right-0 w-3 h-3 border-b-2 border-r-2 border-orange-600" />
+
+                    <div className="grid grid-cols-2 gap-2">
+                      {[
+                        { title: "Automation", icon: FaRocket, code: "SYS_01", desc: "Industrial Logic Control" },
+                        { title: "Robotics", icon: FaShieldAlt, code: "SYS_02", desc: "Autonomous Hardware" },
+                        { title: "Smart IoT", icon: FaHeadset, code: "SYS_03", desc: "Network Intelligence" },
+                      ].map((item) => (
+                        <div
+                          key={item.code}
+                          className="group/card p-2 bg-white/[0.02] border border-white/5 hover:border-orange-500/40 hover:bg-orange-500/5 transition-all cursor-pointer"
                         >
-                          <div className={`${service.bg} p-3 rounded-lg group-hover:scale-110 transition-transform duration-300 shadow-lg`}>
-                            <ServiceIcon className="text-white text-lg" />
+                          <div className="flex justify-between items-start mb-3">
+                            <item.icon className="text-xl text-gray-600 group-hover/card:text-orange-500 transition-colors" />
+                            <span className="text-[8px] font-mono text-gray-700 group-hover/card:text-orange-500">
+                              {item.code}
+                            </span>
                           </div>
-                          <div className="flex-1">
-                            <h4 className="text-white font-semibold text-sm">{service.title}</h4>
-                            <p className="text-gray-400 text-xs">{service.description}</p>
-                          </div>
-                          <motion.div
-                            initial={{ opacity: 0, x: -10 }}
-                            whileHover={{ opacity: 1, x: 0 }}
-                            className="text-orange-400"
-                          >
-                            <FaArrowRight className="text-sm" />
-                          </motion.div>
-                        </motion.div>
-                      );
-                    })}
+                          <h4 className="text-white text-[10px] font-black uppercase tracking-widest">{item.title}</h4>
+                          <p className="text-[8px] text-gray-500 mt-1 uppercase tracking-tighter">{item.desc}</p>
+                        </div>
+                      ))}
+
+                      <div className="flex flex-col justify-center items-center p-2 bg-orange-600 hover:bg-orange-500 transition-all group/btn cursor-pointer">
+                        <span className="text-[10px] font-black uppercase tracking-widest">Access_Catalog</span>
+                        <FaArrowRight className="mt-2 group-hover:translate-x-2 transition-transform" />
+                      </div>
+                    </div>
                   </div>
-                </motion.div>
+                </div>
               )}
-            </motion.div>
+            </div>
           ))}
         </nav>
 
-        {/* --- ENHANCED DESKTOP CTA & CONTACT --- */}
-        <motion.div
-          className="hidden lg:flex items-center gap-4"
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.5 }}
-        >
-          {/* Quick Contact */}
-          <div className="flex items-center gap-3">
-            {/* Phone */}
-            <motion.a
-              href={`tel:${PRIMARY_PHONE}`}
-              className="flex items-center gap-2 px-3 py-2 rounded-lg bg-blue-500/20 hover:bg-blue-500/30 border border-blue-500/30 transition-all duration-300 group"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <FaPhone className="text-blue-400 text-sm" />
-              <span className="text-white text-xs font-semibold">Call Us</span>
-            </motion.a>
+        {/* CTA / STATUS SECTION */}
+        <div className="hidden md:flex items-center gap-8 h-full pl-8 xl:border-l xl:border-white/10">
+          <div className="hidden md:block text-right">
+            <a href={`tel:${PRIMARY_PHONE}`} className="text-right">
+              <span className="block text-[9px] font-mono text-gray-500">
+                ESTABLISH_LINE
+              </span>
+              <span className="text-white text-xs font-bold">
+                PH_{PRIMARY_PHONE}
+              </span>
+            </a>
           </div>
 
-          {/* Main CTA Button */}
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+          <Link
+            to="/openline"
+            className="relative h-11 px-8 flex items-center justify-center bg-orange-600 text-white font-black text-[10px] tracking-[0.25em] uppercase transition-all skew-x-[-15deg] hover:bg-white hover:text-black overflow-hidden group"
           >
-            <Link
-              to="/openline"
-              className="relative bg-gradient-to-r from-orange-500 to-red-600 text-white px-6 py-3 rounded-xl text-sm font-bold tracking-wide shadow-2xl shadow-orange-500/25 hover:shadow-orange-500/40 transition-all duration-300 group overflow-hidden"
-            >
-              {/* Shine Effect */}
-              <div className="absolute inset-0 -skew-x-12 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
-
-              <span className="relative flex items-center gap-2">
-                Get Quote
-                <motion.div
-                  whileHover={{ x: 3 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  <FaRocket className="text-xs" />
-                </motion.div>
-              </span>
-            </Link>
-          </motion.div>
-        </motion.div>
-
-        {/* --- MOBILE CTA ONLY (No Menu Button) --- */}
-        <div className="lg:hidden flex items-center gap-2 sm:gap-3">
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="relative group"
-          >
-            <Link
-              to="/openline"
-              className="relative bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 text-white px-4 py-2.5 sm:px-6 sm:py-3 rounded-xl sm:rounded-2xl font-bold text-xs sm:text-sm tracking-wide shadow-lg sm:shadow-2xl shadow-orange-500/30 hover:shadow-orange-500/40 sm:hover:shadow-orange-500/50 transition-all duration-500 overflow-hidden block"
-            >
-              {/* Animated Shine */}
-              <div className="absolute inset-0 -skew-x-12 bg-gradient-to-r from-transparent via-white/20 sm:via-white/30 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
-
-              {/* Floating Particles - Hidden on mobile for performance */}
-              <div className="hidden sm:block absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                {[...Array(3)].map((_, i) => (
-                  <motion.div
-                    key={i}
-                    className="absolute bg-white rounded-full"
-                    animate={{
-                      y: [0, -10, 0],
-                      opacity: [0, 1, 0],
-                    }}
-                    transition={{
-                      duration: 1.5,
-                      repeat: Infinity,
-                      delay: i * 0.5,
-                    }}
-                    style={{
-                      width: 2,
-                      height: 2,
-                      left: `${20 + i * 30}%`,
-                      bottom: 5,
-                    }}
-                  />
-                ))}
-              </div>
-
-              <span className="relative flex items-center gap-2 sm:gap-3">
-                <span className="hidden xs:inline">Get Quote</span>
-                <span className="xs:hidden">Quote</span>
-                <motion.div
-                  animate={{ x: [0, 3, 0] }}
-                  transition={{ duration: 1.5, repeat: Infinity }}
-                >
-                  <FaRocket className="text-xs" />
-                </motion.div>
-              </span>
-            </Link>
-
-            {/* Outer Glow - Hidden on very small screens for performance */}
-            <motion.div
-              className="hidden sm:block absolute -inset-1 bg-gradient-to-r from-orange-700 to-red-700 rounded-2xl blur-md opacity-0 group-hover:opacity-50 transition-opacity duration-500 -z-10"
-              animate={{ scale: [1, 1.05, 1] }}
-              transition={{ duration: 2, repeat: Infinity }}
-            />
-          </motion.div>
+            <span className="relative z-10 skew-x-[15deg] flex items-center gap-3">
+              Start_Project <FaArrowRight className="text-[10px] group-hover:translate-x-1 transition-transform" />
+            </span>
+            {/* Shimmer effect */}
+            <div className="absolute top-0 -left-[100%] w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-15 group-hover:left-[100%] transition-all duration-1000" />
+          </Link>
         </div>
+
       </div>
     </header>
   );

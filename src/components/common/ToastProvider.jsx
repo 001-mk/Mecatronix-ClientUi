@@ -1,54 +1,70 @@
-import React from 'react';
-import { Toaster } from 'react-hot-toast';
+import React from "react";
+import { Toaster } from "react-hot-toast";
+
+const commonToastOptions = {
+  duration: 5000,
+  style: {
+    background: "rgba(18, 18, 18, 0.8)",
+    backdropFilter: "blur(12px) saturate(180%)",
+    WebkitBackdropFilter: "blur(12px) saturate(180%)",
+    border: "1px solid rgba(255, 255, 255, 0.1)",
+    color: "#F9FAFB",
+    fontSize: "15px",
+    fontWeight: "500",
+    padding: "12px 20px",
+    borderRadius: "16px",
+    boxShadow:
+      "0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.5)",
+    letterSpacing: "0.01em",
+  },
+};
 
 const ToastProvider = () => {
   return (
-    <Toaster
-      toastOptions={{
-        duration: 4000,
-        position: "top-center",
-        // Default styles
-        style: {
-          background: '#363636',
-          color: '#fff',
-          fontSize: '16px',
-          padding: '16px',
-          borderRadius: '12px',
-          boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
-          maxWidth: '500px',
-          wordBreak: 'break-word',
-        },
-        // Success type styles
-        success: {
-          style: {
-            background: '#059669',
-            color: 'white',
+    <>
+      {/* ✅ Success & Error → TOP RIGHT */}
+      <Toaster
+        position="top-right"
+        gutter={12}
+        containerStyle={{ top: 40, right: 20 }}
+        toastOptions={{
+          ...commonToastOptions,
+          success: {
+            style: {
+              border: "1px solid rgba(16, 185, 129, 0.3)",
+            },
+            iconTheme: {
+              primary: "#10b981",
+              secondary: "#fff",
+            },
           },
-          iconTheme: {
-            primary: '#10b981',
-            secondary: 'white',
+          error: {
+            style: {
+              border: "1px solid rgba(244, 63, 94, 0.3)",
+            },
+            iconTheme: {
+              primary: "#f43f5e",
+              secondary: "#fff",
+            },
           },
-        },
-        // Error type styles
-        error: {
-          style: {
-            background: '#dc2626',
-            color: 'white',
+        }}
+      />
+
+      {/* ⏳ Loading & Custom → BOTTOM RIGHT */}
+      <Toaster
+        position="bottom-right"
+        gutter={12}
+        containerStyle={{ bottom: 40, right: 20 }}
+        toastOptions={{
+          ...commonToastOptions,
+          loading: {
+            style: {
+              border: "1px solid rgba(99, 102, 241, 0.3)",
+            },
           },
-          iconTheme: {
-            primary: '#ef4444',
-            secondary: 'white',
-          },
-        },
-        // Loading type styles
-        loading: {
-          style: {
-            background: '#4b5563',
-            color: 'white',
-          },
-        },
-      }}
-    />
+        }}
+      />
+    </>
   );
 };
 
