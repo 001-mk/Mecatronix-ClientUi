@@ -1,15 +1,66 @@
-import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { 
-  FaCode, FaMobile, FaPalette, FaCloud, FaRobot, FaShieldAlt, 
-  FaChartLine, FaDatabase, FaCogs, FaSearch, FaShoppingCart, FaGlobe,
-  FaChevronRight, FaArrowRight, FaRocket, FaSatellite, FaStar
-} from "react-icons/fa";
-import { CiSettings } from "react-icons/ci";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { getAllWorksAPI } from "../../api/api";
+import Icons from "../../helper/icon_help";
+
+const SpaceBackground = React.memo(({ stars }) => {
+  return (
+    <div className="absolute inset-0 pointer-events-none">
+      {stars.map((star) => (
+        <div
+          key={star.id}
+          className="absolute bg-white rounded-full animate-pulse"
+          style={{
+            width: `${star.size}px`,
+            height: `${star.size}px`,
+            left: `${star.x}%`,
+            top: `${star.y}%`,
+            opacity: star.opacity,
+            animationDelay: `${star.delay}s`,
+            animationDuration: `${star.duration}s`,
+          }}
+        />
+      ))}
+
+      <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-blue-500/10 rounded-full blur-[120px]" />
+      <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-purple-500/10 rounded-full blur-[120px]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:40px_40px] opacity-20" />
+    </div>
+  );
+});
 
 const Services = () => {
+
+  // Accessing icons from your existing helper
+  const {
+    FaCode, FaMobile, FaPalette, FaCloud, FaRobot, FaShoppingCart,
+    FaChevronRight, FaArrowRight, FaRocket, FaCogs, CiSettings
+  } = Icons;
+
   const [activeService, setActiveService] = useState(0);
-  const [hoveredService, setHoveredService] = useState(null);
+
+  const stars = useMemo(() => {
+    return Array.from({ length: 100 }).map((_, i) => ({
+      id: i,
+      x: Math.random() * 100,
+      y: Math.random() * 100,
+      size: Math.random() * 1.5 + 0.5,
+      opacity: Math.random() * 0.8 + 0.2,
+      delay: Math.random() * 5,
+      duration: Math.random() * 3 + 2,
+    }));
+  }, []);
+
+  const HandleFetch = useCallback(async () => {
+    try {
+      const result = await getAllWorksAPI();
+    } catch (error) {
+      console.error("Dashboard fetch failed:", error);
+    }
+  }, []);
+
+  useEffect(() => {
+    HandleFetch();
+  }, [HandleFetch]);
 
   const services = [
     {
@@ -75,430 +126,147 @@ const Services = () => {
   ];
 
   return (
-    <section className="relative min-h-screen bg-black text-white overflow-hidden">
-      {/* Space Effect Background */}
-      <div className="absolute inset-0">
-        {/* Stars Background */}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,#1e40af0a_0%,transparent_50%),radial-gradient(circle_at_70%_70%,#7c3aed0a_0%,transparent_50%)]"></div>
-        
-        {/* Stars */}
-        <div className="absolute inset-0">
-          {[...Array(200)].map((_, i) => (
-            <div
-              key={i}
-              className="absolute bg-white rounded-full animate-pulse"
-              style={{
-                width: Math.random() * 2 + 0.5 + 'px',
-                height: Math.random() * 2 + 0.5 + 'px',
-                top: Math.random() * 100 + '%',
-                left: Math.random() * 100 + '%',
-                opacity: Math.random() * 0.8 + 0.2,
-                animationDelay: Math.random() * 5 + 's',
-                animationDuration: Math.random() * 3 + 2 + 's'
-              }}
-            />
-          ))}
-        </div>
+    <section className="relative min-h-screen bg-[radial-gradient(circle_at_30%_30%,#1e40af10_0%,transparent_50%),radial-gradient(circle_at_70%_70%,#7c3aed10_0%,transparent_50%)] text-white overflow-hidden py-20">
 
-        {/* Shooting Stars */}
-        {[...Array(5)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute w-1 h-1 bg-gradient-to-r from-blue-400 to-cyan-400 rounded-full"
-            initial={{
-              x: Math.random() * 100 + 50 + 'vw',
-              y: Math.random() * 30 + 'vh',
-              opacity: 0,
-            }}
-            animate={{
-              x: `-${Math.random() * 200 + 100}px`,
-              y: `+=${Math.random() * 200 + 100}px`,
-              opacity: [0, 1, 0],
-            }}
-            transition={{
-              duration: Math.random() * 2 + 1,
-              repeat: Infinity,
-              repeatDelay: Math.random() * 15 + 10,
-            }}
-          />
-        ))}
+      <SpaceBackground stars={stars} />
 
-        {/* Nebula Effects */}
-        <motion.div 
-          className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-gradient-to-br from-blue-500/10 to-purple-500/10 rounded-full blur-3xl"
-          animate={{
-            scale: [1, 1.1, 1],
-            opacity: [0.3, 0.5, 0.3],
-          }}
-          transition={{
-            duration: 20,
-            repeat: Infinity,
-            ease: "linear"
-          }}
-        />
-        <motion.div 
-          className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-gradient-to-tr from-emerald-500/10 to-blue-500/10 rounded-full blur-3xl"
-          animate={{
-            scale: [1, 1.2, 1],
-            opacity: [0.2, 0.4, 0.2],
-          }}
-          transition={{
-            duration: 15,
-            repeat: Infinity,
-            ease: "linear",
-            delay: 2
-          }}
-        />
-
-        {/* Space Dust */}
-        <div className="absolute inset-0">
-          {[...Array(100)].map((_, i) => (
-            <motion.div
-              key={`dust-${i}`}
-              className="absolute w-[1px] h-[1px] bg-white/20 rounded-full"
-              style={{
-                left: Math.random() * 100 + '%',
-                top: Math.random() * 100 + '%',
-              }}
-              animate={{
-                y: [0, -20, 0],
-                opacity: [0.1, 0.3, 0.1],
-              }}
-              transition={{
-                duration: Math.random() * 10 + 5,
-                repeat: Infinity,
-                ease: "linear"
-              }}
-            />
-          ))}
-        </div>
-      </div>
-
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+      <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8">
         {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="text-center mb-16"
-        >
-          <motion.div
-            animate={{ rotate: 360 }}
-            transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-            className="inline-flex items-center justify-center p-4 bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-pink-500/20 rounded-full backdrop-blur-sm border border-white/10 mb-6"
-          >
+        <div className="text-center mb-16">
+          <div className="inline-block p-4 bg-white/5 rounded-full border border-white/10 mb-6 animate-spin-slow">
             <CiSettings className="text-3xl text-white" />
-          </motion.div>
-          <h1 className="text-5xl md:text-7xl font-bold mb-6">
-            <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent bg-[length:200%_auto] animate-gradient">
-              Our Services
-            </span>
+          </div>
+          <h1 className="text-5xl md:text-7xl font-bold mb-6 tracking-tight">
+            Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 animate-gradient">Services</span>
           </h1>
-          <p className="text-gray-400 text-xl max-w-3xl mx-auto leading-relaxed">
-            Comprehensive digital solutions designed to accelerate your business growth and drive innovation
+          <p className="text-gray-400 text-lg max-w-2xl mx-auto leading-relaxed">
+            Comprehensive digital solutions designed to accelerate your business growth and drive innovation through tactical excellence.
           </p>
-        </motion.div>
+        </div>
 
         <div className="grid lg:grid-cols-4 gap-8">
-          {/* Left Sidebar - Services Navigation */}
+          {/* Left Sidebar Navigation */}
           <div className="lg:col-span-1 space-y-4">
-            <div className="bg-black/60 backdrop-blur-sm border border-white/5 rounded-2xl p-6 sticky top-8">
-              <h3 className="text-lg font-semibold text-gray-300 mb-4 flex items-center gap-2">
-                <FaCogs className="text-blue-400" />
-                <span>All Services</span>
+            <div className="bg-slate-900/40 backdrop-blur-xl border border-white/5 rounded-3xl p-6 sticky top-8">
+              <h3 className="text-sm font-bold text-gray-500 uppercase tracking-widest mb-6 flex items-center gap-2">
+                <FaCogs className="text-blue-500" /> All Services
               </h3>
-              
-              <div className="space-y-3">
+
+              <div className="space-y-2">
                 {services.map((service, index) => (
-                  <motion.button
+                  <button
                     key={service.id}
                     onClick={() => setActiveService(index)}
-                    onMouseEnter={() => setHoveredService(index)}
-                    onMouseLeave={() => setHoveredService(null)}
-                    className={`relative w-full text-left p-4 rounded-xl transition-all duration-300 ${
-                      activeService === index
-                        ? "bg-gradient-to-r from-blue-500/20 to-purple-500/20 backdrop-blur-sm"
-                        : "hover:bg-white/5"
-                    }`}
-                    whileTap={{ scale: 0.98 }}
+                    className={`w-full text-left p-4 rounded-2xl transition-all duration-300 group flex items-center gap-4 ${activeService === index
+                      ? "bg-blue-600/10 border border-blue-500/30 text-white"
+                      : "text-gray-400 hover:bg-white/5 border border-transparent"
+                      }`}
                   >
-                    <div className="flex items-center gap-4">
-                      <div className={`p-2 rounded-lg bg-gradient-to-r ${service.color} backdrop-blur-sm`}>
-                        {service.icon}
-                      </div>
-                      <div className="flex-1">
-                        <div className="flex items-center justify-between">
-                          <h4 className={`font-medium ${
-                            activeService === index ? "text-white" : "text-gray-300"
-                          }`}>
-                            {service.title}
-                          </h4>
-                          <motion.div
-                            animate={{ 
-                              x: hoveredService === index ? 5 : 0,
-                              opacity: hoveredService === index ? 1 : 0
-                            }}
-                            transition={{ duration: 0.2 }}
-                            className="text-blue-400"
-                          >
-                            <FaChevronRight />
-                          </motion.div>
-                        </div>
-                        <div className="flex items-center justify-between mt-1">
-                          <span className="text-xs text-gray-500">{service.stats}</span>
-                          {activeService === index && (
-                            <motion.div
-                              initial={{ scale: 0 }}
-                              animate={{ scale: 1 }}
-                              className="w-2 h-2 bg-blue-500 rounded-full"
-                            />
-                          )}
-                        </div>
-                      </div>
+                    <div className={`p-2 rounded-lg bg-gradient-to-br ${service.color} text-white shadow-lg shadow-black/20`}>
+                      {service.icon}
                     </div>
-                  </motion.button>
+                    <span className="font-semibold flex-1 text-sm">{service.title}</span>
+                    <FaChevronRight className={`text-xs transition-all duration-300 ${activeService === index ? "translate-x-1 opacity-100" : "opacity-0 -translate-x-2"}`} />
+                  </button>
                 ))}
               </div>
 
-              {/* Stats in sidebar */}
-              <div className="mt-8 pt-6 border-t border-gray-800/50">
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="text-center">
-                    <div className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
-                      1000+
-                    </div>
-                    <div className="text-xs text-gray-500">Projects</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-                      50+
-                    </div>
-                    <div className="text-xs text-gray-500">Clients</div>
-                  </div>
+              {/* Sidebar Stats */}
+              <div className="mt-8 pt-6 border-t border-white/5 grid grid-cols-2 gap-4">
+                <div className="text-center">
+                  <p className="text-xl font-bold text-white">1k+</p>
+                  <p className="text-[10px] text-gray-500 uppercase">Projects</p>
+                </div>
+                <div className="text-center">
+                  <p className="text-xl font-bold text-white">50+</p>
+                  <p className="text-[10px] text-gray-500 uppercase">Clients</p>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Right Content - Service Details */}
+          {/* Right Content Area */}
           <div className="lg:col-span-3">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={services[activeService].id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.5 }}
-                className="relative overflow-hidden rounded-2xl group"
-              >
-                {/* Background Image with Space Effect Overlay */}
-                <div className="absolute inset-0">
-                  {/* Card Background Image */}
-                  <div 
-                    className="absolute inset-0 bg-cover bg-center transition-all duration-1000 group-hover:scale-110"
-                    style={{ 
-                      backgroundImage: `url(${services[activeService].bgImage})`
-                    }}
-                  />
-                  
-                  {/* Space Effect Overlay */}
-                  <div className="absolute inset-0">
-                    <div className="absolute inset-0 bg-gradient-to-br from-black/80 via-black/70 to-black/60 backdrop-blur-[1px]"></div>
-                    <div className={`absolute inset-0 bg-gradient-to-r ${services[activeService].color} opacity-15`}></div>
-                    
-                    {/* Animated Space Particles on Card */}
-                    {[...Array(20)].map((_, i) => (
-                      <motion.div
-                        key={`card-particle-${i}`}
-                        className="absolute w-[2px] h-[2px] bg-white/30 rounded-full"
-                        style={{
-                          left: Math.random() * 100 + '%',
-                          top: Math.random() * 100 + '%',
-                        }}
-                        animate={{
-                          y: [0, -10, 0],
-                          opacity: [0, 0.5, 0],
-                        }}
-                        transition={{
-                          duration: Math.random() * 5 + 3,
-                          repeat: Infinity,
-                          delay: Math.random() * 2,
-                          ease: "linear"
-                        }}
-                      />
-                    ))}
-                  </div>
-                </div>
-
-                {/* Content */}
-                <div className="relative p-8 md:p-12">
-                  <div className="flex flex-col lg:flex-row items-start gap-8">
-                    {/* Service Icon and Header */}
-                    <div className="lg:w-1/3">
-                      <div className={`bg-gradient-to-r ${services[activeService].color} p-6 rounded-2xl backdrop-blur-sm border border-white/20 inline-block mb-6`}>
-                        {services[activeService].icon}
-                      </div>
-                      
-                      <h2 className="text-3xl md:text-4xl font-bold text-white mb-3">
-                        {services[activeService].title}
-                      </h2>
-                      
-                      <div className="flex items-center gap-2 mb-6">
-                        <div className="h-1 w-12 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full"></div>
-                        <span className="text-sm text-gray-400">{services[activeService].stats}</span>
-                      </div>
-                    </div>
-
-                    {/* Service Details */}
-                    <div className="lg:w-2/3">
-                      <p className="text-gray-300 text-lg md:text-xl leading-relaxed mb-8">
-                        {services[activeService].description}
-                      </p>
-                      
-                      {/* Features Grid */}
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-                        {services[activeService].features.map((feature, index) => (
-                          <motion.div
-                            key={index}
-                            initial={{ opacity: 0, x: -20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ duration: 0.3, delay: index * 0.1 }}
-                            className="flex items-center gap-3 p-4 bg-white/10 backdrop-blur-sm rounded-xl border border-white/10 hover:border-white/20 transition-all duration-300"
-                          >
-                            <motion.div
-                              animate={{ scale: [1, 1.2, 1] }}
-                              transition={{ duration: 2, repeat: Infinity }}
-                              className={`w-2 h-2 rounded-full bg-gradient-to-r ${services[activeService].color}`}
-                            />
-                            <span className="text-gray-300">{feature}</span>
-                          </motion.div>
-                        ))}
-                      </div>
-
-                      {/* CTA Button */}
-                      <motion.button
-                        className="group relative overflow-hidden bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-xl font-semibold flex items-center gap-3"
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
-                      >
-                        <span>Get Started</span>
-                        <motion.div
-                          animate={{ x: [0, 5, 0] }}
-                          transition={{ duration: 1.5, repeat: Infinity }}
-                        >
-                          <FaArrowRight />
-                        </motion.div>
-                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
-                      </motion.button>
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-            </AnimatePresence>
-
-            {/* Additional Stats */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.3 }}
-              viewport={{ once: true }}
-              className="mt-8"
-            >
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                {[
-                  { value: "99.9%", label: "Uptime", color: "from-green-500 to-emerald-500", icon: "🚀" },
-                  { value: "24/7", label: "Support", color: "from-blue-500 to-cyan-500", icon: "🛡️" },
-                  { value: "< 24h", label: "Response Time", color: "from-purple-500 to-pink-500", icon: "⚡" },
-                  { value: "100%", label: "Satisfaction", color: "from-orange-500 to-red-500", icon: "⭐" }
-                ].map((stat, index) => (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: index * 0.1 }}
-                    viewport={{ once: true }}
-                    className="p-4 bg-black/40 backdrop-blur-sm border border-white/5 rounded-xl text-center hover:border-white/10 transition-all duration-300"
-                  >
-                    <div className="text-lg mb-2">{stat.icon}</div>
-                    <div className={`text-2xl font-bold bg-gradient-to-r ${stat.color} bg-clip-text text-transparent mb-1`}>
-                      {stat.value}
-                    </div>
-                    <div className="text-sm text-gray-400">{stat.label}</div>
-                  </motion.div>
-                ))}
+            <div className="relative min-h-[500px] overflow-hidden rounded-[2.5rem] border border-white/10 group bg-slate-900/20 shadow-2xl transition-all duration-500">
+              {/* Background Image Layer */}
+              <div className="absolute inset-0 z-0 overflow-hidden">
+                <div
+                  className="absolute inset-0 bg-cover bg-center transition-transform duration-1000 group-hover:scale-110 opacity-80"
+                  style={{ backgroundImage: `url(${services[activeService].bgImage})` }}
+                />
+                <div className="absolute inset-0 bg-slate-950/80 backdrop-blur-[2px]" />
+                <div className={`absolute inset-0 bg-gradient-to-r ${services[activeService].color} opacity-5`} />
               </div>
-            </motion.div>
+
+              {/* Content Overlay */}
+              <div className="relative z-10 p-8 md:p-12">
+                <div className="flex flex-col lg:flex-row gap-10">
+                  <div className="lg:w-1/3">
+                    <div className={`inline-block p-6 rounded-3xl bg-gradient-to-br ${services[activeService].color} shadow-2xl mb-6 ring-4 ring-white/10`}>
+                      {services[activeService].icon}
+                    </div>
+                    <h2 className="text-4xl font-black text-white mb-2 leading-tight uppercase italic">{services[activeService].title}</h2>
+                    <div className="flex items-center gap-3">
+                      <div className="h-1 w-10 bg-blue-500 rounded-full"></div>
+                      <p className="text-blue-400 font-mono text-xs uppercase tracking-widest">{services[activeService].stats}</p>
+                    </div>
+                  </div>
+
+                  <div className="lg:w-2/3">
+                    <p className="text-gray-300 text-lg md:text-xl leading-relaxed mb-8 font-light">
+                      {services[activeService].description}
+                    </p>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-10">
+                      {services[activeService].features.map((feature, i) => (
+                        <div key={i} className="flex items-center gap-3 p-4 bg-white/5 rounded-2xl border border-white/5 hover:border-white/10 transition-colors group/feat">
+                          <div className={`w-2 h-2 rounded-full bg-gradient-to-r ${services[activeService].color} group-hover/feat:scale-150 transition-transform`} />
+                          <span className="text-gray-300 text-sm font-medium">{feature}</span>
+                        </div>
+                      ))}
+                    </div>
+
+                    <button className="flex items-center gap-4 px-8 py-4 bg-white text-black font-bold rounded-2xl hover:bg-blue-400 hover:text-white transition-all duration-300 active:scale-95 group/btn">
+                      Deploy Service <FaArrowRight className="group-hover/btn:translate-x-2 transition-transform" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Micro Stats Grid */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
+              {[
+                { label: "Uptime", val: "99.9%", icon: "🚀" },
+                { label: "Delivery", val: "Tactical", icon: "📦" },
+                { label: "Success", val: "100%", icon: "✅" },
+                { label: "Support", val: "24/7 Global", icon: "🌍" }
+              ].map((s, i) => (
+                <div key={i} className="bg-white/5 border border-white/5 p-5 rounded-3xl text-center hover:bg-white/10 transition-colors">
+                  <div className="text-2xl mb-2">{s.icon}</div>
+                  <div className="text-xl font-black text-white">{s.val}</div>
+                  <div className="text-[10px] uppercase tracking-widest text-gray-500 mt-1 font-bold">{s.label}</div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
 
-        {/* Call to Action */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.5 }}
-          viewport={{ once: true }}
-          className="mt-16 text-center"
-        >
-          <div className="inline-block p-px bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 rounded-2xl backdrop-blur-sm">
-            <div className="bg-black/60 backdrop-blur-sm rounded-2xl p-8 md:p-12 relative overflow-hidden">
-              {/* Space effect in CTA */}
-              <div className="absolute inset-0">
-                {[...Array(30)].map((_, i) => (
-                  <motion.div
-                    key={`cta-star-${i}`}
-                    className="absolute w-[1px] h-[1px] bg-white/30 rounded-full"
-                    style={{
-                      left: Math.random() * 100 + '%',
-                      top: Math.random() * 100 + '%',
-                    }}
-                    animate={{
-                      opacity: [0.1, 0.5, 0.1],
-                    }}
-                    transition={{
-                      duration: Math.random() * 3 + 2,
-                      repeat: Infinity,
-                      ease: "linear"
-                    }}
-                  />
-                ))}
-              </div>
-              
-              <h3 className="text-2xl md:text-3xl font-bold text-white mb-3 relative z-10">
-                Ready to Launch Your Project into Space?
-              </h3>
-              <p className="text-gray-400 text-lg mb-6 max-w-xl mx-auto relative z-10">
-                Join the journey with cutting-edge solutions that propel your business forward
-              </p>
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl font-semibold text-lg relative z-10 group overflow-hidden"
-              >
-                <span className="flex items-center gap-3">
-                  <FaRocket className="group-hover:animate-pulse" />
-                  Schedule a Consultation
-                </span>
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
-              </motion.button>
-            </div>
+        {/* Tactical Footer CTA */}
+        <div className="mt-20 p-px bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-pink-500/20 rounded-[3rem]">
+          <div className="bg-black/80 backdrop-blur-3xl rounded-[3rem] p-12 text-center border border-white/5 relative overflow-hidden">
+            {/* Internal Glow */}
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/2 h-1/2 bg-blue-500/10 blur-[100px]" />
+
+            <h3 className="text-3xl md:text-4xl font-bold text-white mb-4 relative z-10">Ready to Launch Your Next Mission?</h3>
+            <p className="text-gray-400 mb-8 max-w-xl mx-auto relative z-10">Join mecatronix to build cutting-edge digital infrastructure that propels your business forward.</p>
+            <button className="px-10 py-5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-2xl font-black uppercase tracking-widest hover:scale-105 transition-all duration-300 flex items-center gap-3 mx-auto relative z-10 shadow-xl shadow-blue-500/20 active:scale-95">
+              <FaRocket /> Launch Project
+            </button>
           </div>
-        </motion.div>
+        </div>
       </div>
 
-      <style dangerouslySetInnerHTML={{ 
-        __html: `
-          @keyframes gradient {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-          }
-          .animate-gradient {
-            animation: gradient 3s ease infinite;
-            background-size: 200% auto;
-          }
-        `
-      }} />
     </section>
   );
 };

@@ -1,11 +1,11 @@
-import short from "../assets/logos/Mectronelogo.png";
-import main from "../assets/logos/Mecatronixlogo.webp";
-import title from "../assets/logos/Mecatronixtitle.png";
+import short from "../assets/logos/Image.png";
+import main from "../assets/logos/Image.png";
+import title from "../assets/logos/Image.png";
 
-const Img_Helper = {
+const Img_Helper = Object.freeze({
     shortlogo: short,
     mainlogo: main,
-    titlte: title,
-}
+    title: title, 
+});
 
 export default Img_Helper;
