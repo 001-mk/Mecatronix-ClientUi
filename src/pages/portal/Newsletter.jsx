@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef, useMemo, useCallback } from "react";
-import { FaEnvelopeOpenText, FaCheck, FaArrowRight, FaShieldAlt, FaRocket, FaPaperPlane, FaStar } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
 import { subscribeNewsletterAPI } from "../../api/api";
 import { validateEmail } from "../../helper/res_help";
 import { useToast } from "../../hooks/useToast";
+import Icons from "../../helper/icon_help";
 
 const SpaceBackground = React.memo(({ stars, shootingStars }) => {
   return (
@@ -50,6 +50,9 @@ const Newsletter = () => {
   const isMounted = useRef(true);
   const resetTimeoutRef = useRef(null);
   const controllerRef = useRef(null);
+  const {
+    FaEnvelopeOpenText, FaCheck, FaArrowRight, FaShieldAlt, FaRocket, FaPaperPlane, FaStar
+  } = Icons;
 
   const stars = useMemo(() => {
     return Array.from({ length: 100 }).map((_, i) => ({

@@ -1,7 +1,5 @@
-import React from 'react'
 import Hero from './Hero'
 import Newsletter from './Newsletter'
-import Stats from './Stats'
 import Services from './Services'
 import Testimonials from './Testimonials'
 import Technologies from './Technologies'
@@ -15,7 +13,7 @@ const Portal = () => {
       <Technologies />
       <Clients />
       <Testimonials />
-      <Newsletter/>
+      <Newsletter />
     </div>
   )
 }

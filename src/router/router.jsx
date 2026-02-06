@@ -4,7 +4,6 @@ import Portal from "../pages/portal/Portal";
 import Ourworld from "../pages/ourworld/Ourworld";
 import Portfolio from "../pages/portfolio/Portfolio";
 import Openline from "../pages/openline/Openline";
-import Quote from "../pages/quote/Quote";
 import Services from "../pages/services/Services";
 
 let user_routes = [
@@ -17,7 +16,6 @@ let user_routes = [
       { path: 'services', element: <Services /> },
       { path: 'portfolio', element: <Portfolio /> },
       { path: 'openline', element: <Openline /> },
-      { path: 'quote', element: <Quote /> },
     ],
   },
 ];

@@ -1,5 +1,7 @@
 import React, { useMemo } from "react";
 import Icons from "../../helper/icon_help";
+import { useNavigate } from "react-router-dom";
+import { techCategories } from "../../helper/data_help";
 
 const SpaceBackground = React.memo(({ stars }) => {
   return (
@@ -30,10 +32,9 @@ const SpaceBackground = React.memo(({ stars }) => {
 const Technologies = () => {
   // Accessing icons from your existing helper
   const {
-    FaRocket, FaBolt, FaServer, FaDatabase, FaCodeBranch,
-    FaReact, FaNodeJs, FaPython, FaJava, FaAws, FaDocker
+    FaRocket, FaBolt, FaServer, FaDatabase,
   } = Icons;
-
+  const navigate = useNavigate();
   const stars = useMemo(() => {
     return Array.from({ length: 100 }).map((_, i) => ({
       id: i,
@@ -46,36 +47,7 @@ const Technologies = () => {
     }));
   }, []);
 
-  const techCategories = [
-    {
-      id: "FRONT_END",
-      category: "Frontend_Engine",
-      icon: <FaBolt />,
-      color: "border-blue-500/50 text-blue-400",
-      technologies: ["React", "Next.js", "TypeScript", "Tailwind", "Three.js", "WebGL"]
-    },
-    {
-      id: "BACK_END",
-      category: "Backend_Core",
-      icon: <FaServer />,
-      color: "border-emerald-500/50 text-emerald-400",
-      technologies: ["Node.js", "Python", "Java", "Django", "Spring Boot", "GraphQL"]
-    },
-    {
-      id: "DATA_STRUC",
-      category: "Data_Infrastructure",
-      icon: <FaDatabase />,
-      color: "border-purple-500/50 text-purple-400",
-      technologies: ["PostgreSQL", "MongoDB", "Redis", "MySQL", "DynamoDB", "Firebase"]
-    },
-    {
-      id: "CLOUD_OPS",
-      category: "Cloud_Deployment",
-      icon: <FaRocket />,
-      color: "border-orange-500/50 text-orange-400",
-      technologies: ["AWS", "Docker", "Kubernetes", "Terraform", "CI/CD", "Azure"]
-    },
-  ];
+  const HandleGo = () => { navigate("/openline") }
 
   return (
     <section className="relative min-h-screen bg-black text-white overflow-hidden py-24">
@@ -173,13 +145,13 @@ const Technologies = () => {
               <h3 className="text-xl md:text-2xl font-black uppercase tracking-widest text-white mb-8">
                 Initialize_Project_Sequence?
               </h3>
-              <button className="px-12 py-4 bg-orange-600 text-white font-black uppercase tracking-widest text-[11px] skew-x-[-15deg] hover:bg-orange-700 active:scale-95 transition-all">
+              <button onClick={() => HandleGo()} className="px-12 py-4 bg-orange-600 text-white font-black uppercase tracking-widest text-[11px] skew-x-[-15deg] hover:bg-orange-700 active:scale-95 transition-all">
                 <span className="skew-x-[15deg] block">Execute_Command</span>
               </button>
             </div>
 
             {/* Background Text Overlay */}
-            <div className="absolute -bottom-4 -right-4 text-[60px] font-black text-white/[0.02] pointer-events-none uppercase italic">
+            <div className="absolute -bottom-4 -right-4 text-[60px] font-black text-white/10 pointer-events-none uppercase italic">
               COMMAND
             </div>
           </div>

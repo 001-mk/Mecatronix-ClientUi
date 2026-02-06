@@ -2,14 +2,12 @@ import React, { useEffect, useMemo, useState } from "react";
 import Icons from "../../helper/icon_help"; // Adjust path if needed to match your folder structure
 import { SpaceBackground } from "../../components/star/SpaceBackground";
 import { MdOutlineQrCode2 } from "react-icons/md";
-import Thirukural from "../thirukural/Thirukural";
 
 const Hero = () => {
   // Destructuring only the icons available in your Icon_Helper.js
   const {
     FaLaptopCode,
     FaRocket,
-    FaArrowRight,
     FaCodeBranch,
     FaMicrochip
   } = Icons;
@@ -167,10 +165,6 @@ const Hero = () => {
             </div>
           </div>
         </div>
-      </div>
-
-      <div>
-        <Thirukural />
       </div>
 
       {/* 03. INDUSTRIAL SCROLL INDICATOR */}

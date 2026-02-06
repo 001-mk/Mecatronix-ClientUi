@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo } from "react";
 import Icons from "../../helper/icon_help";
+import { useNavigate } from "react-router-dom";
 
 const SpaceBackground = React.memo(({ stars, shootingStars }) => {
   return (
@@ -41,6 +42,7 @@ const SpaceBackground = React.memo(({ stars, shootingStars }) => {
 
 const Portfolio = () => {
   const [particles, setParticles] = useState([]);
+  const navigate = useNavigate();
 
   const { FaTools, FaRocket, FaMicrochip, FaShieldAlt } = Icons;
   const stars = useMemo(() => {
@@ -76,6 +78,8 @@ const Portfolio = () => {
     }));
     setParticles(newParticles);
   }, []);
+
+  const HandleGo = () => { navigate("/openline") }
 
   return (
     <section id="portfolio" className="pb-24 pt-32 bg-black text-white relative overflow-hidden">
@@ -221,7 +225,7 @@ const Portfolio = () => {
             </div>
 
             {/* Button with Neon Shadow */}
-            <button className="relative group/btn mt-4 overflow-hidden bg-white text-black font-black py-4 px-10 rounded-xl hover:bg-orange-500 hover:text-white active:scale-95 transition-all duration-300">
+            <button onClick={() => HandleGo()} className="relative group/btn mt-4 overflow-hidden bg-white text-black font-black py-4 px-10 rounded-xl hover:bg-orange-500 hover:text-white active:scale-95 transition-all duration-300">
               <span className="relative z-10 flex items-center gap-2">
                 INITIATE PROJECT <span className="text-xs opacity-50">→</span>
               </span>
@@ -239,33 +243,6 @@ const Portfolio = () => {
         </div>
 
       </div>
-
-      <style dangerouslySetInnerHTML={{
-        __html: `
-        @keyframes gradient {
-          0% { background-position: 0% 50%; }
-          50% { background-position: 100% 50%; }
-          100% { background-position: 0% 50%; }
-        }
-        @keyframes float {
-          0%, 100% { transform: translateY(0) rotate(0); opacity: 0.1; }
-          50% { transform: translateY(-20px) rotate(180deg); opacity: 0.4; }
-        }
-        @keyframes fadeInUp {
-          from { opacity: 0; transform: translateY(30px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes zoomIn {
-          from { opacity: 0; transform: scale(0.95); }
-          to { opacity: 1; transform: scale(1); }
-        }
-        .animate-gradient { animation: gradient 6s ease infinite; background-size: 200% auto; }
-        .animate-float { animation: float ease-in-out infinite; }
-        .animate-fade-in-up { animation: fadeInUp 0.8s ease-out forwards; }
-        .animate-zoom-in { animation: zoomIn 0.5s ease-out forwards; }
-        .animate-fade-in { animation: fadeInUp 0.4s ease-out forwards; }
-        .fill-mode-forwards { animation-fill-mode: forwards; }
-      `}} />
     </section>
   );
 };

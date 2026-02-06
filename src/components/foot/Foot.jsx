@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import Img_Helper from "../../helper/img_help";
 import Icons from "../../helper/icon_help";
 import { mecatronixConfig } from "../../config/envConfig";
-import { NAV, subtitles } from "../../helper/data_help";
+import { NAV, subtitles } from "../../helper/data_help.jsx";
 import { subscribeNewsletterAPI } from "../../api/api";
 import { validateEmail } from "../../helper/res_help";
 
@@ -13,7 +13,7 @@ const Foot = () => {
 
   const {
     FaFacebookF, FaInstagram, FaWhatsapp, FaPhoneAlt,
-    FaEnvelope, FaMapMarkerAlt,
+    FaEnvelope, FaMapMarkerAlt, FaGithub,
     FaCode, FaPaintBrush
   } = Icons;
 
@@ -28,7 +28,7 @@ const Foot = () => {
   const PRIMARY_PHONE = contact?.primaryPhone || '+910000000000';
   const WHATSAPP_NUMBER = contact?.whatsappNumber || '+910000000000';
   const COMPANY_EMAIL = contact?.companyEmail || 'connect@mecatronix.com';
-
+  const locationlink = companyLocation?.googleMapsLink || "";
   const [currentIndex, setCurrentIndex] = useState(0);
   const [email, setEmail] = useState("");
   const [isSubscribed, setIsSubscribed] = useState(false);
@@ -124,6 +124,7 @@ const Foot = () => {
     { icon: FaFacebookF, href: social?.facebook, label: "FB" },
     { icon: FaInstagram, href: social?.instagram, label: "IG" },
     { icon: FaWhatsapp, href: `https://wa.me/${WHATSAPP_NUMBER?.replace('+', '')}`, label: "WA" },
+    { icon: FaGithub, href: social?.github, label: "GIT" }
   ].filter(link => link.href), [social, WHATSAPP_NUMBER]);
 
   return (
@@ -139,23 +140,23 @@ const Foot = () => {
           <div className="space-y-6">
             <div className="cursor-pointer group inline-block" onClick={() => navigate("/")}>
               <div className="flex items-center gap-3">
-                <img src={Img_Helper.mainlogo} alt="Logo" className="h-10 grayscale group-hover:grayscale-0 transition-all" />
-                <h2 className="text-xl font-black tracking-widest text-white uppercase italic">MECA<span className="text-orange-600">TRONIX</span></h2>
+                <img src={Img_Helper.mainlogo} alt="Logo" className="h-12 grayscale group-hover:grayscale-0 transition-all" />
+                <h2 className="text-2xl font-black tracking-widest text-white uppercase italic">MECA<span className="text-orange-600">TRONIX</span></h2>
               </div>
               <div className="mt-2 flex items-center gap-2">
-                <span className="w-1.5 h-1.5 bg-orange-600 animate-pulse"></span>
-                <span className="text-[10px] font-mono text-orange-500 uppercase tracking-[0.3em] font-bold">
+                <span className="w-2 h-2 bg-orange-600 animate-pulse"></span>
+                <span className="text-[12px] font-mono text-orange-500 uppercase tracking-[0.3em] font-bold">
                   {subtitles[currentIndex]}
                 </span>
               </div>
             </div>
-            <p className="text-[12px] font-mono leading-relaxed uppercase tracking-tighter opacity-60">
+            <p className="text-sm font-semibold leading-relaxed uppercase tracking-tighter opacity-60">
               {APP_SLOGAN}. Initializing core protocols for global industrial transformation.
             </p>
             <div className="flex gap-4">
               {socialLinks.map((link, i) => (
-                <a key={i} href={link.href} target="_blank" rel="noreferrer" className="h-10 w-10 border border-white/10 flex items-center justify-center hover:border-orange-600 hover:text-orange-500 transition-all ">
-                  <link.icon className="text-sm" />
+                <a key={i} href={link.href} target="_blank" rel="noreferrer" className="h-10 w-10 border-2 border-white/10 flex items-center justify-center hover:border-orange-600 hover:text-orange-500 transition-all ">
+                  <link.icon className="text-md" />
                 </a>
               ))}
             </div>
@@ -164,20 +165,20 @@ const Foot = () => {
           {/* SECTION 2: NAVIGATION DIRECTORY */}
           <div>
             <div className="flex items-center gap-2 mb-8">
-              <div className="h-[1px] w-4 bg-orange-600"></div>
-              <h3 className="text-[11px] font-black uppercase tracking-[.4em] text-white">Directory_01</h3>
+              <div className="h-[2px] w-3 bg-orange-600"></div>
+              <h3 className="text-md font-semibold uppercase tracking-[.4em] text-white">Directory_01</h3>
             </div>
             <ul className="space-y-4">
               {NAV.map((link) => (
                 <li key={link.id}>
                   <Link
                     to={link.id}
-                    className={`group flex items-center gap-3 text-[11px] font-mono uppercase tracking-widest hover:text-white transition-colors ${location.pathname === link.id
+                    className={`group flex items-center gap-3 text-sm font-semibold uppercase tracking-widest hover:text-white transition-colors ${location.pathname === link.id
                       ? "text-white"
                       : "text-gray-400"
                       }`}
                   >
-                    <span className={`text-orange-600 group-hover:opacity-100 transition-all transform -translate-x-2 group-hover:translate-x-0 ${location.pathname === link.id
+                    <span className={`text-orange-600 font-semibold text-lg group-hover:opacity-100 transition-all transform -translate-x-2 group-hover:translate-x-0 ${location.pathname === link.id
                       ? "opacity-100"
                       : "opacity-0"
                       }`}>
@@ -193,25 +194,25 @@ const Foot = () => {
           {/* SECTION 3: CONTACT COORDINATES */}
           <div>
             <div className="flex items-center gap-2 mb-8">
-              <div className="h-[1px] w-4 bg-orange-600"></div>
-              <h3 className="text-[11px] font-black uppercase tracking-[.4em] text-white">Contact_Coord</h3>
+              <div className="h-[2px] w-3 bg-orange-600"></div>
+              <h3 className="text-md font-semibold uppercase tracking-[.4em] text-white">Contact_Coord</h3>
             </div>
             <ul className="space-y-6">
               <li className="flex gap-4 group">
                 <FaMapMarkerAlt className="text-orange-600 mt-1 shrink-0" />
-                <span className="text-[11px] font-mono uppercase leading-relaxed group-hover:text-white transition-colors">
-                  {companyLocation?.city || 'Chennai'}, {companyLocation?.country || 'India'}
-                </span>
+                <a href={`${locationlink}`} className="text-sm font-semibold uppercase leading-relaxed group-hover:text-white transition-colors">
+                  {companyLocation?.fullAddress || 'India'}
+                </a>
               </li>
               <li className="flex gap-4 group">
                 <FaPhoneAlt className="text-orange-600 mt-1 shrink-0" />
-                <a href={`tel:${PRIMARY_PHONE}`} className="text-[11px] font-mono group-hover:text-white transition-colors">
+                <a href={`tel:${PRIMARY_PHONE}`} className="text-sm font-semibold group-hover:text-white transition-colors">
                   PH_{PRIMARY_PHONE}
                 </a>
               </li>
               <li className="flex gap-4 group">
                 <FaEnvelope className="text-orange-600 mt-1 shrink-0" />
-                <a href={`mailto:${COMPANY_EMAIL}`} className="text-[11px] font-mono group-hover:text-white transition-colors">
+                <a href={`mailto:${COMPANY_EMAIL}`} className="text-sm font-semibold group-hover:text-white transition-colors">
                   {COMPANY_EMAIL}
                 </a>
               </li>
@@ -222,8 +223,8 @@ const Foot = () => {
           <div className="relative">
             <div className="absolute -top-4 -right-4 h-12 w-12 border-t-2 border-r-2 border-orange-600/20"></div>
             <div className="flex items-center gap-2 mb-8">
-              <div className="h-[1px] w-4 bg-orange-600"></div>
-              <h3 className="text-[11px] font-black uppercase tracking-[.4em] text-white">Data_Uplink</h3>
+              <div className="h-[2px] w-3 bg-orange-600"></div>
+              <h3 className="text-md font-semibold uppercase tracking-[.4em] text-white">Data_Uplink</h3>
             </div>
             {isSubscribed ? (
               <div className="border border-green-500/50 p-4 bg-green-500/5">
@@ -244,7 +245,7 @@ const Foot = () => {
                 </div>
 
                 {error && (
-                  <p className="text-orange-500 text-[9px] font-mono">
+                  <p className="text-orange-500 text-sm font-mono">
                     {error}
                   </p>
                 )}
@@ -252,7 +253,7 @@ const Foot = () => {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full bg-orange-600 hover:bg-orange-700 text-white text-[10px] font-black py-3 uppercase tracking-widest disabled:opacity-50"
+                  className="w-full bg-orange-600 hover:bg-orange-700 text-white text-sm font-black py-3 uppercase tracking-widest disabled:opacity-50"
                 >
                   {loading ? "PROCESSING..." : "Execute_Subscribe"}
                 </button>
@@ -263,7 +264,7 @@ const Foot = () => {
 
         {/* FOOTER TERMINAL BAR */}
         <div className="border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between items-center gap-6">
-          <div className="text-[10px] font-mono tracking-widest uppercase flex items-center gap-4">
+          <div className="text-sm font-mono tracking-widest uppercase flex items-center gap-4">
             <span className="text-gray-600">©{new Date().getFullYear()}</span>
             <span className="text-white">Mecatronix</span>
             <span className="text-gray-700 hidden md:inline">//</span>
@@ -271,7 +272,7 @@ const Foot = () => {
           </div>
 
           <div className="flex items-center gap-6">
-            <div className="flex items-center gap-2 text-[10px] font-mono uppercase">
+            <div className="flex items-center gap-2 text-sm font-mono uppercase">
               <FaCode className="text-orange-600" />
               <span className="text-gray-500">Dev_Mode</span>
               <span className="text-gray-700">/</span>

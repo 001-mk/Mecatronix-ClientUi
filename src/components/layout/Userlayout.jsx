@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import Nav from '../nav/Nav';
 import Foot from '../foot/Foot';
-import { NAV, subtitles } from '../../helper/data_help';
+import { NAV, subtitles } from '../../helper/data_help.jsx';
 import Img_Helper from '../../helper/img_help';
 import Icons from '../../helper/icon_help';
 import { mecatronixConfig } from '../../config/envConfig';
 import ToastProvider from '../common/ToastProvider';
+import ScrollToTop from "../top/ScrollToTop";
 
 const UserLayout = () => {
     const [showScrollTop, setShowScrollTop] = useState(false);
@@ -17,7 +18,7 @@ const UserLayout = () => {
     const [animateRocket, setAnimateRocket] = useState(false);
     const [animateRock, setAnimateRock] = useState(false);
 
-    const scrollToTop = () => {
+    const scrollToTopx = () => {
         setAnimateRocket(true);
         window.scrollTo({ top: 0, behavior: 'smooth' });
         setTimeout(() => setAnimateRocket(false), 1000);
@@ -81,6 +82,7 @@ const UserLayout = () => {
         FaSatellite,
         FaMeteor,
         FaFire,
+        FaArrowRight
     } = Icons;
 
     let lastMeteor = 0;
@@ -194,6 +196,7 @@ const UserLayout = () => {
 
     return (
         <div className="flex flex-col min-h-screen bg-black relative overflow-hidden">
+            <ScrollToTop/>
             <div className="fixed inset-0 -z-50 pointer-events-none">
                 {/* Deep Space Gradient */}
                 <div className="absolute inset-0 bg-gradient-to-b from-gray-900 via-black to-orange-950"></div>
@@ -450,7 +453,7 @@ const UserLayout = () => {
                         </div>
 
                         {/* 🔹 Launch Controls: Action Grid */}
-                        <div className="p-6 grid grid-cols-2 gap-3 pb-10">
+                        <div className="p-6 grid grid-cols-2 gap-3">
                             <a href={`tel:${PRIMARY_PHONE}`} className="flex flex-col items-center justify-center p-4 rounded-2xl bg-white/5 border border-white/10 hover:bg-orange-500/10 hover:border-orange-500/30 transition-all group">
                                 <FaPhone className="text-gray-400 group-hover:text-orange-400 mb-2 transition-colors" />
                                 <span className="text-[10px] font-bold text-gray-400 group-hover:text-white uppercase">Call HQ</span>
@@ -459,6 +462,19 @@ const UserLayout = () => {
                                 <FaWhatsapp className="text-gray-400 group-hover:text-green-400 mb-2 transition-colors" />
                                 <span className="text-[10px] font-bold text-gray-400 group-hover:text-white uppercase">Comms</span>
                             </a>
+                        </div>
+
+                        <div className='p-3'>
+                            <Link
+                                to="/openline"
+                                className="relative h-11 px-8 flex items-center justify-center bg-orange-600 text-white font-black text-[10px] tracking-[0.25em] uppercase transition-all hover:bg-white hover:text-black overflow-hidden group"
+                            >
+                                <span className="relative z-10 flex items-center gap-3">
+                                    Start_Project <FaArrowRight className="text-[10px] group-hover:translate-x-1 transition-transform" />
+                                </span>
+                                {/* Shimmer effect */}
+                                <div className="absolute top-0 -left-[100%] w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-15 group-hover:left-[100%] transition-all duration-1000" />
+                            </Link>
                         </div>
                     </div>
                 </>
@@ -469,7 +485,7 @@ const UserLayout = () => {
                 {/* Scroll to Top */}
                 {showScrollTop && (
                     <button
-                        onClick={scrollToTop}
+                        onClick={scrollToTopx}
                         aria-label="Scroll to top"
                         className={` bg-gradient-to-br from-orange-600 to-orange-500  text-white p-4 shadow-2xl shadow-orange-500/30 hover:shadow-orange-500/50 transition-all duration-700 group cursor-pointer rounded-tl-full -rotate-5 rounded-br-full rounded-tr-full active:scale-90 hover:-rotate-45 hover:mb-3 ${animateRocket ? '-translate-y-[100vh] opacity-0' : 'hover:scale-110'}`}
                     >
