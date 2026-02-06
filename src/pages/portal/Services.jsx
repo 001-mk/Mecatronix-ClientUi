@@ -1,6 +1,9 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { getAllWorksAPI } from "../../api/api";
 import Icons from "../../helper/icon_help";
+import Thirukural from "../thirukural/Thirukural";
+import { useNavigate } from "react-router-dom";
+import { Top_Servicess } from "../../helper/data_help.jsx";
 
 const SpaceBackground = React.memo(({ stars }) => {
   return (
@@ -32,11 +35,11 @@ const Services = () => {
 
   // Accessing icons from your existing helper
   const {
-    FaCode, FaMobile, FaPalette, FaCloud, FaRobot, FaShoppingCart,
     FaChevronRight, FaArrowRight, FaRocket, FaCogs, CiSettings
   } = Icons;
 
   const [activeService, setActiveService] = useState(0);
+  const navigate = useNavigate();
 
   const stars = useMemo(() => {
     return Array.from({ length: 100 }).map((_, i) => ({
@@ -53,6 +56,7 @@ const Services = () => {
   const HandleFetch = useCallback(async () => {
     try {
       const result = await getAllWorksAPI();
+      console.log(result);
     } catch (error) {
       console.error("Dashboard fetch failed:", error);
     }
@@ -62,74 +66,13 @@ const Services = () => {
     HandleFetch();
   }, [HandleFetch]);
 
-  const services = [
-    {
-      id: 1,
-      icon: <FaCode className="text-3xl" />,
-      title: "Web Development",
-      description: "Custom web applications built with modern technologies like React, Next.js, and Node.js for optimal performance and scalability.",
-      features: ["Responsive Design", "Progressive Web Apps", "API Integration", "Performance Optimization", "E-commerce Solutions", "CMS Development"],
-      color: "from-blue-500 to-cyan-600",
-      bgImage: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&auto=format&fit=crop",
-      stats: "500+ Projects"
-    },
-    {
-      id: 2,
-      icon: <FaMobile className="text-3xl" />,
-      title: "Mobile Development",
-      description: "Native and cross-platform mobile apps for iOS and Android with seamless user experiences and native performance.",
-      features: ["React Native", "Flutter", "Native iOS/Android", "App Store Deployment", "Push Notifications", "Offline Support"],
-      color: "from-green-500 to-emerald-600",
-      bgImage: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=800&auto=format&fit=crop",
-      stats: "300+ Apps"
-    },
-    {
-      id: 3,
-      icon: <FaPalette className="text-3xl" />,
-      title: "UI/UX Design",
-      description: "Beautiful, intuitive designs that enhance user engagement, drive conversions and create memorable brand experiences.",
-      features: ["User Research", "Wireframing", "Prototyping", "Design Systems", "User Testing", "Brand Identity"],
-      color: "from-purple-500 to-pink-600",
-      bgImage: "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=800&auto=format&fit=crop",
-      stats: "4.9★ Rating"
-    },
-    {
-      id: 4,
-      icon: <FaCloud className="text-3xl" />,
-      title: "Cloud Solutions",
-      description: "Scalable cloud infrastructure and deployment solutions that grow with your business needs.",
-      features: ["AWS/Azure/GCP", "DevOps", "CI/CD Pipelines", "Serverless Architecture", "Microservices", "Kubernetes"],
-      color: "from-orange-500 to-red-600",
-      bgImage: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&auto=format&fit=crop",
-      stats: "24/7 Support"
-    },
-    {
-      id: 5,
-      icon: <FaRobot className="text-3xl" />,
-      title: "AI & ML Solutions",
-      description: "Intelligent solutions leveraging artificial intelligence and machine learning to automate and optimize processes.",
-      features: ["Predictive Analytics", "Chatbots", "Computer Vision", "NLP", "Recommendation Systems", "Automation"],
-      color: "from-indigo-500 to-purple-600",
-      bgImage: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&auto=format&fit=crop",
-      stats: "AI-Powered"
-    },
-    {
-      id: 6,
-      icon: <FaShoppingCart className="text-3xl" />,
-      title: "E-commerce Solutions",
-      description: "Complete e-commerce platforms with secure payments, inventory management, and seamless user journeys.",
-      features: ["Online Stores", "Payment Integration", "Inventory Management", "Analytics", "Mobile Commerce", "Security"],
-      color: "from-teal-500 to-green-600",
-      bgImage: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&auto=format&fit=crop",
-      stats: "98% Uptime"
-    }
-  ];
+  const HandleGo = () => { navigate("/openline") }
 
   return (
     <section className="relative min-h-screen bg-[radial-gradient(circle_at_30%_30%,#1e40af10_0%,transparent_50%),radial-gradient(circle_at_70%_70%,#7c3aed10_0%,transparent_50%)] text-white overflow-hidden py-20">
 
       <SpaceBackground stars={stars} />
-
+      <Thirukural />
       <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-16">
@@ -153,7 +96,7 @@ const Services = () => {
               </h3>
 
               <div className="space-y-2">
-                {services.map((service, index) => (
+                {Top_Servicess.map((service, index) => (
                   <button
                     key={service.id}
                     onClick={() => setActiveService(index)}
@@ -192,41 +135,41 @@ const Services = () => {
               <div className="absolute inset-0 z-0 overflow-hidden">
                 <div
                   className="absolute inset-0 bg-cover bg-center transition-transform duration-1000 group-hover:scale-110 opacity-80"
-                  style={{ backgroundImage: `url(${services[activeService].bgImage})` }}
+                  style={{ backgroundImage: `url(${Top_Servicess[activeService].bgImage})` }}
                 />
                 <div className="absolute inset-0 bg-slate-950/80 backdrop-blur-[2px]" />
-                <div className={`absolute inset-0 bg-gradient-to-r ${services[activeService].color} opacity-5`} />
+                <div className={`absolute inset-0 bg-gradient-to-r ${Top_Servicess[activeService].color} opacity-5`} />
               </div>
 
               {/* Content Overlay */}
               <div className="relative z-10 p-8 md:p-12">
                 <div className="flex flex-col lg:flex-row gap-10">
                   <div className="lg:w-1/3">
-                    <div className={`inline-block p-6 rounded-3xl bg-gradient-to-br ${services[activeService].color} shadow-2xl mb-6 ring-4 ring-white/10`}>
-                      {services[activeService].icon}
+                    <div className={`inline-block p-6 rounded-3xl bg-gradient-to-br ${Top_Servicess[activeService].color} shadow-2xl mb-6 ring-4 ring-white/10`}>
+                      {Top_Servicess[activeService].icon}
                     </div>
-                    <h2 className="text-4xl font-black text-white mb-2 leading-tight uppercase italic">{services[activeService].title}</h2>
+                    <h2 className="text-4xl font-black text-white mb-2 leading-tight uppercase italic">{Top_Servicess[activeService].title}</h2>
                     <div className="flex items-center gap-3">
                       <div className="h-1 w-10 bg-blue-500 rounded-full"></div>
-                      <p className="text-blue-400 font-mono text-xs uppercase tracking-widest">{services[activeService].stats}</p>
+                      <p className="text-blue-400 font-mono text-xs uppercase tracking-widest">{Top_Servicess[activeService].stats}</p>
                     </div>
                   </div>
 
                   <div className="lg:w-2/3">
                     <p className="text-gray-300 text-lg md:text-xl leading-relaxed mb-8 font-light">
-                      {services[activeService].description}
+                      {Top_Servicess[activeService].description}
                     </p>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-10">
-                      {services[activeService].features.map((feature, i) => (
+                      {Top_Servicess[activeService].features.map((feature, i) => (
                         <div key={i} className="flex items-center gap-3 p-4 bg-white/5 rounded-2xl border border-white/5 hover:border-white/10 transition-colors group/feat">
-                          <div className={`w-2 h-2 rounded-full bg-gradient-to-r ${services[activeService].color} group-hover/feat:scale-150 transition-transform`} />
+                          <div className={`w-2 h-2 rounded-full bg-gradient-to-r ${Top_Servicess[activeService].color} group-hover/feat:scale-150 transition-transform`} />
                           <span className="text-gray-300 text-sm font-medium">{feature}</span>
                         </div>
                       ))}
                     </div>
 
-                    <button className="flex items-center gap-4 px-8 py-4 bg-white text-black font-bold rounded-2xl hover:bg-blue-400 hover:text-white transition-all duration-300 active:scale-95 group/btn">
+                    <button onClick={() => HandleGo()} className="flex items-center gap-4 px-8 py-4 bg-white text-black font-bold rounded-2xl hover:bg-blue-400 hover:text-white transition-all duration-300 active:scale-95 group/btn">
                       Deploy Service <FaArrowRight className="group-hover/btn:translate-x-2 transition-transform" />
                     </button>
                   </div>
@@ -260,7 +203,7 @@ const Services = () => {
 
             <h3 className="text-3xl md:text-4xl font-bold text-white mb-4 relative z-10">Ready to Launch Your Next Mission?</h3>
             <p className="text-gray-400 mb-8 max-w-xl mx-auto relative z-10">Join mecatronix to build cutting-edge digital infrastructure that propels your business forward.</p>
-            <button className="px-10 py-5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-2xl font-black uppercase tracking-widest hover:scale-105 transition-all duration-300 flex items-center gap-3 mx-auto relative z-10 shadow-xl shadow-blue-500/20 active:scale-95">
+            <button onClick={() => HandleGo()} className="px-10 py-5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-2xl font-black uppercase tracking-widest hover:scale-105 transition-all duration-300 flex items-center gap-3 mx-auto relative z-10 shadow-xl shadow-blue-500/20 active:scale-95">
               <FaRocket /> Launch Project
             </button>
           </div>

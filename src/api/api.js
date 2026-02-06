@@ -34,10 +34,6 @@ const apiClient = axios.create({
   },
 });
 
-const kural = axios.create({
-  baseURL: "https://getthirukural.appspot.com/api/"
-});
-
 // ==================================================
 // 🔒 REQUEST INTERCEPTOR — Attach Auth Token
 // ==================================================
@@ -234,11 +230,6 @@ export const registerAPI = async (payload) => {
   return handleResponse(res);
 };
 
-// thirukural api
-export const kuralApi = async (id) => {
-  const res = await kural.get(`3.0/kural/${id}`);
-  return handleResponse(res);
-}
 
 // ==================================================
 // 🧾 EXPORTS

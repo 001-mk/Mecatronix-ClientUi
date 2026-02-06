@@ -18,8 +18,7 @@ const Openline = () => {
     FaHeadset,
     FaPaperPlane,
     FaCheckCircle,
-    FaLinkedin,
-    FaTwitter,
+    FaGithub,
     FaInstagram,
     FaFacebookF,
     FaGlobe,
@@ -28,6 +27,7 @@ const Openline = () => {
   const { location = {},
     contact = {},
     business = {},
+    social = {},
   } = mecatronixConfig || {};
 
   const locationlink = location?.googleMapsLink || "";
@@ -160,12 +160,13 @@ const Openline = () => {
     { icon: <FaHeadset className="text-2xl" />, title: "Support", desc: "24/7 Customer Support", color: "from-cyan-500 to-blue-600" }
   ];
 
-  const socialLinks = [
-    { icon: FaLinkedin, href: "#", color: "hover:bg-blue-700" },
-    { icon: FaTwitter, href: "#", color: "hover:bg-blue-400" },
-    { icon: FaInstagram, href: "#", color: "hover:bg-pink-600" },
-    { icon: FaFacebookF, href: "#", color: "hover:bg-blue-600" }
-  ];
+  const socialLinks = useMemo(() => [
+    { icon: FaFacebookF, href: social?.facebook, label: "FB", color: "hover:bg-blue-600" },
+    { icon: FaInstagram, href: social?.instagram, label: "IG", color: "hover:bg-pink-600" },
+    { icon: FaWhatsapp, href: `https://wa.me/${WHATSAPP_NUMBER?.replace('+', '')}`, label: "WA", color: "hover:bg-green-600" },
+      { icon: FaGithub, href: social?.github, label: "GIT", color: "hover:bg-gray-800" },
+  ].filter(link => link.href), [social, WHATSAPP_NUMBER]);
+
 
   const stats = [
     { number: "24h", label: "Response Time", icon: FaRocket },

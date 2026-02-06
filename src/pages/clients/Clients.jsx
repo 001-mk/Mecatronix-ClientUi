@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import Icons from "../../helper/icon_help";
 import { getAllClientsCompanyAPI } from "../../api/api";
+import { glowColors, spaceThemes } from "../../helper/data_help";
 
 const SpaceBackground = React.memo(({ stars }) => {
   return (
@@ -30,7 +31,7 @@ const SpaceBackground = React.memo(({ stars }) => {
 });
 
 const Clients = () => {
-  const { FaCrown, FaHandshake, FaRocket, MdOutlineStarRate } = Icons;
+  const { FaCrown, FaRocket, MdOutlineStarRate } = Icons;
   const [loading, setLoading] = useState(true);
   const [dbCompanies, setDbCompanies] = useState([]);
 
@@ -68,39 +69,6 @@ const Clients = () => {
     () => (dbCompanies.length ? [...dbCompanies, ...dbCompanies] : []),
     [dbCompanies]
   );
-
-  const glowColors = {
-    red: "rgba(239, 68, 68, 0.5)",
-    orange: "rgba(249, 115, 22, 0.5)",
-    blue: "rgba(59, 130, 246, 0.5)",
-    black: "rgba(255, 255, 255, 0.1)",
-    purple: "rgba(168, 85, 247, 0.5)",
-    pink: "rgba(236, 72, 153, 0.5)"
-  };
-
-  const spaceThemes = [
-    {
-      border: "hover:border-orange-400/30",
-      title: "group-hover/card:text-orange-300",
-      line: "bg-orange-400/30",
-      star: "text-orange-400",
-      glow: "bg-orange-400/20",
-    },
-    {
-      border: "hover:border-violet-400/30",
-      title: "group-hover/card:text-violet-300",
-      line: "bg-violet-400/30",
-      star: "text-violet-400",
-      glow: "bg-violet-400/20",
-    },
-    {
-      border: "hover:border-blue-300/30",
-      title: "group-hover/card:text-blue-200",
-      line: "bg-blue-300/30",
-      star: "text-blue-300",
-      glow: "bg-blue-300/20",
-    },
-  ];
 
   const EmptyState = () => (
     <div className="relative h-full min-h-[400px] flex flex-col items-center justify-center bg-zinc-900/40 backdrop-blur-md border border-white/5 rounded-3xl overflow-hidden group">

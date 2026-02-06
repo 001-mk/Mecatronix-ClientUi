@@ -1,41 +1,7 @@
 import React, { useState, useEffect, useMemo } from "react";
-import {
-  FaRocket,
-  FaCode,
-  FaLightbulb,
-  FaHandshake,
-  FaCloud,
-  FaShieldAlt,
-  FaCogs,
-  FaUsers,
-  FaChartLine,
-  FaGlobeAmericas,
-  FaAward,
-  FaHeart,
-  FaStar,
-  FaRegClock,
-  FaInfinity,
-  FaLaptopCode,
-  FaBrain,
-  FaRobot,
-  FaDatabase,
-  FaServer,
-  FaPalette,
-  FaEye,
-  FaNetworkWired,
-  FaUserTie,
-  FaArrowRight
-} from "react-icons/fa";
-import {
-  FaMobileAlt,
-  FaGlobe,
-  FaBullhorn,
-  FaPaintBrush,
-  FaTools,
-  FaFingerprint,
-  FaCheckCircle
-} from "react-icons/fa";
-
+import Icons from "../../helper/icon_help";
+import { useNavigate } from "react-router-dom";
+import { Our_Features, Our_working_lines, Our_Team, Our_Values, Our_Stats, Our_tabs } from "../../helper/data_help.jsx";
 
 const SpaceBackground = React.memo(({ stars, shootingStars }) => {
   return (
@@ -78,6 +44,11 @@ const SpaceBackground = React.memo(({ stars, shootingStars }) => {
 const Ourworld = () => {
   const [activeTab, setActiveTab] = useState("features");
   const [particles, setParticles] = useState([]);
+  const navigate = useNavigate();
+  const { FaRocket,
+    FaArrowRight,
+    FaCheckCircle } = Icons;
+
   const stars = useMemo(() => {
     return Array.from({ length: 100 }).map((_, i) => ({
       id: i,
@@ -112,150 +83,7 @@ const Ourworld = () => {
     setParticles(newParticles);
   }, []);
 
-  const features = [
-    {
-      icon: <FaRocket />,
-      title: "Rapid & Reliable Delivery",
-      desc: "We ensure timely delivery of high-performance digital products using agile methods.",
-      color: "from-orange-500 to-red-500",
-      stats: "98% On-Time"
-    },
-    {
-      icon: <FaCode />,
-      title: "Full-Stack Expertise",
-      desc: "From React, Node.js, and MongoDB to AI & automation — we build everything end-to-end.",
-      color: "from-blue-500 to-purple-600",
-      stats: "50+ Tech Stacks"
-    },
-    {
-      icon: <FaLightbulb />,
-      title: "Creative Innovation",
-      desc: "We combine creativity with technology to craft innovative digital experiences.",
-      color: "from-yellow-500 to-orange-500",
-      stats: "100+ Ideas"
-    },
-    {
-      icon: <FaHandshake />,
-      title: "Client Collaboration",
-      desc: "We partner with you closely, transforming ideas into future-ready solutions.",
-      color: "from-green-500 to-emerald-600",
-      stats: "95% Retention"
-    },
-    {
-      icon: <FaCloud />,
-      title: "Cloud & IoT Solutions",
-      desc: "Integrating smart automation, IoT, and scalable cloud systems for modern business.",
-      color: "from-cyan-500 to-blue-600",
-      stats: "200+ Deployments"
-    },
-    {
-      icon: <FaShieldAlt />,
-      title: "Security & Scalability",
-      desc: "Prioritizing data protection and performance for enterprise-grade security.",
-      color: "from-purple-500 to-pink-600",
-      stats: "100% Secure"
-    },
-    {
-      icon: <FaBrain />,
-      title: "AI & Machine Learning",
-      desc: "Leveraging artificial intelligence to create smart apps that learn and adapt.",
-      color: "from-indigo-500 to-purple-600",
-      stats: "Smart AI"
-    },
-    {
-      icon: <FaRobot />,
-      title: "Automation Solutions",
-      desc: "Intelligent automation systems that streamline operations and boost productivity.",
-      color: "from-gray-500 to-blue-600",
-      stats: "60% Faster"
-    },
-    {
-      icon: <FaDatabase />,
-      title: "Big Data Analytics",
-      desc: "Transforming raw data into actionable insights with powerful analytics tools.",
-      color: "from-red-500 to-pink-600",
-      stats: "Data Driven"
-    }
-  ];
-
-  const steps = [
-    {
-      icon: <FaCogs />,
-      title: "Discovery & Strategy",
-      desc: "Understanding your business and defining clear digital goals.",
-      details: ["Analysis", "Planning", "Tech Stack"],
-      color: "from-orange-500 to-red-500"
-    },
-    {
-      icon: <FaPalette />,
-      title: "Design & Prototyping",
-      desc: "Creating intuitive interfaces and user experience designs.",
-      details: ["UI/UX", "Wireframing", "Prototyping"],
-      color: "from-purple-500 to-pink-600"
-    },
-    {
-      icon: <FaLaptopCode />,
-      title: "Development",
-      desc: "Building powerful applications with rigorous quality assurance.",
-      details: ["Coding", "Review", "Optimization"],
-      color: "from-blue-500 to-cyan-600"
-    },
-    {
-      icon: <FaServer />,
-      title: "Deployment",
-      desc: "Ensuring smooth deployment and go-live with support.",
-      details: ["CI/CD", "Security", "Launch"],
-      color: "from-green-500 to-emerald-600"
-    }
-  ];
-
-  const team = [
-    {
-      role: "Leadership",
-      title: "Visionary Leaders",
-      desc: "Led by industry veterans with a deep passion for innovation and excellence.",
-      icon: <FaUserTie />,
-      color: "from-blue-400 to-blue-600"
-    },
-    {
-      role: "Engineering",
-      title: "Tech Experts",
-      desc: " skilled team of engineers, developers, and architects building the future.",
-      icon: <FaCode />,
-      color: "from-purple-400 to-purple-600"
-    },
-    {
-      role: "Creative",
-      title: "Design Thinkers",
-      desc: "Designers who craft intuitive and beautiful user experiences.",
-      icon: <FaPalette />,
-      color: "from-pink-400 to-rose-600"
-    }
-  ];
-
-  const values = [
-    { icon: <FaUsers />, title: "Collaboration", desc: "Working together with clients as partners.", color: "from-blue-500 to-cyan-600" },
-    { icon: <FaChartLine />, title: "Excellence", desc: "Striving for perfection in every project.", color: "from-green-500 to-emerald-600" },
-    { icon: <FaGlobeAmericas />, title: "Innovation", desc: "Exploring new technologies to stay ahead.", color: "from-purple-500 to-pink-600" },
-    { icon: <FaShieldAlt />, title: "Integrity", desc: "Transparency and honesty in all dealings.", color: "from-orange-500 to-red-500" },
-    { icon: <FaFingerprint />, title: "Uniqueness", desc: "Custom solutions, no cookie-cutter templates.", color: "from-orange-500 to-red-500" },
-  ];
-
-  const stats = [
-    { number: "50+", label: "Projects", icon: FaAward, color: "from-orange-500 to-red-500" },
-    { number: "98%", label: "Satisfaction", icon: FaHeart, color: "from-pink-500 to-rose-600" },
-    { number: "24/7", label: "Support", icon: FaRegClock, color: "from-blue-500 to-cyan-600" },
-    { number: "5+", label: "Years", icon: FaStar, color: "from-yellow-500 to-orange-500" },
-    { number: "100+", label: "Tech Stack", icon: FaCode, color: "from-purple-500 to-pink-600" },
-    { number: "∞", label: "Innovation", icon: FaInfinity, color: "from-green-500 to-emerald-600" }
-  ];
-
-  const tabs = [
-    { id: "features", label: "Expertise", icon: FaRocket },
-    { id: "process", label: "Process", icon: FaCogs },
-    { id: "team", label: "Our Team", icon: FaUsers },
-    { id: "values", label: "Values", icon: FaHeart },
-  ];
+  const HandleGo = () => { navigate("/openline") }
 
   return (
     <section id="ourworld" className="relative w-full overflow-hidden bg-black text-white font-sans selection:bg-orange-500/30">
@@ -347,7 +175,7 @@ const Ourworld = () => {
         </div>
         {/* STATS GRID */}
         <div className="grid grid-cols-2 lg:grid-cols-6 gap-4">
-          {stats.map((stat, index) => (
+          {Our_Stats.map((stat, index) => (
             <div
               key={index}
               className="bg-white/5 border border-white/10 backdrop-blur-sm rounded-xl p-4 text-center hover:bg-white/10 hover:-translate-y-1 transition-all duration-300 group"
@@ -374,7 +202,7 @@ const Ourworld = () => {
             </p>
 
             <div className="pt-4 grid grid-cols-2 gap-4">
-              {values.map((val, idx) => (
+              {Our_Values.map((val, idx) => (
                 <div key={idx} className="flex items-center gap-3">
                   <div className="text-cyan-400">{val.icon}</div>
                   <span className="font-semibold text-gray-200">{val.title}</span>
@@ -395,7 +223,7 @@ const Ourworld = () => {
                   </li>
                 ))}
               </ul>
-              <button className="mt-8 w-full py-4 rounded-xl bg-white text-black font-bold hover:bg-gray-200 transition-colors flex items-center justify-center gap-2">
+              <button onClick={() => HandleGo()} className="mt-8 w-full py-4 rounded-xl bg-white text-black font-bold hover:bg-gray-200 transition-colors flex items-center justify-center gap-2">
                 Let's Talk <FaArrowRight />
               </button>
             </div>
@@ -404,7 +232,7 @@ const Ourworld = () => {
 
         {/* TABS NAVIGATION */}
         <div className="flex flex-wrap justify-center gap-3 mb-12">
-          {tabs.map((tab) => (
+          {Our_tabs.map((tab) => (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
@@ -425,7 +253,7 @@ const Ourworld = () => {
           {/* FEATURES TAB */}
           {activeTab === "features" && (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-fade-in-up">
-              {features.map((item, idx) => (
+              {Our_Features.map((item, idx) => (
                 <div key={idx} className="group relative p-6 bg-white/5 border border-white/10 rounded-2xl hover:bg-white/10 transition-all duration-300 hover:shadow-2xl hover:shadow-orange-500/10">
                   <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${item.color} flex items-center justify-center text-xl text-white mb-4 group-hover:scale-110 transition-transform duration-300`}>
                     {item.icon}
@@ -443,7 +271,7 @@ const Ourworld = () => {
           {/* PROCESS TAB */}
           {activeTab === "process" && (
             <div className="space-y-6 max-w-4xl mx-auto animate-fade-in-up">
-              {steps.map((step, idx) => (
+              {Our_working_lines.map((step, idx) => (
                 <div key={idx} className="flex flex-col md:flex-row gap-6 bg-white/5 border border-white/10 p-6 rounded-2xl hover:border-orange-500/30 transition-all duration-300">
                   <div className={`flex-shrink-0 w-16 h-16 rounded-full bg-gradient-to-br ${step.color} flex items-center justify-center text-2xl text-white shadow-lg`}>
                     {step.icon}
@@ -473,7 +301,7 @@ const Ourworld = () => {
                   Our success is powered by a skilled team of engineers, designers, and technology leaders. We are always looking for talented individuals to join our journey.
                 </p>
               </div>
-              {team.map((member, idx) => (
+              {Our_Team.map((member, idx) => (
                 <div key={idx} className="relative overflow-hidden group bg-white/5 border border-white/10 rounded-2xl p-8 text-center hover:bg-white/10 transition-all">
                   <div className={`mx-auto w-20 h-20 rounded-full bg-gradient-to-br ${member.color} flex items-center justify-center text-3xl text-white mb-6 shadow-xl`}>
                     {member.icon}
@@ -484,7 +312,7 @@ const Ourworld = () => {
                 </div>
               ))}
               <div className="md:col-span-3 text-center mt-8">
-                <button className="inline-flex items-center gap-2 text-white bg-gradient-to-r from-orange-600 to-red-600 px-8 py-3 rounded-full hover:shadow-lg hover:shadow-orange-500/20 transition-all transform hover:-translate-y-1">
+                <button onClick={() => HandleGo()} className="inline-flex items-center gap-2 text-white bg-gradient-to-r from-orange-600 to-red-600 px-8 py-3 rounded-full hover:shadow-lg hover:shadow-orange-500/20 transition-all transform hover:-translate-y-1">
                   Join Our Journey <FaArrowRight />
                 </button>
               </div>
@@ -494,7 +322,7 @@ const Ourworld = () => {
           {/* VALUES TAB */}
           {activeTab === "values" && (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-fade-in-up">
-              {values.map((value, idx) => (
+              {Our_Values.map((value, idx) => (
                 <div key={idx} className="flex items-start gap-4 p-6 bg-white/5 border border-white/10 rounded-2xl hover:bg-white/10 transition-all duration-300">
                   <div className={`flex-shrink-0 w-12 h-12 rounded-lg bg-gradient-to-br ${value.color} flex items-center justify-center text-xl text-white`}>
                     {value.icon}
@@ -556,40 +384,6 @@ const Ourworld = () => {
           />
         ))}
       </div> */}
-
-      <style dangerouslySetInnerHTML={{
-        __html: `
-        @keyframes gradient {
-          0% { background-position: 0% 50%; }
-          50% { background-position: 100% 50%; }
-          100% { background-position: 0% 50%; }
-        }
-        @keyframes float {
-          0% { transform: translateY(0px) translateX(0px); opacity: 0; }
-          50% { opacity: 0.3; }
-          100% { transform: translateY(-100px) translateX(20px); opacity: 0; }
-        }
-        @keyframes fadeInUp {
-          from { opacity: 0; transform: translateY(20px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        .animate-gradient { animation: gradient 6s ease infinite; background-size: 200% auto; }
-        .animate-fade-in-up { animation: fadeInUp 0.6s ease-out forwards; }
-
-        @keyframes float {
-          0% { transform: translateY(0px); opacity: 0; }
-          50% { opacity: 0.5; }
-          100% { transform: translateY(-100px); opacity: 0; }
-        }
-        @keyframes fadeInUp {
-          from { opacity: 0; transform: translateY(30px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        .animate-fade-in-up { animation: fadeInUp 0.8s ease-out forwards; }
-        .animate-fade-in { animation: fadeInUp 0.5s ease-out forwards; }
-        .animate-slide-in { animation: fadeInUp 0.6s ease-out forwards; }
-        .animate-zoom-in { animation: fadeInUp 0.7s ease-out forwards; }
-      `}} />
 
     </section>
   );

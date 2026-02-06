@@ -1,35 +1,7 @@
 import React, { useState, useEffect, useMemo } from "react";
-import {
-  FaLaptopCode,
-  FaGlobe,
-  FaCogs,
-  FaShoppingCart,
-  FaTools,
-  FaUserTie,
-  FaRedo,
-  FaSearch,
-  FaServer,
-  FaMobileAlt,
-  FaExchangeAlt,
-  FaPaintBrush,
-  FaDatabase,
-  FaRocket,
-  FaCloud,
-  FaShieldAlt,
-  FaChartLine,
-  FaCode,
-  FaLightbulb,
-  FaAward,
-  FaStar,
-  FaClock,
-  FaUsers,
-  FaCheckCircle,
-  FaArrowRight,
-  FaPlay,
-  FaPause,
-  FaChevronRight,
-  FaArrowLeft
-} from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+import Icons from "../../helper/icon_help";
+import { Project_Process, Short_Services, Services_List, Most_Used_Tech_Stack, ServiceCategories } from "../../helper/data_help.jsx";
 
 const SpaceBackground = React.memo(({ stars, shootingStars }) => {
   return (
@@ -74,6 +46,13 @@ const Services = () => {
   const [activeProcess, setActiveProcess] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
   const [particles, setParticles] = useState([]);
+  const navigate = useNavigate();
+  const {
+    FaArrowRight,
+    FaPlay,
+    FaPause,
+    FaChevronRight,
+    FaArrowLeft } = Icons;
 
   const stars = useMemo(() => {
     return Array.from({ length: 100 }).map((_, i) => ({
@@ -88,8 +67,8 @@ const Services = () => {
   }, []);
 
   const [shootingStars] = useState(() =>
-    Array.from({ length: 4 }).map(() => ({
-      id: crypto?.randomUUID?.() ?? Math.random().toString(36),
+    Array.from({ length: 4 }).map((_, i) => ({
+      id: i,
       left: Math.random() * 100,
       top: Math.random() * 40,
       delay: Math.random() * 10
@@ -109,71 +88,15 @@ const Services = () => {
     setParticles(newParticles);
   }, []);
 
-  const serviceCategories = [
-    { id: "all", label: "All Services", count: 16 },
-    { id: "development", label: "Development", count: 8 },
-    { id: "design", label: "UI/UX Design", count: 4 },
-    { id: "optimization", label: "Optimization", count: 4 }
-  ];
-
-  const SERVICES = [
-    { title: 'Single Page Website', desc: 'Perfect for startups, portfolios, or quick landing pages that need a fast launch with maximum impact.', icon: <FaGlobe className="text-3xl" />, category: "development", features: ["Fast Loading", "SEO Ready", "Mobile First", "Analytics"], color: "from-blue-500 to-cyan-600" },
-    { title: 'Multi Page Website', desc: 'Professional multi-section websites ideal for businesses, organizations, and agencies with comprehensive content.', icon: <FaLaptopCode className="text-3xl" />, category: "development", features: ["5+ Pages", "Contact Forms", "Blog Ready", "Admin Panel"], color: "from-purple-500 to-pink-600" },
-    { title: 'Dynamic Website', desc: 'Websites with admin panels and content management systems for easy updates and dynamic content.', icon: <FaCogs className="text-3xl" />, category: "development", features: ["CMS Integration", "User Management", "Dynamic Content", "Database"], color: "from-green-500 to-emerald-600" },
-    { title: 'E-commerce Development', desc: 'Complete online stores with secure checkout, product management, and multiple payment integrations.', icon: <FaShoppingCart className="text-3xl" />, category: "development", features: ["Payment Gateway", "Inventory Management", "Order Tracking", "Security"], color: "from-orange-500 to-red-600" },
-    { title: 'Custom Web Applications', desc: 'Tailor-made web apps built with React, Node.js, and MongoDB for your unique business logic and workflows.', icon: <FaTools className="text-3xl" />, category: "development", features: ["Custom Logic", "API Integration", "Real-time Features", "Scalable"], color: "from-indigo-500 to-purple-600" },
-    { title: 'Portfolio Websites', desc: 'Personal or creative portfolios that beautifully present your skills, projects, and professional journey.', icon: <FaUserTie className="text-3xl" />, category: "design", features: ["Creative Layouts", "Project Showcase", "Contact Integration", "Blog"], color: "from-pink-500 to-rose-600" },
-    { title: 'Business & Corporate Sites', desc: 'High-performance sites that build trust and showcase company services, team, and achievements effectively.', icon: <FaServer className="text-3xl" />, category: "development", features: ["Professional Design", "Service Pages", "Team Section", "Testimonials"], color: "from-gray-500 to-blue-600" },
-    { title: 'Website Redesign', desc: 'Transform your old website into a fresh, modern, and mobile-friendly experience that converts visitors.', icon: <FaRedo className="text-3xl" />, category: "design", features: ["Modern Design", "Better UX", "Improved Performance", "SEO Boost"], color: "from-yellow-500 to-orange-600" },
-    { title: 'SEO & Optimization', desc: 'Boost your site speed, accessibility, and Google ranking with professional optimization techniques.', icon: <FaSearch className="text-3xl" />, category: "optimization", features: ["Speed Optimization", "SEO Audit", "Content Strategy", "Ranking Boost"], color: "from-teal-500 to-green-600" },
-    { title: 'Hosting & Maintenance', desc: 'Managed hosting, security patches, and uptime monitoring to keep your site running smoothly 24/7.', icon: <FaCloud className="text-3xl" />, category: "optimization", features: ["24/7 Monitoring", "Security Updates", "Backup Solutions", "Performance"], color: "from-cyan-500 to-blue-600" },
-    { title: 'Responsive Design', desc: 'Seamless user experience across mobile, tablet, and desktop devices with perfect responsiveness.', icon: <FaMobileAlt className="text-3xl" />, category: "design", features: ["Mobile First", "Tablet Optimized", "Touch Friendly", "Fast Loading"], color: "from-blue-500 to-indigo-600" },
-    { title: 'UI/UX Enhancement', desc: 'Modern, user-friendly designs focused on engagement, conversions, and exceptional user experience.', icon: <FaPaintBrush className="text-3xl" />, category: "design", features: ["User Research", "Wireframing", "Prototyping", "Usability Testing"], color: "from-purple-500 to-pink-600" },
-    { title: 'Website Migration', desc: 'Safely move your existing website to new servers or tech stacks without downtime or data loss.', icon: <FaExchangeAlt className="text-3xl" />, category: "optimization", features: ["Zero Downtime", "Data Migration", "SEO Preservation", "Testing"], color: "from-green-500 to-teal-600" },
-    { title: 'Security Implementation', desc: 'Enterprise-grade security measures including SSL, firewalls, and vulnerability assessments.', icon: <FaShieldAlt className="text-3xl" />, category: "optimization", features: ["SSL Certificate", "Security Audit", "Firewall Setup", "Monitoring"], color: "from-red-500 to-pink-600" },
-    { title: 'Performance Analytics', desc: 'Comprehensive analytics setup with dashboards, reports, and actionable insights for growth.', icon: <FaChartLine className="text-3xl" />, category: "optimization", features: ["Google Analytics", "Custom Dashboards", "Conversion Tracking", "Reports"], color: "from-orange-500 to-yellow-600" },
-    { title: 'API Integration', desc: 'Seamless integration with third-party services, payment gateways, and external platforms.', icon: <FaCode className="text-3xl" />, category: "development", features: ["REST APIs", "Webhooks", "Authentication", "Documentation"], color: "from-indigo-500 to-purple-600" }
-  ];
-
-  const TECH_STACK = [
-    { name: 'React.js', icon: '⚛️', category: 'Frontend', color: 'from-cyan-400 to-blue-500' },
-    { name: 'Node.js', icon: '🟢', category: 'Backend', color: 'from-green-400 to-emerald-600' },
-    { name: 'MongoDB', icon: '🍃', category: 'Database', color: 'from-emerald-500 to-lime-600' },
-    { name: 'Express', icon: '⚙️', category: 'Backend', color: 'from-gray-300 to-gray-500' },
-    { name: 'Tailwind', icon: '💨', category: 'Frontend', color: 'from-sky-400 to-indigo-500' },
-    { name: 'Firebase', icon: '🔥', category: 'Backend', color: 'from-orange-400 to-yellow-500' },
-    { name: 'Next.js', icon: '⬛', category: 'Frontend', color: 'from-gray-100 to-gray-400' },
-    { name: 'AWS', icon: '☁️', category: 'DevOps', color: 'from-yellow-500 to-orange-600' },
-    { name: 'TypeScript', icon: '🔷', category: 'Frontend', color: 'from-blue-500 to-indigo-600' },
-    { name: 'PostgreSQL', icon: '🐘', category: 'Database', color: 'from-blue-400 to-indigo-400' },
-    { name: 'Docker', icon: '🐳', category: 'DevOps', color: 'from-blue-500 to-cyan-500' },
-    { name: 'GraphQL', icon: '📊', category: 'Backend', color: 'from-pink-500 to-purple-600' }
-  ];
-
-  const PROCESS = [
-    { step: 'Discovery & Strategy', detail: 'We analyze your goals, audience, and competitors.', icon: <FaLightbulb className="text-2xl" />, duration: '1-2 weeks', deliverables: ['Project Plan', 'Wireframes'] },
-    { step: 'UI/UX Design', detail: 'We craft pixel-perfect layouts to maximize engagement.', icon: <FaPaintBrush className="text-2xl" />, duration: '2-3 weeks', deliverables: ['Mockups', 'Prototypes'] },
-    { step: 'Development', detail: 'Using modern stacks, we turn designs into functional apps.', icon: <FaCode className="text-2xl" />, duration: '4-8 weeks', deliverables: ['Frontend', 'Backend'] },
-    { step: 'Testing & QA', detail: 'Tested for performance, security, and responsiveness.', icon: <FaCheckCircle className="text-2xl" />, duration: '1-2 weeks', deliverables: ['Bug Reports', 'Audit'] },
-    { step: 'Launch & Support', detail: 'We deploy and maintain your site for long-term success.', icon: <FaRocket className="text-2xl" />, duration: 'Ongoing', deliverables: ['Live Site', 'Support'] }
-  ];
-
-  const services = [
-    { title: "Custom Platforms", code: "SaaS / Web" },
-    { title: "Enterprise Apps", code: "Architecture" },
-    { title: "UI / UX Design", code: "Visual" },
-    { title: "API Systems", code: "Backend" },
-    { title: "Scale & Support", code: "DevOps" },
-  ];
 
   const filteredServices = activeCategory === "all"
-    ? SERVICES
-    : SERVICES.filter(service => service.category === activeCategory);
+    ? Services_List
+    : Services_List.filter(service => service.category === activeCategory);
 
   useEffect(() => {
     if (!isPlaying) return;
     const interval = setInterval(() => {
-      setActiveProcess((prev) => (prev + 1) % PROCESS.length);
+      setActiveProcess((prev) => (prev + 1) % Project_Process.length);
     }, 3000);
     return () => clearInterval(interval);
   }, [isPlaying]);
@@ -194,6 +117,10 @@ const Services = () => {
       </div>
     </div>
   );
+
+  const handleGo = (path = "/openline") => {
+    navigate(path);
+  };
 
   return (
     <section className="pb-24 pt-32 bg-black text-white relative overflow-hidden">
@@ -256,7 +183,7 @@ const Services = () => {
 
             {/* Services Bento Grid */}
             <div className="grid grid-cols-2 md:grid-cols-5 gap-3 max-w-5xl mx-auto mb-10">
-              {services.map((service, i) => (
+              {Short_Services.map((service, i) => (
                 <div
                   key={i}
                   className="group relative flex flex-col items-center justify-center p-6 bg-white/[0.02] border border-white/5 rounded-2xl hover:bg-white/[0.05] hover:border-orange-500/40 transition-all duration-500 cursor-default overflow-hidden"
@@ -287,14 +214,14 @@ const Services = () => {
 
             {/* CTA Section */}
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-10">
-              <button className="group relative px-10 py-4 bg-white text-black text-xs font-black uppercase tracking-widest overflow-hidden rounded-sm transition-all hover:pr-12">
+              <button onClick={() => handleGo("/openline")} className="group relative px-10 py-4 bg-white text-black text-xs font-black uppercase tracking-widest overflow-hidden rounded-sm transition-all hover:pr-12">
                 <span className="relative z-10">Start Project</span>
                 <FaChevronRight className="absolute right-4 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-all" />
               </button>
 
-              <button className="px-10 py-4 text-xs font-black uppercase tracking-widest text-gray-400 hover:text-white border border-white/10 hover:border-white transition-all rounded-sm">
+              <a href="#Eco" className="px-10 py-4 text-xs font-black uppercase tracking-widest text-gray-400 hover:text-white border border-white/10 hover:border-white transition-all rounded-sm">
                 View Ecosystem
-              </button>
+              </a>
             </div>
           </div>
 
@@ -304,7 +231,7 @@ const Services = () => {
 
         {/* Categories */}
         <div className="flex flex-wrap justify-center gap-3 mb-12">
-          {serviceCategories.map((category) => (
+          {ServiceCategories.map((category) => (
             <button
               key={category.id}
               onClick={() => setActiveCategory(category.id)}
@@ -323,7 +250,7 @@ const Services = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-20">
           {filteredServices.map((service, index) => (
             <div
-              key={service.title}
+              key={index}
               className="group relative transform transition-all duration-500 hover:-translate-y-2 animate-zoom-in opacity-0 fill-mode-forwards"
               style={{ animationDelay: `${index * 50}ms` }}
             >
@@ -364,7 +291,7 @@ const Services = () => {
               </div>
               <div className="h-4 w-px bg-gradient-to-b from-transparent via-white/20 to-transparent"></div>
               <div className="flex gap-1">
-                {TECH_STACK.slice(0, 3).map((tech, index) => (
+                {Most_Used_Tech_Stack.slice(0, 3).map((tech, index) => (
                   <div key={index} className="text-xs font-medium text-gray-400">
                     {tech.name}{index < 2 && <span className="mx-1">•</span>}
                   </div>
@@ -401,7 +328,7 @@ const Services = () => {
 
             {/* Tech Grid Preview */}
             <div className="grid grid-cols-4 md:grid-cols-6 gap-3 max-w-2xl mx-auto mb-12">
-              {TECH_STACK.slice(0, 12).map((tech, index) => (
+              {Most_Used_Tech_Stack.slice(0, 12).map((tech, index) => (
                 <div
                   key={index}
                   className={`group relative p-3 bg-gradient-to-br from-white/5 to-white/2 backdrop-blur-sm border border-white/10 rounded-xl hover:scale-110 transition-all duration-300 hover:shadow-lg hover:shadow-orange-500/10`}
@@ -419,7 +346,7 @@ const Services = () => {
           </div>
         </div>
 
-        <div className="mb-12 animate-fade-in-up opacity-0 fill-mode-forwards" style={{ animationDelay: '0.4s' }}>
+        <div id="Eco" className="mb-12 animate-fade-in-up opacity-0 fill-mode-forwards" style={{ animationDelay: '0.4s' }}>
           {/* Header */}
           <div className="text-center mb-10">
             <div className="flex items-center justify-center gap-8 mb-10">
@@ -470,16 +397,16 @@ const Services = () => {
                     <div>
                       <div className="flex items-center gap-4 mb-6">
                         <div className={`w-20 h-20 rounded-2xl flex items-center justify-center text-3xl bg-gradient-to-r from-orange-500 to-red-600 shadow-lg shadow-orange-500/50`}>
-                          {PROCESS[activeProcess]?.icon}
+                          {Project_Process[activeProcess]?.icon}
                         </div>
                         <div>
                           <div className="text-sm font-bold text-orange-400 tracking-wider uppercase">Phase {activeProcess + 1}</div>
-                          <h4 className="text-3xl font-bold text-white mt-2">{PROCESS[activeProcess]?.step}</h4>
+                          <h4 className="text-3xl font-bold text-white mt-2">{Project_Process[activeProcess]?.step}</h4>
                         </div>
                       </div>
 
                       <p className="text-gray-300 text-lg max-w-3xl leading-relaxed">
-                        {PROCESS[activeProcess]?.detail}
+                        {Project_Process[activeProcess]?.detail}
                       </p>
                     </div>
 
@@ -487,7 +414,7 @@ const Services = () => {
                       <div className="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-orange-500/30 to-red-500/30">
                         {activeProcess + 1}
                       </div>
-                      <div className="text-sm text-gray-500 mt-2">of {PROCESS.length}</div>
+                      <div className="text-sm text-gray-500 mt-2">of {Project_Process.length}</div>
                     </div>
                   </div>
 
@@ -495,7 +422,7 @@ const Services = () => {
                   <div className="mt-12 pt-8 border-t border-white/10">
                     <div className="text-lg font-bold text-white mb-6">Key Deliverables</div>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                      {PROCESS[activeProcess]?.deliverables.map((d, i) => (
+                      {Project_Process[activeProcess]?.deliverables.map((d, i) => (
                         <div key={i} className="group">
                           <div className="p-4 bg-white/5 rounded-xl border border-white/5 hover:border-orange-500/30 transition-all duration-300 hover:scale-105">
                             <div className="flex items-center gap-3">
@@ -516,7 +443,7 @@ const Services = () => {
             {/* Process Navigation Cards */}
             <div className="relative z-20">
               <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-                {PROCESS.map((step, index) => (
+                {Project_Process.map((step, index) => (
                   <div
                     key={index}
                     onClick={() => setActiveProcess(index)}
@@ -569,7 +496,7 @@ const Services = () => {
                 <div className="relative h-2 bg-white/5 rounded-full overflow-hidden">
                   <div
                     className="absolute inset-y-0 left-0 bg-gradient-to-r from-orange-500 via-red-600 to-orange-500 transition-all duration-700 ease-out rounded-full"
-                    style={{ width: `${((activeProcess + 1) / PROCESS.length) * 100}%` }}
+                    style={{ width: `${((activeProcess + 1) / Project_Process.length) * 100}%` }}
                   >
                     <div className="absolute top-0 right-0 w-4 h-4 bg-gradient-to-r from-orange-500 to-red-600 rounded-full transform translate-x-1/2 -translate-y-1/2"></div>
                   </div>
@@ -586,9 +513,9 @@ const Services = () => {
                   </button>
 
                   <button
-                    onClick={() => setActiveProcess(prev => Math.min(PROCESS.length - 1, prev + 1))}
-                    disabled={activeProcess === PROCESS.length - 1}
-                    className={`px-6 py-3 rounded-xl flex items-center gap-3 transition-all duration-300 ${activeProcess === PROCESS.length - 1 ? 'opacity-30 cursor-not-allowed' : 'hover:scale-105 hover:bg-white/5'}`}
+                    onClick={() => setActiveProcess(prev => Math.min(Project_Process.length - 1, prev + 1))}
+                    disabled={activeProcess === Project_Process.length - 1}
+                    className={`px-6 py-3 rounded-xl flex items-center gap-3 transition-all duration-300 ${activeProcess === Project_Process.length - 1 ? 'opacity-30 cursor-not-allowed' : 'hover:scale-105 hover:bg-white/5'}`}
                   >
                     <span className="text-sm font-medium text-gray-400">Next</span>
                     <FaArrowRight className="w-4 h-4 text-gray-400" />

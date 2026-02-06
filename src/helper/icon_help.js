@@ -22,14 +22,37 @@ import {
   FaMobile, FaPalette, FaCloud, FaRobot, FaShoppingCart,
   FaChevronRight, FaCogs,
   FaChevronLeft,
-  FaAward
+  FaAward,
+  FaUsers,
+  FaGlobeAmericas,
+  FaRegClock,
+  FaInfinity,
+  FaBrain,
+  FaEye,
+  FaNetworkWired,
+  FaMobileAlt,
+  FaBullhorn,
+  FaFingerprint,
+  FaEnvelopeOpenText, FaCheck,
+  FaRedo,
+  FaSearch,
+  FaExchangeAlt,
+  FaPlay,
+  FaPause,
+  FaArrowLeft,
 } from "react-icons/fa";
 import { CiSettings } from "react-icons/ci";
 import { SiMinutemailer } from "react-icons/si";
 import { MdOutlineStarRate } from "react-icons/md";
+import { AiOutlineDoubleRight } from "react-icons/ai";
 
 const Icon_Helper = Object.freeze({
-  FaArrowUp,
+  FaArrowUp, FaRedo,
+  FaSearch,
+  FaExchangeAlt,
+  FaPlay,
+  FaPause,
+  FaArrowLeft,
   FaArrowRight,
   FaWhatsapp,
   FaEnvelope,
@@ -41,24 +64,8 @@ const Icon_Helper = Object.freeze({
   FaLinkedin,
   FaTwitter,
   FaYoutube,
-  FaGithub,
-  FaClock,
-  FaCog,
-  FaChartLine,
-  FaIndustry,
-  FaStar,
-  FaGlobe,
-  FaRocket,
-  FaSatellite,
-  FaMeteor,
-  FaFire,
-  FaShieldAlt,
-  FaHeadset,
-  FaFacebookF,
-  FaPhoneAlt,
-  FaMapMarkerAlt,
-  FaHeart,
-  FaCode,
+  FaGithub, FaClock, FaCog, FaChartLine, FaIndustry, FaStar, FaGlobe, FaRocket, FaSatellite,
+  FaMeteor, FaFire, FaShieldAlt, FaHeadset, FaFacebookF, FaPhoneAlt, FaMapMarkerAlt, FaHeart, FaCode,
   FaPaintBrush,
   SiMinutemailer,
   FaLaptopCode,
@@ -76,7 +83,9 @@ const Icon_Helper = Object.freeze({
   FaMobile, FaPalette, FaCloud, FaRobot, FaShoppingCart,
   FaChevronRight, FaCogs,
   CiSettings, MdOutlineStarRate,
-  FaChevronLeft, FaAward, 
+  FaChevronLeft, FaAward, AiOutlineDoubleRight, FaEnvelopeOpenText, FaCheck, FaUsers, FaGlobeAmericas, FaRegClock, FaInfinity,
+  FaBrain, FaEye, FaNetworkWired, FaMobileAlt, FaBullhorn, FaFingerprint,
+
 });
 
 export default Icon_Helper;
