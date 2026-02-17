@@ -8,6 +8,7 @@ import Icons from '../../helper/icon_help';
 import { mecatronixConfig } from '../../config/envConfig';
 import ToastProvider from '../common/ToastProvider';
 import ScrollToTop from "../top/ScrollToTop";
+import StartupPopup from '../Popupbox/StartupPopup.jsx';
 
 const UserLayout = () => {
     const [showScrollTop, setShowScrollTop] = useState(false);
@@ -196,7 +197,7 @@ const UserLayout = () => {
 
     return (
         <div className="flex flex-col min-h-screen bg-black relative overflow-hidden">
-            <ScrollToTop/>
+            <ScrollToTop />
             <div className="fixed inset-0 -z-50 pointer-events-none">
                 {/* Deep Space Gradient */}
                 <div className="absolute inset-0 bg-gradient-to-b from-gray-900 via-black to-orange-950"></div>
@@ -304,6 +305,9 @@ const UserLayout = () => {
                     )}
                 </div>
             )}
+            <div className="relative z-60">
+                <StartupPopup />
+            </div>
 
             {/* 🔸 Navigation (Static Container) */}
             <div className="relative z-40">
@@ -326,9 +330,9 @@ const UserLayout = () => {
             {/* 🔸 Mobile Menu Button (Static) */}
             <button
                 onClick={() => setMobileMenuOpen(true)}
-                className="xl:hidden fixed bottom-6 left-6 z-30 
+                className="xl:hidden fixed top-3 right-3 z-50 
                flex items-center justify-center gap-2
-               bg-white/10 backdrop-blur-md border border-white/20
+               bg-transparent backdrop-blur-sm border border-white/20
                text-white px-4 py-4  
                shadow-[0_8px_32px_0_rgba(255,69,0,0.3)]
                hover:bg-white/20 active:scale-95 transition-all duration-300"
@@ -481,7 +485,7 @@ const UserLayout = () => {
             )}
 
             {/* 🔸 Floating Buttons with orange/orange Theme (Static) */}
-            <div className="fixed right-4 bottom-4 md:right-6 md:bottom-6 z-30 flex flex-col gap-3">
+            <div className="fixed right-2 bottom-2 z-30 flex flex-col gap-3">
                 {/* Scroll to Top */}
                 {showScrollTop && (
                     <button
@@ -489,7 +493,7 @@ const UserLayout = () => {
                         aria-label="Scroll to top"
                         className={` bg-gradient-to-br from-orange-600 to-orange-500  text-white p-4 shadow-2xl shadow-orange-500/30 hover:shadow-orange-500/50 transition-all duration-700 group cursor-pointer rounded-tl-full -rotate-5 rounded-br-full rounded-tr-full active:scale-90 hover:-rotate-45 hover:mb-3 ${animateRocket ? '-translate-y-[100vh] opacity-0' : 'hover:scale-110'}`}
                     >
-                        <FaRocket className="text-lg group-hover:-translate-y-1 transition-transform skew-x-[-5deg]" />
+                        <FaRocket className="text-lg skew-x-[-5deg]" />
                     </button>
                 )}
 

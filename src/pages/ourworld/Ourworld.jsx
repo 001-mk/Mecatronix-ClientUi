@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo } from "react";
 import Icons from "../../helper/icon_help";
 import { useNavigate } from "react-router-dom";
 import { Our_Features, Our_working_lines, Our_Team, Our_Values, Our_Stats, Our_tabs } from "../../helper/data_help.jsx";
+import Img_Helper from "../../helper/img_help.js";
 
 const SpaceBackground = React.memo(({ stars, shootingStars }) => {
   return (
@@ -107,7 +108,16 @@ const Ourworld = () => {
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
-        <div className="relative py-16 px-6 overflow-hidden">
+        <div className="relative py-16 px-6 overflow-hidden" >
+          <div className="absolute inset-0 z-0">
+            <img
+              src={Img_Helper.world}
+              alt="background"
+              className="w-full h-full object-cover opacity-30"
+            />
+            {/* Gradient Overlay to ensure text visibility */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent" />
+          </div>
           {/* Optional: Subtle Background Glow for that "Future" vibe */}
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-[radial-gradient(circle_at_center,rgba(249,115,22,0.05)_0%,transparent_70%)] pointer-events-none" />
 

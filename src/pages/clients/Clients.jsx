@@ -145,8 +145,8 @@ const Clients = () => {
             </div>
 
             <h1 className="text-5xl md:text-8xl font-black tracking-tighter mb-6">
-              <span className="bg-gradient-to-b from-white via-orange-100 to-indigo-400 bg-clip-text text-transparent">
-                COSMIC PARTNERS
+              <span className="bg-white bg-clip-text text-transparent">
+                COSMIC <span className="bg-gradient-to-r from-orange-400 via-red-500 to-orange-400 bg-clip-text text-transparent animate-gradient" >PARTNERS</span>
               </span>
             </h1>
 
