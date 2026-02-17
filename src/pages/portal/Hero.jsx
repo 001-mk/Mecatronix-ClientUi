@@ -83,7 +83,7 @@ const Hero = () => {
           <div className="inline-flex items-center gap-4 bg-black border border-white/10 px-4 py-1.5 skew-x-[-15deg]">
             <div className="w-2 h-2 bg-orange-600 animate-pulse skew-x-[15deg]"></div>
             <span className="text-[10px] font-mono font-black i text-orange-500 uppercase tracking-[.3em] skew-x-[15deg]">
-              Status_Active // Est_2025
+              Status_Active // Est_2026
             </span>
           </div>
 
